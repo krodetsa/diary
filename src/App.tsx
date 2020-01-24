@@ -10,10 +10,11 @@ import {
   IonTabs
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { apps, flash, send } from 'ionicons/icons';
+import { time, mail, person, home } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
+import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
 
 /* Core CSS required for Ionic components to work properly */
@@ -44,20 +45,25 @@ const App: React.FC = () => (
           <Route path="/tab2" component={Tab2} exact={true} />
           <Route path="/tab2/details" component={Details} />
           <Route path="/tab3" component={Tab3} />
+          <Route path="/forteacher" component={TabForTeacher} />
           <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={flash} />
+            <IonIcon icon={home} />
             <IonLabel>Tab One</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={apps} />
+            <IonIcon icon={mail} />
             <IonLabel>Tab Two</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={send} />
+            <IonIcon icon={time} />
             <IonLabel>Tab Three</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab4" href="/forteacher">
+            <IonIcon icon={person} />
+            <IonLabel>Для учителя</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

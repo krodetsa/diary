@@ -36,7 +36,7 @@ const Tab1: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <p>
-              Now that your app has been created, you'll want to start building out features and
+              Now that yosadur app has been created, you'll want to start building out features and
               components. Check out some of the resources below for next steps.
             </p>
           </IonCardContent>
