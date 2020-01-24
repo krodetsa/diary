@@ -21,9 +21,8 @@ const Login: React.FC = () => {
       })
       .then(res => {
         if (res.data.success === true) {
-          console.log(this.props)
+          console.log(res.data);
         } else {
-          console.log(res.data.msg);
           setShowAlert1(true);
         }
       })

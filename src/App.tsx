@@ -37,43 +37,51 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 let isAuthed = false;
-let showAuth = ({itm} : {itm: any}) => {
-  console.log(itm)
-}
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route path="/login" render={props => {return isAuthed ? <Tab1 /> : <Login/> ;}} />
-          <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab2/details" component={Details} />
-          <Route path="/tab3" component={Tab3} />
-          <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={home} />
-            <IonLabel>Главная</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={mail} />
-            <IonLabel>Сообщения</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={time} />
-            <IonLabel>Посещаемость</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab4" href="/forteacher">
-            <IonIcon icon={person} />
-            <IonLabel>Для учителя</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+class App extends React.Component {
+  constructor({props} : {props: any}) {
+      super(props);
+      this.state = {};
+    }
+    showAuth = ({itm} : {itm: any}) => {
+      console.log(itm)
+    }
+  render() {
+    return (
+      <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route path="/login" render={props => {return isAuthed ? <Tab1 /> : <Login /> ;}} />
+            <Route path="/tab1" component={Tab1} exact={true} />
+            <Route path="/tab2" component={Tab2} exact={true} />
+            <Route path="/tab2/details" component={Details} />
+            <Route path="/tab3" component={Tab3} />
+            <Route path="/forteacher" component={TabForTeacher} />
+            <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="tab1" href="/tab1">
+              <IonIcon icon={home} />
+              <IonLabel>Главная</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/tab2">
+              <IonIcon icon={mail} />
+              <IonLabel>Сообщения</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab3" href="/tab3">
+              <IonIcon icon={time} />
+              <IonLabel>Посещаемость</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab4" href="/forteacher">
+              <IonIcon icon={person} />
+              <IonLabel>Для учителя</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+    )
 
+}
+}
 export default App;
