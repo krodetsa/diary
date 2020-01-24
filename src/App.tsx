@@ -11,11 +11,12 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { time, mail, person, home } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
+import Tab1 from './pages/Main';
+import Tab2 from './pages/Messages';
+import Tab3 from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
+import Login from './pages/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,31 +36,35 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
+let isAuthed = false;
+let showAuth = ({itm} : {itm: any}) => {
+  console.log(itm)
+}
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <Route path="/login" render={props => {return isAuthed ? <Tab1 /> : <Login/> ;}} />
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/tab2" component={Tab2} exact={true} />
           <Route path="/tab2/details" component={Details} />
           <Route path="/tab3" component={Tab3} />
           <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
+          <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
             <IonIcon icon={home} />
-            <IonLabel>Tab One</IonLabel>
+            <IonLabel>Главная</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
             <IonIcon icon={mail} />
-            <IonLabel>Tab Two</IonLabel>
+            <IonLabel>Сообщения</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab3" href="/tab3">
             <IonIcon icon={time} />
-            <IonLabel>Tab Three</IonLabel>
+            <IonLabel>Посещаемость</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab4" href="/forteacher">
             <IonIcon icon={person} />
