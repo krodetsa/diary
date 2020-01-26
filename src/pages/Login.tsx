@@ -3,6 +3,7 @@ import { IonContent,IonInput, IonAlert, IonButton, IonText, IonGrid, IonItem, Io
 import '../theme/login.css';
 import axios from 'axios';
 interface IMyComponentProps {
+  showAuth: any
 }
 interface IMyComponentState {
     showAlert1: boolean,
@@ -37,8 +38,10 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         })
         .then(res => {
           if (res.data.success === true) {
-            console.log(res.data);
+            // console.log(res.data);
+            this.props.showAuth(true);
           } else {
+            this.props.showAuth(false);
             this.setShowAlert1();
           }
         })

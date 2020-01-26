@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -48,23 +48,25 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         auth: false,
       };
     }
-    showAuth = (itm: any) => {
-      console.log(itm)
+    showAuth = (itm: boolean) => {
+      this.setState({
+        auth: itm,
+      });
     }
   render() {
     return (
       <IonApp>
       <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route path="/login" render={props => {return this.state.auth ? <Tab1 /> : <Login /> ;}} />
-            <Route path="/tab1" component={Tab1} exact={true} />
-            <Route path="/tab2" component={Tab2} exact={true} />
-            <Route path="/tab2/details" component={Details} />
-            <Route path="/tab3" component={Tab3} />
-            <Route path="/forteacher" component={TabForTeacher} />
-            <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
-          </IonRouterOutlet>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route path="/login" component={ Login } />
+          <Route path="/tab1" component={Tab1} exact={true} />
+          <Route path="/tab2" component={Tab2} exact={true} />
+          <Route path="/tab2/details" component={Details} />
+          <Route path="/tab3" component={Tab3} />
+          <Route path="/forteacher" component={TabForTeacher} />
+          <Route path="/" render={() =>  this.state.auth ? <Tab1 /> : <Login showAuth={this.showAuth} /> }  />
+        </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
               <IonIcon icon={home} />
@@ -83,11 +85,10 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
               <IonLabel>Для учителя</IonLabel>
             </IonTabButton>
           </IonTabBar>
-        </IonTabs>
+      </IonTabs>
       </IonReactRouter>
     </IonApp>
     )
-
-}
+  }
 }
 export default App;
