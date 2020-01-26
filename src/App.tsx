@@ -7,7 +7,7 @@ import {
   IonRouterOutlet,
   IonTabBar,
   IonTabButton,
-  IonTabs
+  IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { time, mail, person, home } from 'ionicons/icons';
@@ -36,13 +36,19 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-let isAuthed = false;
-class App extends React.Component {
-  constructor({props} : {props: any}) {
+interface IMyComponentState {
+    auth: boolean,
+};
+interface IMyComponentProps {
+}
+class App extends React.Component<IMyComponentProps, IMyComponentState> {
+  constructor(props: Readonly<IMyComponentProps>) {
       super(props);
-      this.state = {};
+      this.state = {
+        auth: false,
+      };
     }
-    showAuth = ({itm} : {itm: any}) => {
+    showAuth = (itm: any) => {
       console.log(itm)
     }
   render() {
@@ -51,7 +57,7 @@ class App extends React.Component {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/login" render={props => {return isAuthed ? <Tab1 /> : <Login /> ;}} />
+            <Route path="/login" render={props => {return this.state.auth ? <Tab1 /> : <Login /> ;}} />
             <Route path="/tab1" component={Tab1} exact={true} />
             <Route path="/tab2" component={Tab2} exact={true} />
             <Route path="/tab2/details" component={Details} />
