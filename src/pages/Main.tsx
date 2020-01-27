@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { book, build, colorFill, grid } from 'ionicons/icons';
 import React from 'react';
-import './Main.css';
+import '../theme/Main.css';
 
 const Tab1: React.FC = () => {
   return (

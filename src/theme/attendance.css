@@ -1,0 +1,19 @@
+.react-calendar {
+    width: 100%;
+    border: none;
+    line-height: 1.125em;
+}
+.react-calendar__navigation button {
+  font-size: 1.125em;
+      font-weight: 700;
+      line-height: 2.222223em;
+      text-transform: capitalize;
+      color: var(--color);
+      font-family: var(--ion-font-family,inherit);
+}
+abbr {
+  font-family: var(--ion-font-family,inherit);
+}
+.react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button {
+  display: none;
+}
