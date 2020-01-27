@@ -3,8 +3,9 @@
   max-width: 300px;
   max-height: 300px;
   height: 40vw;
-  background: #f3f3f3;
-  border-radius: 50%;
+  background-image: url(../static/icon-152x152.png);
+  background-size: contain;
+  background-repeat: no-repeat;
   margin: 0 auto;
   outline: none;
   border: none;

@@ -1,21 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { time, mail, person, home } from 'ionicons/icons';
-import Tab1 from './pages/Main';
-import Tab2 from './pages/Messages';
-import Tab3 from './pages/Attendance';
-import TabForTeacher from './pages/ForTeacher';
-import Details from './pages/Details';
 import Login from './pages/Login';
 import Routing from './Router';
 

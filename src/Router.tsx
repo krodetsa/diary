@@ -16,7 +16,6 @@ import Tab2 from './pages/Messages';
 import Tab3 from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
-import Login from './pages/Login';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
