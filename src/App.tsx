@@ -25,6 +25,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 interface IMyComponentState {
     auth: boolean,
+    user_id: any,
+    type: any
 };
 interface IMyComponentProps {
 }
@@ -33,12 +35,17 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       super(props);
       this.state = {
         auth: false,
+        user_id: "",
+        type: "",
       };
     }
-    showAuth = (itm: boolean) => {
+    showAuth = (itm: boolean, id: any, type: any) => {
       this.setState({
         auth: itm,
+        user_id: id,
+        type: type,
       });
+      console.log(this.state);
     }
   render() {
     return (
@@ -46,7 +53,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         {this.state.auth === false ? (
           <Login showAuth={this.showAuth} />
         ) : (
-          <Routing/>
+          <Routing user_id={this.state.user_id} type={this.state.type}/>
         )}
       </IonApp>
     )

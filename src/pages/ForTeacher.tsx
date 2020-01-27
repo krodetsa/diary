@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard,IonCardContent,IonCardSubtitle,IonCardHeader,IonCardTitle } from '@ionic/react';
+import { IonContent, IonHeader,IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar, IonCard,IonCardContent,IonCardSubtitle,IonCardHeader,IonCardTitle } from '@ionic/react';
 
 const TabForTeacher: React.FC = () => {
   return (
@@ -22,7 +22,15 @@ const TabForTeacher: React.FC = () => {
             components. Check out some of the resources below for next steps.
           </p>
         </IonCardContent>
-      </IonCard></IonContent>
+      </IonCard>
+      <IonList>
+        <IonItem routerLink="/forteacher/details">
+          <IonLabel>
+            <h2>Подробности</h2>
+          </IonLabel>
+        </IonItem>
+      </IonList>
+      </IonContent>
     </IonPage>
   );
 };

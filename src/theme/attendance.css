@@ -5,7 +5,6 @@
 }
 .react-calendar__navigation button {
   font-size: 1.125em;
-      font-weight: 700;
       line-height: 2.222223em;
       text-transform: capitalize;
       color: var(--color);
@@ -13,7 +12,17 @@
 }
 abbr {
   font-family: var(--ion-font-family,inherit);
+  text-decoration: none;
 }
 .react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button {
   display: none;
+}
+.react-calendar__tile--active {
+    background: var(--ion-color-primary);
+  }
+.react-calendar__month-view__days button {
+  height: 8vh;
+    max-height: 55px;
+    max-width: 53px;
+    border-radius: 50%;
 }

@@ -12,7 +12,7 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { time, mail, person, home } from 'ionicons/icons';
 import Tab1 from './pages/Main';
-import Tab2 from './pages/Messages';
+import Messages from './pages/Messages';
 import Tab3 from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
@@ -38,6 +38,8 @@ import './theme/variables.css';
 interface IMyComponentState {
 };
 interface IMyComponentProps {
+  user_id: string,
+  type: string,
 }
 class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -52,8 +54,8 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab2/details" component={Details} />
+          <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
+          <Route path="/forteacher/details" component={Details} />
           <Route path="/tab3" component={Tab3} />
           <Route path="/forteacher" component={TabForTeacher} />
           <Route path="/" render={() =>  <Tab1 />  }  />
@@ -67,14 +69,21 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
               <IonIcon icon={mail} />
               <IonLabel>Сообщения</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab3" href="/tab3">
-              <IonIcon icon={time} />
-              <IonLabel>Посещаемость</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="tab4" href="/forteacher">
-              <IonIcon icon={person} />
-              <IonLabel>Для учителя</IonLabel>
-            </IonTabButton>
+            {
+              this.props.type === "1" &&
+              <IonTabButton tab="tab3" href="/tab3">
+                <IonIcon icon={time} />
+                <IonLabel>Посещаемость</IonLabel>
+              </IonTabButton>
+            }
+            {
+              this.props.type === "3" &&
+                <IonTabButton tab="tab4" href="/forteacher">
+                  <IonIcon icon={person} />
+                  <IonLabel>Для учителя</IonLabel>
+                </IonTabButton>
+            }
+
           </IonTabBar>
       </IonTabs>
       </IonReactRouter>
