@@ -11,8 +11,9 @@
   margin-bottom: 3vh;
 }
 .login-page {
-  margin-top: 10vh;
+  padding-top: 10vh;
   width: 80%;
+  height: 100vh;
 }
 .login-title {
   margin-bottom: 2vh;
@@ -29,6 +30,7 @@
   margin-top: 5vh;
 }
 .login-button-container {
+  margin-top: auto;
   display: flex;
   padding: 0;
 }

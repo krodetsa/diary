@@ -1,9 +1,10 @@
 import React from 'react';
-import { IonContent,IonInput, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage} from '@ionic/react';
+import { IonContent,IonInput,IonApp, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage} from '@ionic/react';
 import '../theme/login.css';
 import axios from 'axios';
 interface IMyComponentProps {
-  showAuth: any
+  showAuth: any,
+
 }
 interface IMyComponentState {
     showAlert1: boolean,
@@ -51,6 +52,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     };
   render(){
     return (
+      <IonApp>
       <IonPage>
         <IonContent>
         <IonGrid className={'login-page'}>
@@ -93,6 +95,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
             buttons={['OK']}
           />
       </IonPage>
+      </IonApp>
     );
   }
 
