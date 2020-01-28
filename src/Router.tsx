@@ -56,7 +56,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <Route path="/tab1" component={Tab1} exact={true} />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />
-          <Route path="/tab3" component={Tab3} />
+          <Route path="/tab3" render={() => <Tab3 user_id={this.props.user_id} /> } />
           <Route path="/forteacher" component={TabForTeacher} />
           <Route path="/" render={() =>  <Tab1 />  }  />
         </IonRouterOutlet>

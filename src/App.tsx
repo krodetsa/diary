@@ -45,7 +45,6 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         user_id: id,
         type: type,
       });
-      console.log(this.state);
     }
   render() {
     return (

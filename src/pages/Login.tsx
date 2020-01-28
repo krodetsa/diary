@@ -39,7 +39,6 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         })
         .then(res => {
           if (res.data.success === true) {
-            console.log(res.data);
             this.props.showAuth(res.data.success, res.data.result.user_id, res.data.result.type);
           } else {
             this.props.showAuth(false);
