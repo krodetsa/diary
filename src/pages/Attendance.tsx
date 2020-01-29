@@ -1,6 +1,7 @@
 import React from 'react';
-import { IonContent, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel} from '@ionic/react';
+import { IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel} from '@ionic/react';
 import Calendar from 'react-calendar';
+import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
 import '../theme/attendance.css';
 // import axios from 'axios';
@@ -14,8 +15,9 @@ user_id: string,
 interface IMyComponentState {
   currentDate: any,
   store: any,
-  attendancePerDate: any
-  disabledDates: any
+  attendancePerDate: any,
+  disabledDates: any,
+  showModal: boolean
 };
 
 class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -26,6 +28,7 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
    store: [],
    attendancePerDate: [],
    disabledDates: [],
+   showModal: false,
  }
 }
 disabledDates = new Array;
@@ -56,27 +59,12 @@ ionViewWillEnter() {
         });
       }
   });
-
-//старое решение
-  // var days = document.querySelectorAll(".react-calendar__month-view__days button");
-  // const divyArray = Array.prototype.slice.call(days);
-  //
-  // this.state.store.forEach(el => {
-  //   var stillUtc = moment.utc(new Date(el.start)).toDate();
-  //   var localTime = moment(stillUtc).local().format('YYYY-MM-DD');
-  //   divyArray.forEach(el => {
-  //     var newStillUtc = moment.utc(new Date(el.value)).toDate();
-  //     var newLocalTime = moment(newStillUtc).local().format('YYYY-MM-DD');
-  //     if(moment(newLocalTime).isSame(localTime)){
-  //         el.classList.add('with-event');
-  //     };
-  //
-  //   })
-  //
-  // })
-
 }
-
+setShowModal=() => {
+  this.setState((state) => {
+    return {showModal: !this.state.showModal}
+  });
+};
 dateChanged = date => {
   this.setState({ currentDate: date.valueOf() });
   var att = new Array;
@@ -94,6 +82,7 @@ dateChanged = date => {
     // Важно: используем state вместо this.state при обновлении для моментального рендеринга
     return {attendancePerDate: att}
   });
+  this.setShowModal();
 }
   render() {
 
@@ -105,6 +94,12 @@ dateChanged = date => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+        <CalendarSmall
+        setShowModal={this.setShowModal}
+        currentDate={this.state.currentDate}
+        attendancePerDate={this.state.attendancePerDate}
+        />
+        <IonModal isOpen={this.state.showModal}>
           <Calendar onClickDay={e => { this.dateChanged(e)}}
           tileDisabled={({date, view}) =>
                     (view === 'month') && // Block day tiles only
@@ -116,6 +111,9 @@ dateChanged = date => {
            view={'month'}
            value={new Date(this.state.currentDate)}
            />
+          <IonButton onClick={() => this.setShowModal()}>Close Modal</IonButton>
+        </IonModal>
+
             <IonList>
           {
             this.state.attendancePerDate.length > 0 ?
