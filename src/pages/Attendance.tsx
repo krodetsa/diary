@@ -10,12 +10,14 @@ const moment = require('moment');
 interface IMyComponentProps {
 user_id: string,
 };
+
 interface IMyComponentState {
   currentDate: any,
   store: any,
   attendancePerDate: any
   disabledDates: any
 };
+
 class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
   super(props);
@@ -27,7 +29,7 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
  }
 }
 disabledDates = new Array;
-ionViewDidEnter() {
+ionViewWillEnter() {
   jsonp( "https://m.log.school/web/clnd.php?"+this.props.user_id+"=ng_jsonp_callback_0", {  name: 'ng_jsonp_callback_0' }, (error, data) => {
       if (error) {
           console.log(error)

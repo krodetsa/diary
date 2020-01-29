@@ -24,7 +24,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 interface IMyComponentState {
-    auth: boolean,
+    auth: any,
     user_id: any,
     type: any
 };
@@ -39,7 +39,21 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         type: "",
       };
     }
-    showAuth = (itm: boolean, id: any, type: any) => {
+    componentDidMount() {
+      const rememberMe = localStorage.getItem('auth') === 'true';
+      const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
+      const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
+      const lsType = rememberMe ? localStorage.getItem('type') : "";
+      this.setState({
+        auth: lsAuth,
+        user_id: lsUser_id,
+        type: lsType,
+      });
+    }
+    showAuth = (itm: any, id: any, type: any) => {
+      localStorage.setItem("auth", itm);
+      localStorage.setItem("user_id", id);
+      localStorage.setItem("type", type);
       this.setState({
         auth: itm,
         user_id: id,
