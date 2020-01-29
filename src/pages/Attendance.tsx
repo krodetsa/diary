@@ -111,7 +111,7 @@ dateChanged = date => {
            view={'month'}
            value={new Date(this.state.currentDate)}
            />
-          <IonButton onClick={() => this.setShowModal()}>Close Modal</IonButton>
+          <IonButton onClick={() => this.setShowModal()}>Закрыть</IonButton>
         </IonModal>
 
             <IonList>

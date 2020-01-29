@@ -17,6 +17,10 @@ abbr {
 .react-calendar__navigation__next2-button, .react-calendar__navigation__prev2-button {
   display: none;
 }
+.react-calendar__month-view__days .react-calendar__tile:disabled {
+    background: none;
+    color: buttontext;
+}
 .react-calendar__tile--active {
     background: var(--ion-color-primary) !important;
     z-index: 999;
@@ -26,6 +30,7 @@ abbr {
     max-height: 53px;
     /* max-width: 53px !important; */
     border-radius: 50%;
+    position: relative;
 }
 
 .react-calendar__month-view__days button abbr{
@@ -42,4 +47,15 @@ abbr {
   position: relative;
   color: red;
   display: block;
+}
+.react-calendar__tile:disabled::after {
+  content: "";
+position: absolute;
+right: 40%;
+bottom: 5px;
+display: block;
+width: 10px;
+height: 10px;
+background: var(--ion-color-success) !important;
+border-radius: 50%;
 }
