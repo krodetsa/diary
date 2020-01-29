@@ -18,11 +18,28 @@ abbr {
   display: none;
 }
 .react-calendar__tile--active {
-    background: var(--ion-color-primary);
+    background: var(--ion-color-primary) !important;
+    z-index: 999;
   }
 .react-calendar__month-view__days button {
   height: 8vh;
-    max-height: 55px;
-    max-width: 53px;
+    max-height: 53px;
+    /* max-width: 53px !important; */
     border-radius: 50%;
+}
+
+.react-calendar__month-view__days button abbr{
+      padding: 17px 7px;
+}
+.dateStamp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.with-event::after {
+  content: "111";
+  position: relative;
+  color: red;
+  display: block;
 }
