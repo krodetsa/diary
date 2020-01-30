@@ -27,6 +27,7 @@ interface IMyComponentState {
     user_id: any,
     type: any,
     name: any
+    skey: any,
 };
 interface IMyComponentProps {
 }
@@ -37,7 +38,8 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         auth: false,
         user_id: "",
         type: "",
-        name: ""
+        name: "",
+        skey: ""
       };
     }
     componentDidMount() {
@@ -46,23 +48,27 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
       const lsType = rememberMe ? localStorage.getItem('type') : "";
       const lsName = rememberMe ? localStorage.getItem('name') : "";
+      const lsKey = rememberMe ? localStorage.getItem('key') : "";
       this.setState({
         auth: lsAuth,
         user_id: lsUser_id,
         type: lsType,
         name: lsName,
+        skey: lsKey
       });
     }
-    showAuth = (itm: any, id: any, type: any, name: any) => {
+    showAuth = (itm: any, id: any, type: any, name: any, key: any) => {
       localStorage.setItem("auth", itm);
       localStorage.setItem("user_id", id);
       localStorage.setItem("type", type);
       localStorage.setItem("name", name);
+      localStorage.setItem("key", key);
       this.setState({
         auth: itm,
         user_id: id,
         type: type,
         name: name,
+        skey:key
       });
     }
   render() {
@@ -71,7 +77,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         {this.state.auth === false ? (
           <Login showAuth={this.showAuth} />
         ) : (
-          <Routing name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
+          <Routing skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}
       </IonApp>
     )

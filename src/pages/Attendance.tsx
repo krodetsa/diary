@@ -13,6 +13,7 @@ const moment = require('moment');
 interface IMyComponentProps {
 user_id: string,
 type: string,
+skey: string,
 };
 
 interface IMyComponentState {
@@ -45,7 +46,8 @@ ionViewWillEnter() {
       "type": this.props.type,
       "first_date": this.state.timestamp.unix(),
       "range":"60",
-      "user_id": parseInt(this.props.user_id, 10)
+      "user_id": parseInt(this.props.user_id, 10),
+      "key": this.props.skey
 
   })
   .then(res => {
@@ -55,7 +57,7 @@ ionViewWillEnter() {
               start: el.time,
               text: el.text,
               name: el.name,
-              color: el.color
+              color: el.color,
             })
           })
           this.setState({store : att});
