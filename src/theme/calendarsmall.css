@@ -1,5 +1,6 @@
 .calendar-date {
-  font-size: 2.2em
+  font-size: 2.2em;
+  position: relative;
 }
 .calendar-small-container {
   padding-top: 10px;
@@ -10,4 +11,11 @@
 }
 .calendar-small-badge {
   margin-left: 2px;
+}
+.calendar-date::before {
+  color: rgba(0, 0, 0, 0.4);;
+  font-size: 13px;
+  position: absolute;
+  top: 0;
+  width: max-content;
 }

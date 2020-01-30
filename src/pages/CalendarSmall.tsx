@@ -23,11 +23,6 @@ interface IMyComponentProps {
 interface IMyComponentState {
 
 };
-// {
-//   var stillUtc = moment.utc(new Date(el.start)).toDate();
-//   var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
-//   this.props.currentDate}
-
 
 class CalendarSmall extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -36,7 +31,6 @@ class CalendarSmall extends React.Component<IMyComponentProps, IMyComponentState
  }
 }
 render() {
-  console.log(this.props.attendancePerDate)
   return(
     <IonItem className="calendar-small-container">
        <IonNote onClick={() => this.props.setShowModal()} className="calendar-date" color="primary" slot="start">

@@ -4,7 +4,6 @@ import {
 } from '@ionic/react';
 import Login from './pages/Login';
 import Routing from './Router';
-
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 

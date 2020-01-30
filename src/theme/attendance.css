@@ -41,6 +41,7 @@ abbr {
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-direction: column;
 }
 .with-event::after {
   content: "111";
@@ -58,4 +59,7 @@ width: 10px;
 height: 10px;
 background: var(--ion-color-success) !important;
 border-radius: 50%;
+}
+.dateStamp p {
+  margin: 0px
 }
