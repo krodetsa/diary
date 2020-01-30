@@ -29,12 +29,12 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
   super(props);
   this.state = {
     timestamp: moment(),
-   currentDate: new Date().valueOf(),
-   store: [],
-   attendancePerDate: [],
-   disabledDates: [],
-   showModal: false,
- }
+    currentDate: new Date().valueOf(),
+    store: [],
+    attendancePerDate: [],
+    disabledDates: [],
+    showModal: false,
+  }
 }
 disabledDates = new Array;
 ionViewWillEnter() {
@@ -117,6 +117,9 @@ dateChanged = date => {
         />
         <IonModal isOpen={this.state.showModal}>
           <Calendar
+                  minDetail={"month"}
+          value={new Date(this.state.timestamp)}
+          view={'month'}
           onClickDay={e => { this.dateChanged(e)}}
           tileDisabled={
             ({date, view}) =>
@@ -127,10 +130,8 @@ dateChanged = date => {
               date.getDate() === disabledDate.getDate()
             )
           }
-           view={'month'}
-           value={new Date(this.state.currentDate)}
            />
-          <IonButton onClick={() => this.setShowModal()}>Закрыть</IonButton>
+          <IonButton expand="full" onClick={() => this.setShowModal()}>Закрыть</IonButton>
         </IonModal>
 
             <IonList>

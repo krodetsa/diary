@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import axios from "axios"
 
 
 // import { defineCustomElements } from '@ionic/pwa-elements/loader'

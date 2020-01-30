@@ -63,3 +63,9 @@ border-radius: 50%;
 .dateStamp p {
   margin: 0px
 }
+.search-item__open {
+  border: 1px solid red;
+}
+.react-calendar__navigation button[disabled] {
+    background-color: #fff !important;
+}
