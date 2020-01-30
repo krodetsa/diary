@@ -51,6 +51,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       });
     }
     showAuth = (itm: any, id: any, type: any) => {
+      console.log(itm, id, type)
       localStorage.setItem("auth", itm);
       localStorage.setItem("user_id", id);
       localStorage.setItem("type", type);

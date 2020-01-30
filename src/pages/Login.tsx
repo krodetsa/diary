@@ -30,16 +30,16 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
       if (this.loginInput !== '' && this.passwordInput !== ''){
         axios({
           method: 'post',
-          url: 'https://m.log.school/web/proses-api.php',
+          url: 'https://www.log.school/web/controllers/data.php',
           data: {
             aksi: "login",
-            username: this.loginInput,
+            login: this.loginInput,
             password: this.passwordInput
           }
         })
         .then(res => {
           if (res.data.success === true) {
-            this.props.showAuth(res.data.success, res.data.result.user_id, res.data.result.type);
+            this.props.showAuth(res.data.success, res.data.data.user_id, res.data.data.type);
           } else {
             this.props.showAuth(false);
             this.setShowAlert1();
