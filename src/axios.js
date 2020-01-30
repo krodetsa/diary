@@ -3,11 +3,12 @@ const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 var apiVersion = "1.0";
 var now = moment().unix();
+
 var info =
     {
         "apiVersion" : apiVersion,
         "uuid" : uuidv4(),
-        // "deviceId" : "kjhkjhjkh",
+        // "deviceId" : "deviceId",
         "timestamp" : now.toString(),
         // "lang" : "ru/en/zh" => не обязательно
         "session" : localStorage.getItem("session") || ''
