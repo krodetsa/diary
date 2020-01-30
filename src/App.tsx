@@ -25,7 +25,8 @@ import './theme/variables.css';
 interface IMyComponentState {
     auth: any,
     user_id: any,
-    type: any
+    type: any,
+    name: any
 };
 interface IMyComponentProps {
 }
@@ -36,6 +37,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         auth: false,
         user_id: "",
         type: "",
+        name: ""
       };
     }
     componentDidMount() {
@@ -43,20 +45,24 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
       const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
       const lsType = rememberMe ? localStorage.getItem('type') : "";
+      const lsName = rememberMe ? localStorage.getItem('name') : "";
       this.setState({
         auth: lsAuth,
         user_id: lsUser_id,
         type: lsType,
+        name: lsName,
       });
     }
-    showAuth = (itm: any, id: any, type: any) => {
+    showAuth = (itm: any, id: any, type: any, name: any) => {
       localStorage.setItem("auth", itm);
       localStorage.setItem("user_id", id);
       localStorage.setItem("type", type);
+      localStorage.setItem("name", name);
       this.setState({
         auth: itm,
         user_id: id,
         type: type,
+        name: name,
       });
     }
   render() {
@@ -65,7 +71,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         {this.state.auth === false ? (
           <Login showAuth={this.showAuth} />
         ) : (
-          <Routing user_id={this.state.user_id} type={this.state.type}/>
+          <Routing name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}
       </IonApp>
     )

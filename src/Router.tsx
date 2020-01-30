@@ -40,6 +40,7 @@ interface IMyComponentState {
 interface IMyComponentProps {
   user_id: string,
   type: string,
+  name: string
 }
 class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -53,12 +54,12 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route path="/tab1" component={Tab1} exact={true} />
+          <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />
           <Route path="/tab3" render={() => <Tab3 type={this.props.type} user_id={this.props.user_id} /> } />
           <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() =>  <Tab1 />  }  />
+          <Route path="/" render={() =>  <Tab1 name={this.props.name} />  }  />
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
