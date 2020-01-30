@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
 import '../theme/attendance.css';
-import axios from 'axios';
+// import axios from 'axios';
 // const jsonp = require('jsonp');
 import sendPost from '../axios.js'
 const moment = require('moment');
