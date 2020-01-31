@@ -13,7 +13,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { time, mail, person, home } from 'ionicons/icons';
 import Tab1 from './pages/Main';
 import Messages from './pages/Messages';
-import Tab3 from './pages/Attendance';
+import Tab3Page from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
 
@@ -58,16 +58,16 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />
-          <Route path="/tab3" render={() => <Tab3 skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
+          <Route path="/tab3" render={() => <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
           <Route path="/forteacher" component={TabForTeacher} />
           <Route path="/" render={() =>  <Tab1 name={this.props.name} />  }  />
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton tab="tab1" href="/tab1">
+            <IonTabButton  tab="tab1" href="/tab1">
               <IonIcon icon={home} />
               <IonLabel>Главная</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab2" href="/tab2">
+            <IonTabButton disabled tab="tab2" href="/tab2">
               <IonIcon icon={mail} />
               <IonLabel>Сообщения</IonLabel>
             </IonTabButton>
@@ -87,7 +87,8 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
             }
 
           </IonTabBar>
-      </IonTabs>
+          </IonTabs>
+
       </IonReactRouter>
     </IonApp>
     )

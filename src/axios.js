@@ -3,7 +3,6 @@ const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 var apiVersion = "1.0";
 var now = moment().unix();
-
 var info =
     {
         "apiVersion" : apiVersion,
@@ -11,7 +10,7 @@ var info =
         // "deviceId" : "deviceId",
         "timestamp" : now.toString(),
         // "lang" : "ru/en/zh" => не обязательно
-        "session" : localStorage.getItem("session") || ''
+        "key" : localStorage.getItem("key")
     };
 
 const url = 'https://www.log.school/web/controllers/data.php';

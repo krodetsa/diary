@@ -1,14 +1,15 @@
 import React from 'react';
-import { IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel} from '@ionic/react';
+import { IonRouterOutlet,IonMenuToggle, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
 import Calendar from 'react-calendar';
 import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
 import '../theme/attendance.css';
+import Menu from './Menu'
+
 // import axios from 'axios';
 // const jsonp = require('jsonp');
 import sendPost from '../axios.js'
 const moment = require('moment');
-
 
 interface IMyComponentProps {
 user_id: string,
@@ -37,6 +38,7 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
     showModal: false,
   }
 }
+
 disabledDates = new Array;
 ionViewWillEnter() {
   sendPost({
@@ -105,9 +107,16 @@ dateChanged = date => {
   render() {
 
     return (
+      <>
       <IonPage>
+      <Menu/>
         <IonHeader>
           <IonToolbar>
+            <IonButtons slot="end">
+            <IonMenuToggle>
+              <IonMenuButton auto-hide={true}/>
+              </IonMenuToggle>
+            </IonButtons>
             <IonTitle>Посещаемость</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -170,6 +179,9 @@ dateChanged = date => {
           </IonList>
         </IonContent>
       </IonPage>
+
+
+      </>
     );
   }
 };

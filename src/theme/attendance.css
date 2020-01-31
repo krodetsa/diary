@@ -27,7 +27,7 @@ abbr {
   }
 .react-calendar__month-view__days button {
   height: 8vh;
-    max-height: 53px;
+    max-height: 14.2857vw;
     /* max-width: 53px !important; */
     border-radius: 50%;
     position: relative;

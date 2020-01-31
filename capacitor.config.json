@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "diary",
+  "appId": "sanarip.mektep.starter",
+  "appName": "Санарип Мектеп",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
