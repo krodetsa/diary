@@ -35,15 +35,6 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle></IonCardTitle>
-        </IonCardHeader>
-
-        <IonCardContent>
-
-        </IonCardContent>
-      </IonCard>
 
 
       </IonContent>

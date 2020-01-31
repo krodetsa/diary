@@ -63,7 +63,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <Route path="/" render={() =>  <Tab1 name={this.props.name} />  }  />
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton  tab="tab1" href="/tab1">
+            <IonTabButton disabled tab="tab1" href="/tab1">
               <IonIcon icon={home} />
               <IonLabel>Главная</IonLabel>
             </IonTabButton>
