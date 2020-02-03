@@ -60,7 +60,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         </IonHeader>
         <IonContent>
         {
-          this.props.type === "3" &&
+          this.props.type === "1" &&
           <IonFabButton color="primary" onClick={this.setShowModal} className="add-message-button">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>

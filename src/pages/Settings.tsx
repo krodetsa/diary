@@ -13,8 +13,8 @@ import {
   IonMenuToggle,
   IonMenuButton,
   IonTitle,
+  IonPage
 } from '@ionic/react';
-import Menu from './Menu'
 interface IMyComponentProps {
 };
 
@@ -36,8 +36,8 @@ class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
 
   render() {
     return(
+      <IonPage>
       <IonContent>
-        <Menu/>
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="end">
@@ -58,9 +58,9 @@ class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
               <IonLabel>Кыргыз тили</IonLabel>
               <IonRadio  value="kg" />
             </IonItem>
-            </IonRadioGroup>
-
+          </IonRadioGroup>
         </IonContent>
+        </IonPage>
     )
   }
 }

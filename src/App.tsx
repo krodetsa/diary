@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  IonApp,
+  IonContent,
 } from '@ionic/react';
 import Login from './pages/Login';
 import Routing from './Router';
@@ -74,13 +74,13 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
     }
   render() {
     return (
-      <IonApp>
+      <>
         {this.state.auth === false ? (
           <Login showAuth={this.showAuth} ></Login>
         ) : (
           <Routing skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}
-      </IonApp>
+      </>
     )
   }
 }

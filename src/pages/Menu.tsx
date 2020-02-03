@@ -12,7 +12,6 @@ import {
   IonToolbar,
   IonIcon,
   IonLabel,
-  IonRouterOutlet,
   IonAlert
 } from '@ionic/react';
 import { exit, people,settings } from 'ionicons/icons';
@@ -48,22 +47,18 @@ render() {
           </IonHeader>
           <IonContent>
             <IonList>
-              <IonItem >
-                <IonIcon slot="start" icon={exit}/>
-                <IonLabel onClick={() => this.setShowAlert()}>{i18next.t('Выход')}</IonLabel>
-              </IonItem>
-              <IonItem href="/contacts">
-                <IonIcon slot="start" icon={people}/>
-                <IonLabel>{i18next.t('Контакты')}</IonLabel>
-              </IonItem>
               <IonItem href="/settings">
                 <IonIcon slot="start" icon={settings}/>
                 <IonLabel>{i18next.t('Настройки')}</IonLabel>
               </IonItem>
+              <IonItem >
+                <IonIcon slot="start" icon={exit}/>
+                <IonLabel onClick={() => this.setShowAlert()}>{i18next.t('Выход')}</IonLabel>
+              </IonItem>
             </IonList>
           </IonContent>
         </IonMenu>
-        <IonRouterOutlet id="custom"/>
+
         <IonAlert
           isOpen={this.state.showAlert}
           onDidDismiss={() => this.setShowAlert()}

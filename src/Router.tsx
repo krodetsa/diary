@@ -19,6 +19,7 @@ import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
 import Contacts from './pages/Contacts';
 import Settings from './pages/Settings';
+import Menu from './pages/Menu'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -55,9 +56,10 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
   render() {
     return (
       <IonApp>
+      <Menu/>
       <IonReactRouter>
       <IonTabs>
-        <IonRouterOutlet>
+        <IonRouterOutlet id="custom">
           <Route path="/settings" render={() =>  <Settings />  } />
           <Route path="/contacts" render={() =>  <Contacts />  } />
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
@@ -72,7 +74,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
               <IonIcon icon={home} />
               <IonLabel>{i18next.t('Главная')}</IonLabel>
             </IonTabButton>
-            <IonTabButton disabled tab="tab2" href="/tab2">
+            <IonTabButton tab="tab2" href="/tab2">
               <IonIcon icon={mail} />
               <IonLabel>{i18next.t('Сообщения')}</IonLabel>
             </IonTabButton>

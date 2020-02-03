@@ -1,10 +1,9 @@
 import React from 'react';
-import { IonRouterOutlet,IonMenuToggle, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
+import { IonMenuToggle, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
 import Calendar from 'react-calendar';
 import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
 import '../theme/attendance.css';
-import Menu from './Menu'
 import i18next from "i18next";
 
 // import axios from 'axios';
@@ -110,7 +109,6 @@ dateChanged = date => {
     return (
       <>
       <IonPage>
-      <Menu/>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="end">
