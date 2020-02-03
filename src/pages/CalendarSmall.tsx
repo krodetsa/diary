@@ -1,17 +1,12 @@
 import React from 'react';
 import '../theme/Main.css';
 import '../theme/calendarsmall.css';
+import i18next from "i18next";
 import {
-  IonContent,
   IonItem,
   IonBadge,
   IonNote,
-  IonAvatar,
-  IonHeader,
   IonLabel,
-  IonPage,
-  IonTitle,
-  IonToolbar
 } from '@ionic/react';
 const moment = require('moment');
 interface IMyComponentProps {
@@ -37,9 +32,9 @@ render() {
         {moment(this.props.currentDate).local().format('DD.MM')}
        </IonNote>
        <IonLabel>
-         <h2 className="calendar-small-h2">Событий: <IonBadge className="calendar-small-badge" color="primary">{this.props.attendancePerDate.length}</IonBadge></h2>
-         <p>Последнее: {
-           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[this.props.attendancePerDate.length - 1].text.replace(/<\/?[^>]+>/g,'') : "нет событий"
+         <h2 className="calendar-small-h2">{i18next.t('Событий')}: <IonBadge className="calendar-small-badge" color="primary">{this.props.attendancePerDate.length}</IonBadge></h2>
+         <p>{i18next.t('Последнее')}: {
+           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[this.props.attendancePerDate.length - 1].text.replace(/<\/?[^>]+>/g,'') : `${i18next.t('Нет событий')}`
          }</p>
        </IonLabel>
      </IonItem>

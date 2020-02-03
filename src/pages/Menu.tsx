@@ -1,6 +1,7 @@
 import React from 'react';
 import '../theme/Main.css';
 import '../theme/calendarsmall.css';
+import i18next from "i18next";
 import {
   IonContent,
   IonItem,
@@ -42,14 +43,14 @@ render() {
       <IonMenu type="overlay" side="start" contentId="custom" className={'float-menu'}>
           <IonHeader>
             <IonToolbar color="primary">
-              <IonTitle>Меню</IonTitle>
+              <IonTitle>{i18next.t('Меню')}</IonTitle>
             </IonToolbar>
           </IonHeader>
           <IonContent>
             <IonList>
               <IonItem >
                 <IonIcon slot="start" icon={exit}/>
-                <IonLabel onClick={() => this.setShowAlert()}>Выход</IonLabel>
+                <IonLabel onClick={() => this.setShowAlert()}>{i18next.t('Выход')}</IonLabel>
               </IonItem>
             </IonList>
           </IonContent>
@@ -58,16 +59,16 @@ render() {
         <IonAlert
           isOpen={this.state.showAlert}
           onDidDismiss={() => this.setShowAlert()}
-          header={'Предупреждение'}
-          message={'Вы действительно хотите выйти из аккаунта?'}
+          header={i18next.t('Предупреждение')}
+          message={i18next.t('Вы действительно хотите выйти из аккаунта?')}
           buttons={[
             {
-              text: 'Отмена',
+              text: i18next.t('Отмена'),
               role: 'cancel',
               cssClass: 'secondary',
             },
             {
-              text: 'Выйти',
+              text: i18next.t('Выйти'),
               handler: () => {
                 this.logOut();
               }

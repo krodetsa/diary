@@ -4,6 +4,7 @@ import {
 } from '@ionic/react';
 import Login from './pages/Login';
 import Routing from './Router';
+import { Trans } from 'react-i18next';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -19,7 +20,6 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-
 /* Theme variables */
 import './theme/variables.css';
 interface IMyComponentState {
@@ -43,6 +43,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       };
     }
     componentDidMount() {
+      console.log(this)
       const rememberMe = localStorage.getItem('auth') === 'true';
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
       const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
@@ -75,7 +76,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
     return (
       <IonApp>
         {this.state.auth === false ? (
-          <Login showAuth={this.showAuth} />
+          <Login showAuth={this.showAuth} ></Login>
         ) : (
           <Routing skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}

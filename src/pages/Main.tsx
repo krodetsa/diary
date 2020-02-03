@@ -2,13 +2,10 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonCardTitle,
   IonTitle,
   IonToolbar
 } from '@ionic/react';
+import i18next from "i18next";
 import { } from 'ionicons/icons';
 import React from 'react';
 import '../theme/Main.css';
@@ -26,12 +23,11 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
       };
     }
   render() {
-    console.log(this.props)
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Главная</IonTitle>
+          <IonTitle>{i18next.t('Главная')}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

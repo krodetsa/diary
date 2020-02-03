@@ -2,6 +2,7 @@ import React from 'react';
 import { IonContent,IonInput,IonApp, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage} from '@ionic/react';
 import '../theme/login.css';
 import axios from 'axios';
+import i18next from "i18next";
 interface IMyComponentProps {
   showAuth: any,
 
@@ -58,40 +59,40 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         <IonGrid className={'login-page'}>
           <IonGrid className={'login-image'}/>
           <IonText>
-            <h5 className={'login-title'}>Введите логин и пароль</h5>
+            <h5 className={'login-title'}>{i18next.t('Введите логин и пароль')}</h5>
           </IonText>
           <IonItem>
-            <IonLabel position="floating">Логин</IonLabel>
+            <IonLabel position="floating">{i18next.t('Логин')}</IonLabel>
             <IonInput value={this.loginInput} onIonChange={ev =>
                   this.loginInput =(ev.target as any).value
                 }></IonInput>
           </IonItem>
           <IonItem>
-            <IonLabel position="floating">Пароль</IonLabel>
+            <IonLabel position="floating">{i18next.t('Пароль')}</IonLabel>
             <IonInput type='password' value={this.passwordInput} onIonChange={ev =>
                   this.passwordInput =(ev.target as any).value
                 }></IonInput>
           </IonItem>
           <IonText>
-            <p className={'login-description'}>Нажимая кнопку Далее вы принимаете условия <br/>Соглашения и Политику конфиденциальности</p>
+            <p className={'login-description'}>{i18next.t('Нажимая кнопку Далее вы принимаете условия Соглашения и Политику конфиденциальности')}</p>
           </IonText>
           <IonGrid className={'login-button-container'}>
-            <IonButton fill="clear" color="dark" className={'login-button'} onClick={() => { this.login() }}>Далее</IonButton>
+            <IonButton fill="clear" color="dark" className={'login-button'} onClick={() => { this.login() }}>{i18next.t('Далее')}</IonButton>
           </IonGrid>
         </IonGrid>
         </IonContent>
         <IonAlert
             isOpen={this.state.showAlert1}
             onDidDismiss={() => this.setShowAlert1()}
-            header={'Ошибка'}
-            message={'Неверный логин или пароль.'}
+            header={i18next.t('Ошибка')}
+            message={i18next.t('Неверный логин или пароль.')}
             buttons={['OK']}
           />
         <IonAlert
             isOpen={this.state.showAlert2}
             onDidDismiss={() => this.setShowAlert2()}
-            header={'Ошибка'}
-            message={'Введите логин и пароль.'}
+            header={i18next.t('Ошибка')}
+            message={i18next.t('Введите логин и пароль.')}
             buttons={['OK']}
           />
       </IonPage>

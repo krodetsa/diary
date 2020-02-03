@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import i18next from "i18next";
 import {
   IonApp,
   IonIcon,
@@ -65,24 +66,24 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonTabBar slot="bottom">
             <IonTabButton disabled tab="tab1" href="/tab1">
               <IonIcon icon={home} />
-              <IonLabel>Главная</IonLabel>
+              <IonLabel>{i18next.t('Главная')}</IonLabel>
             </IonTabButton>
             <IonTabButton disabled tab="tab2" href="/tab2">
               <IonIcon icon={mail} />
-              <IonLabel>Сообщения</IonLabel>
+              <IonLabel>{i18next.t('Сообщения')}</IonLabel>
             </IonTabButton>
             {
               this.props.type === "1" &&
               <IonTabButton tab="tab3" href="/tab3">
                 <IonIcon icon={time} />
-                <IonLabel>Посещаемость</IonLabel>
+                <IonLabel>{i18next.t('Посещаемость')}</IonLabel>
               </IonTabButton>
             }
             {
               this.props.type === "3" &&
                 <IonTabButton tab="tab4" href="/forteacher">
                   <IonIcon icon={person} />
-                  <IonLabel>Для учителя</IonLabel>
+                  <IonLabel>{i18next.t('Для учителя')}</IonLabel>
                 </IonTabButton>
             }
 

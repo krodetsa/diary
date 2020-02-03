@@ -5,6 +5,7 @@ import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
 import '../theme/attendance.css';
 import Menu from './Menu'
+import i18next from "i18next";
 
 // import axios from 'axios';
 // const jsonp = require('jsonp');
@@ -117,7 +118,7 @@ dateChanged = date => {
               <IonMenuButton auto-hide={true}/>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Посещаемость</IonTitle>
+            <IonTitle>{i18next.t('Посещаемость')}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -142,7 +143,7 @@ dateChanged = date => {
             )
           }
            />
-          <IonButton expand="full" onClick={() => this.setShowModal()}>Закрыть</IonButton>
+          <IonButton expand="full" onClick={() => this.setShowModal()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
 
             <IonList>
@@ -171,7 +172,7 @@ dateChanged = date => {
             })) : (
 
                 <IonItem>
-                Нет событий
+                {i18next.t('Нет событий')}
                 </IonItem>
 
             )
