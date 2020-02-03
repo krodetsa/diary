@@ -63,6 +63,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       localStorage.setItem("type", type);
       localStorage.setItem("name", name);
       localStorage.setItem("key", key);
+      localStorage.setItem("lan", "ru");
       this.setState({
         auth: itm,
         user_id: id,

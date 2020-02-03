@@ -15,7 +15,7 @@ import {
   IonRouterOutlet,
   IonAlert
 } from '@ionic/react';
-import { exit, people } from 'ionicons/icons';
+import { exit, people,settings } from 'ionicons/icons';
 interface IMyComponentProps {
 };
 
@@ -55,6 +55,10 @@ render() {
               <IonItem href="/contacts">
                 <IonIcon slot="start" icon={people}/>
                 <IonLabel>{i18next.t('Контакты')}</IonLabel>
+              </IonItem>
+              <IonItem href="/settings">
+                <IonIcon slot="start" icon={settings}/>
+                <IonLabel>{i18next.t('Настройки')}</IonLabel>
               </IonItem>
             </IonList>
           </IonContent>
