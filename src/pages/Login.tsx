@@ -85,14 +85,14 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
             isOpen={this.state.showAlert1}
             onDidDismiss={() => this.setShowAlert1()}
             header={i18next.t('Ошибка')}
-            message={i18next.t('Неверный логин или пароль.')}
+            message={i18next.t('Неверный логин или пароль')}
             buttons={['OK']}
           />
         <IonAlert
             isOpen={this.state.showAlert2}
             onDidDismiss={() => this.setShowAlert2()}
             header={i18next.t('Ошибка')}
-            message={i18next.t('Введите логин и пароль.')}
+            message={i18next.t('Введите логин и пароль')}
             buttons={['OK']}
           />
       </IonPage>

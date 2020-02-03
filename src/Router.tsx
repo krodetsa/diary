@@ -17,6 +17,7 @@ import Messages from './pages/Messages';
 import Tab3Page from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
+import Contacts from './pages/Contacts';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -56,6 +57,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <Route path="/contacts" render={() =>  <Contacts />  } />
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />

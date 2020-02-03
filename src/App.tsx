@@ -4,7 +4,6 @@ import {
 } from '@ionic/react';
 import Login from './pages/Login';
 import Routing from './Router';
-import { Trans } from 'react-i18next';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
