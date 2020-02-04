@@ -4,6 +4,7 @@
 /node_modules
 /android
 /ios
+/.firebase
 /.pnp
 .pnp.js
 

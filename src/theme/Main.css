@@ -5,3 +5,6 @@
 .float-menu {
   z-index: 99999;
 }
+.sc-ion-alert-md-h, .sc-ion-alert-md-s {
+  z-index: 99999 !important
+}

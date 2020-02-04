@@ -7,6 +7,7 @@ import {
   IonLabel,
   IonRouterOutlet,
   IonTabBar,
+  IonPage,
   IonTabButton,
   IonTabs,
 } from '@ionic/react';
@@ -46,6 +47,7 @@ interface IMyComponentProps {
   type: string,
   name: string,
   skey: string,
+  token: string,
 }
 class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -56,6 +58,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
   render() {
     return (
       <IonApp>
+      <IonPage>
       <Menu/>
       <IonReactRouter>
       <IonTabs>
@@ -63,7 +66,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <Route path="/settings" render={() =>  <Settings />  } />
           <Route path="/contacts" render={() =>  <Contacts />  } />
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
-          <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
+          <Route path="/tab2" render={() => <Messages token={this.props.token} type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />
           <Route path="/tab3" render={() => <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
           <Route path="/forteacher" component={TabForTeacher} />
@@ -97,6 +100,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           </IonTabs>
 
       </IonReactRouter>
+      </IonPage>
     </IonApp>
     )
   }

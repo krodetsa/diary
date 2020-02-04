@@ -3,7 +3,10 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonButtons,
+  IonMenuToggle,
+  IonMenuButton
 } from '@ionic/react';
 import i18next from "i18next";
 import { } from 'ionicons/icons';
@@ -27,6 +30,12 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+      <IonButtons slot="end">
+      <IonMenuToggle>
+        <IonMenuButton auto-hide={true}/>
+        </IonMenuToggle>
+      </IonButtons>
+
           <IonTitle>{i18next.t('Главная')}</IonTitle>
         </IonToolbar>
       </IonHeader>

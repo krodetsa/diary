@@ -10,7 +10,7 @@ var info =
         // "deviceId" : "deviceId",
         "timestamp" : now.toString(),
         // "lang" : "ru/en/zh" => не обязательно
-        "key" : localStorage.getItem("key")
+        "key" : localStorage.getItem('key')
     };
 
 const url = 'https://www.log.school/web/controllers/data.php';
@@ -18,14 +18,14 @@ const sendPost = (data = {}) => {
   var body = { info: info, ...data };
   return axios.post(url, body);
 }
-// axios.interceptors.request.use(request => {
-//        console.log(request);
-//
-//        return request;
-//    }, error => {
-//        console.log(error);
-//        return Promise.reject(error);
-//    });
+axios.interceptors.request.use(request => {
+       console.log(request);
+
+       return request;
+   }, error => {
+       console.log(error);
+       return Promise.reject(error);
+   });
 
 // axios.interceptors.response.use(function (response) {
 //    // Any status code that lie within the range of 2xx cause this function to trigger

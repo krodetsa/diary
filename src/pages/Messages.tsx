@@ -14,6 +14,8 @@ import {
   IonItem,
   IonToolbar,
   IonSelect,
+  IonMenuToggle,
+  IonMenuButton,
   IonSelectOption,
   withIonLifeCycle,
  } from '@ionic/react';
@@ -24,6 +26,7 @@ import '../theme/messages.css';
 interface IMyComponentProps {
   user_id: string,
   type: string,
+  token: string
 }
 interface IMyComponentState {
   showAlert1:boolean,
@@ -55,12 +58,17 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
+          <IonButtons slot="end">
+          <IonMenuToggle>
+            <IonMenuButton auto-hide={true}/>
+            </IonMenuToggle>
+          </IonButtons>
             <IonTitle>Сообщения</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
         {
-          this.props.type === "1" &&
+          this.props.type === "3" &&
           <IonFabButton color="primary" onClick={this.setShowModal} className="add-message-button">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
