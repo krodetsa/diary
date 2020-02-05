@@ -23,9 +23,7 @@ lang: string
 };
 
 class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
-  constructor(props: Readonly<IMyComponentProps>) {
-    super(props);
-  }
+
   changeLanguage(lan) {
     i18next.changeLanguage(lan).then(() => {
     i18next.options.lng = lan;

@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  IonContent,
-} from '@ionic/react';
 import Login from './pages/Login';
 import Routing from './Router';
 /* Core CSS required for Ionic components to work properly */
@@ -21,7 +18,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
-import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
+// import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
 interface IMyComponentState {
     auth: any,
     user_id: any,
@@ -33,7 +30,7 @@ interface IMyComponentState {
 };
 interface IMyComponentProps {
 }
-const { PushNotifications } = Plugins;
+// const { PushNotifications } = Plugins;
 class App extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
       super(props);
@@ -48,7 +45,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       };
     }
     componentDidMount() {
-      this.push();
+      // this.push();
       const rememberMe = localStorage.getItem('auth') === 'true';
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
       const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
@@ -63,37 +60,37 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         skey: lsKey
       });
     }
-    push() {
-    // Register with Apple / Google to receive push via APNS/FCM
-    PushNotifications.register();
-
-    // On succcess, we should be able to receive notifications
-    PushNotifications.addListener('registration',
-      (token: PushNotificationToken) => {
-        // alert('Push registration success, token: ' + token.value);
-        this.setState({token: token.value})
-      }
-    );
-
-    // Some issue with your setup and push will not work
-    PushNotifications.addListener('registrationError',
-      (error: any) => {
-        alert('Error on registration: ' + JSON.stringify(error));
-      }
-    );
-
-    // Show us the notification payload if the app is open on our device
-    PushNotifications.addListener('pushNotificationReceived',
-      (notification: PushNotification) => {
-        let notif = this.state.notifications;
-        notif.push({ id: notification.id, title: notification.title, body: notification.body })
-        this.setState({
-          notifications: notif
-        })
-        alert(this.state.notifications)
-      }
-    );
-  }
+  //   push() {
+  //   // Register with Apple / Google to receive push via APNS/FCM
+  //   PushNotifications.register();
+  //
+  //   // On succcess, we should be able to receive notifications
+  //   PushNotifications.addListener('registration',
+  //     (token: PushNotificationToken) => {
+  //       // alert('Push registration success, token: ' + token.value);
+  //       this.setState({token: token.value})
+  //     }
+  //   );
+  //
+  //   // Some issue with your setup and push will not work
+  //   PushNotifications.addListener('registrationError',
+  //     (error: any) => {
+  //       alert('Error on registration: ' + JSON.stringify(error));
+  //     }
+  //   );
+  //
+  //   // Show us the notification payload if the app is open on our device
+  //   PushNotifications.addListener('pushNotificationReceived',
+  //     (notification: PushNotification) => {
+  //       let notif = this.state.notifications;
+  //       notif.push({ id: notification.id, title: notification.title, body: notification.body })
+  //       this.setState({
+  //         notifications: notif
+  //       })
+  //       alert(this.state.notifications)
+  //     }
+  //   );
+  // }
     showAuth = (itm: any, id: any, type: any, name: any, key: any) => {
       localStorage.setItem("auth", itm);
       localStorage.setItem("user_id", id);

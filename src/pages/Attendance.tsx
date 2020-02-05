@@ -39,7 +39,7 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
   }
 }
 
-disabledDates = new Array;
+disabledDates = new Array();
 ionViewWillEnter() {
   sendPost({
     // method: 'post',
@@ -53,7 +53,7 @@ ionViewWillEnter() {
 
   })
   .then(res => {
-    var att = new Array;
+    var att = new Array();
           res.data.data.forEach(el => {
             att.push({
               start: el.time,
@@ -84,7 +84,7 @@ setShowModal=() => {
 };
 dateChanged = date => {
   this.setState({ currentDate: date.valueOf() });
-  var att = new Array;
+  var att = new Array();
   var dateString = moment(date).format("MM/DD/YYYY");
   this.state.store.forEach(el => {
     var stillUtc = moment.unix(el.start).toDate();

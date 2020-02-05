@@ -14,7 +14,7 @@ import {
   IonLabel,
   IonAlert
 } from '@ionic/react';
-import { exit, people,settings } from 'ionicons/icons';
+import { exit, settings } from 'ionicons/icons';
 interface IMyComponentProps {
 };
 

@@ -3,9 +3,10 @@ import { IonContent,IonInput,IonApp, IonAlert, IonButton, IonText, IonGrid, IonI
 import '../theme/login.css';
 import axios from 'axios';
 import i18next from "i18next";
+import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
+const { PushNotifications } = Plugins;
 interface IMyComponentProps {
   showAuth: any,
-
 }
 interface IMyComponentState {
     showAlert1: boolean,
@@ -19,6 +20,35 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         showAlert2: false,
       };
     };
+    push() {
+    // Register with Apple / Google to receive push via APNS/FCM
+    PushNotifications.register();
+
+    // On succcess, we should be able to receive notifications
+    PushNotifications.addListener('registration',
+      (token: PushNotificationToken) => {
+        // alert('Push registration success, token: ' + token.value);
+        console.log(token.value);
+        localStorage.setItem("token", token.value);
+      }
+    );
+
+    // Some issue with your setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => {
+        alert('Error on registration: ' + JSON.stringify(error));
+      }
+    );
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotification) => {
+        let notif;
+        notif.push({ id: notification.id, title: notification.title, body: notification.body })
+        alert(notif)
+      }
+    );
+  }
     setShowAlert1 = () => {
       this.setState({ showAlert1: !this.state.showAlert1 });
     };
@@ -46,7 +76,9 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
             this.props.showAuth(false);
             this.setShowAlert1();
           }
-        })
+          this.push();
+        }
+      )
       } else {
         this.setShowAlert2();
       }

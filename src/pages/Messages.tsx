@@ -26,16 +26,19 @@ import '../theme/messages.css';
 interface IMyComponentProps {
   user_id: string,
   type: string,
-  token: string
 }
 interface IMyComponentState {
   showAlert1:boolean,
+  classesCount: any,
+  classesClear: any,
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
     super(props);
     this.state = {
       showAlert1: false,
+      classesCount: [],
+      classesClear: []
     }
   }
   ionViewWillEnter() {
@@ -53,6 +56,21 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   setShowModal = () => {
     this.setState({ showAlert1: !this.state.showAlert1 });
   };
+  openSingle = () => {
+    if(this.state.classesCount.length > 0){
+      let arr = this.state.classesClear;
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {classesCount: arr}
+    });
+  } else {
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {classesCount: [1,2]}
+    });
+  }
+    console.log(this.state.classesCount)
+  }
   render() {
     return (
       <IonPage>
@@ -85,19 +103,25 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             </IonHeader>
             <IonContent>
               <IonList>
-                <IonItem>
+              <IonItem onClick={this.openSingle}>
                 <IonLabel>Личное сообщение</IonLabel>
-                <IonSelect multiple>
-                  <IonSelectOption value="valueA">Ученик</IonSelectOption>
-                  <IonSelectOption value="valueB">Преподаватель</IonSelectOption>
-                </IonSelect>
-                </IonItem>
-                <IonItem>
-                <IonLabel>Сообщение классу</IonLabel>
-                <IonSelect multiple>
-                  <IonSelectOption value="valueA">1"а"</IonSelectOption>
-                  <IonSelectOption value="valueB">1"б"</IonSelectOption>
-                </IonSelect>
+              </IonItem>
+              {
+                this.state.classesCount.map(el=> {
+                  return (
+                    <IonItem key = {++this.state.classesCount.length}>
+                      <IonLabel>Класс</IonLabel>
+                      <IonSelect multiple>
+                        <IonSelectOption value="valueA">Ученик</IonSelectOption>
+                      </IonSelect>
+                    </IonItem>
+                  )
+                })
+              }
+
+
+              <IonItem>
+                <IonLabel>Групповое сообщение</IonLabel>
               </IonItem>
               </IonList>
             </IonContent>
