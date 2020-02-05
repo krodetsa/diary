@@ -7,6 +7,8 @@ import {
   IonHeader,
   IonButton,
   IonIcon,
+  IonRefresher,
+  IonRefresherContent,
   IonFabButton,
   IonPage,
   IonTitle,
@@ -19,9 +21,11 @@ import {
   IonSelectOption,
   withIonLifeCycle,
  } from '@ionic/react';
-import axios from 'axios';
+// import axios from 'axios';
+import sendPost from '../axios.js'
 import { add } from 'ionicons/icons';
 import '../theme/messages.css';
+import { RefresherEventDetail } from '@ionic/core';
 
 interface IMyComponentProps {
   user_id: string,
@@ -42,19 +46,24 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     }
   }
   ionViewWillEnter() {
-    axios({
-      method: 'post',
-      url: 'https://m.log.school/web/proses-api.php',
-      data: {
-        aksi: "getmsg",
-        user_id: this.props.user_id,
-        type: this.props.type
-      }
-    })
-    .then(res => {console.log(res)})
   }
+  doRefresh(event: CustomEvent<RefresherEventDetail>) {
+  console.log('Begin async operation');
+
+  setTimeout(() => {
+    console.log('Async operation has ended');
+    event.detail.complete();
+  }, 2000);
+}
   setShowModal = () => {
     this.setState({ showAlert1: !this.state.showAlert1 });
+    //запрос списка классов
+    sendPost({
+        aksi: "getСlasses",
+        user_id: this.props.user_id,
+
+    })
+    .then(res => {console.log(res)})
   };
   openSingle = () => {
     if(this.state.classesCount.length > 0){
@@ -74,6 +83,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   render() {
     return (
       <IonPage>
+      <IonContent>
+      <IonRefresher slot="fixed" onIonRefresh={this.doRefresh} >
+        <IonRefresherContent></IonRefresherContent>
+      </IonRefresher>
         <IonHeader>
           <IonToolbar>
           <IonButtons slot="end">
@@ -126,6 +139,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               </IonList>
             </IonContent>
           </IonModal>
+          </IonContent>
       </IonPage>
     );
   }
