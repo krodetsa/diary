@@ -1,4 +1,6 @@
 import React from 'react';
+import Calendar from 'react-calendar';
+import i18next from "i18next";
 import {
   IonList,
   IonContent,
@@ -43,6 +45,7 @@ interface IMyComponentState {
   showAlert1:boolean,
   classesCount: any,
   classesClear: any,
+  showСalendar: any,
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -50,7 +53,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     this.state = {
       showAlert1: false,
       classesCount: [],
-      classesClear: []
+      classesClear: [],
+      showСalendar: false
     }
   }
   ionViewWillEnter() {
@@ -72,6 +76,11 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
 
     })
     .then(res => {console.log(res)})
+  };
+  showСalendar=() => {
+    this.setState((state) => {
+      return {showСalendar: !this.state.showСalendar}
+    });
   };
   openSingle = () => {
     if(this.state.classesCount.length > 0){
@@ -107,7 +116,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           </IonRefresher>
           <CalendarSmall
           line={'сообщений'}
-          setShowModal={this.newMessageModal}
+          setShowModal={this.showСalendar}
           currentDate={[]}
           attendancePerDate={[]}
           />
@@ -115,7 +124,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonCardHeader className={'message-header'}>
               <div className={'message-header-container'}>
                 <IonCardSubtitle>20.01.20 | 18:03</IonCardSubtitle>
-                <IonCardSubtitle>рассылка</IonCardSubtitle>
+                <IonCardSubtitle>РАССЫЛКА</IonCardSubtitle>
               </div>
               <IonCardTitle className={'teacher-name'}>Имя преподавателя</IonCardTitle>
             </IonCardHeader>
@@ -165,6 +174,15 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               </IonItem>
             </IonList>
           </IonContent>
+        </IonModal>
+        {/*календарь*/}
+        <IonModal isOpen={this.state.showСalendar}>
+          <Calendar
+                  minDetail={"month"}
+          value={new Date()}
+          view={'month'}
+           />
+          <IonButton expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
 
         { this.props.type === "3" &&
