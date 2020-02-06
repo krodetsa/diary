@@ -121,6 +121,7 @@ dateChanged = date => {
         </IonHeader>
         <IonContent>
         <CalendarSmall
+        line={'событий'}
         setShowModal={this.setShowModal}
         currentDate={this.state.currentDate}
         attendancePerDate={this.state.attendancePerDate}

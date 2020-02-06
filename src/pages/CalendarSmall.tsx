@@ -12,7 +12,8 @@ const moment = require('moment');
 interface IMyComponentProps {
   currentDate: any,
   setShowModal: any;
-  attendancePerDate: any
+  attendancePerDate: any;
+  line: string;
 };
 
 interface IMyComponentState {
@@ -32,9 +33,9 @@ render() {
         {moment(this.props.currentDate).local().format('DD.MM')}
        </IonNote>
        <IonLabel>
-         <h2 className="calendar-small-h2">{i18next.t('Событий')}: <IonBadge className="calendar-small-badge" color="primary">{this.props.attendancePerDate.length}</IonBadge></h2>
+         <h2 className="calendar-small-h2">{this.props.line}: <IonBadge className="calendar-small-badge" color="primary">{this.props.attendancePerDate.length}</IonBadge></h2>
          <p>{i18next.t('Последнее')}: {
-           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[this.props.attendancePerDate.length - 1].text.replace(/<\/?[^>]+>/g,'') : `${i18next.t('Нет событий')}`
+           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[this.props.attendancePerDate.length - 1].text.replace(/<\/?[^>]+>/g,'') : `${'Нет '+this.props.line}`
          }</p>
        </IonLabel>
      </IonItem>

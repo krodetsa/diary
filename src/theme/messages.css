@@ -3,3 +3,16 @@
   right: 3vw;
   bottom: 1.5vh;
 }
+.teacher-name {
+  font-size: 1.7em
+}
+.message-header {
+  padding-bottom: 0px
+}
+.message-content {
+  padding-top: 5px
+}
+.message-header-container {
+  display: flex;
+  justify-content: space-between;
+}
