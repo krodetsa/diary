@@ -42,15 +42,11 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
 disabledDates = new Array();
 ionViewWillEnter() {
   sendPost({
-    // method: 'post',
-    // url: 'https://www.log.school/web/controllers/data.php',
-      "aksi":"getpass",
+      "aksi":"getPass",
       "type": this.props.type,
       "first_date": this.state.timestamp.unix(),
       "range":"60",
-      "user_id": parseInt(this.props.user_id, 10),
-      "key": this.props.skey
-
+      "user_id": this.props.user_id
   })
   .then(res => {
     var att = new Array();

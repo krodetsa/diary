@@ -3,7 +3,7 @@ import { IonContent,IonInput,IonApp, IonAlert, IonButton, IonText, IonGrid, IonI
 import '../theme/login.css';
 import axios from 'axios';
 import i18next from "i18next";
-import sendPost from '../axios.js'
+import sendPost from '../axios.js';
 import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
 const { PushNotifications } = Plugins;
 interface IMyComponentProps {
@@ -29,7 +29,6 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
         // alert('Push registration success, token: ' + token.value);
-        console.log(token.value);
         localStorage.setItem("token", token.value);
         sendPost({
             aksi: "setToken",
@@ -79,6 +78,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
           console.log(res)
           if (res.data.success === true) {
             this.props.showAuth(res.data.success, res.data.data.user_id, res.data.data.type, res.data.data.name, res.data.data.key);
+            localStorage.setItem("key", res.data.data.key);
           } else {
             this.props.showAuth(false);
             this.setShowAlert1();

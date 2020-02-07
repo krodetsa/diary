@@ -13,6 +13,7 @@ import {
   IonRefresherContent,
   IonFabButton,
   IonPage,
+  IonCheckbox,
   IonCol,
   IonTitle,
   IonLabel,
@@ -46,13 +47,21 @@ interface IMyComponentState {
   classesCount: any,
   classesClear: any,
   showСalendar: any,
+  showСlasslist: any,
+  totalClasses: any,
+  currentClass: any,
+  studentsInClass: any,
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
     super(props);
     this.state = {
       showAlert1: false,
+      currentClass: '',
+      studentsInClass: [],
+      showСlasslist: false,
       classesCount: [],
+      totalClasses: [],
       classesClear: [],
       showСalendar: false
     }
@@ -70,12 +79,19 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   newMessageModal = () => {
     this.setState({ showAlert1: !this.state.showAlert1 });
     //запрос списка классов
-    sendPost({
-        aksi: "getСlasses",
-        user_id: this.props.user_id,
+    if(this.state.showAlert1 !== true) {
+      sendPost({
+          "aksi": "getClasses",
+          "user_id": this.props.user_id.toString(),
+      })
+      .then(res => {
+        if(res.data.success === true) {
+          this.setState({ totalClasses: res.data.data })
+        }
+        console.log(this.state.totalClasses)
+      })
+    }
 
-    })
-    .then(res => {console.log(res)})
   };
   showСalendar=() => {
     this.setState((state) => {
@@ -92,12 +108,32 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   } else {
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-      return {classesCount: [1,2]}
+      return {classesCount: this.state.totalClasses}
+    });
+    }
+  }
+  showСlasslist = () => {
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {showСlasslist: !this.state.showСlasslist}
     });
   }
-    console.log(this.state.classesCount)
+  getClassList = (id,title) => {
+    sendPost({
+        "aksi": "getClassList",
+        "user_id": this.props.user_id.toString(),
+        "class_id": id.toString()
+    })
+    .then(res => {
+      this.setState(() => {
+        // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+        return {studentsInClass: res.data.data, currentClass: title, showСlasslist: !this.state.showСlasslist}
+      });
+      // this.showСlasslist();
+    })
   }
   render() {
+    var studentsInClass;
     return (
       <IonPage>
         <IonHeader>
@@ -143,6 +179,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             </IonCardContent>
           </IonCard>
 
+
         {/* модальное окно "личное/групповое сообщение */}
         </IonContent>
         <IonModal isOpen={this.state.showAlert1}>
@@ -161,12 +198,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
               { this.state.classesCount.map(el=> { return (
-              <IonItem key={ ++this.state.classesCount.length}>
-                <IonLabel>Класс</IonLabel>
-                <IonSelect multiple>
-                  <IonSelectOption value="valueA">Ученик</IonSelectOption>
-                </IonSelect>
-              </IonItem>
+                <IonItem onClick={() => this.getClassList(el.class_id, el.class_info)} key={ ++this.state.classesCount.length}>
+                  <IonLabel>{el.class_info}</IonLabel>
+                </IonItem>
               ) }) }
               <IonItem>
                 <IonLabel>Групповое сообщение</IonLabel>
@@ -175,6 +209,29 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             </IonList>
           </IonContent>
         </IonModal>
+        {/* модальное окно "выбор учеников*/}
+        <IonModal isOpen={this.state.showСlasslist}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>{this.state.currentClass}</IonTitle>
+              <IonButtons slot="end">
+                <IonButton fill="clear" onClick={()=> this.showСlasslist()}>Закрыть</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+          {
+            this.state.studentsInClass.map(
+              el => { return(
+            <IonItem key={++this.state.studentsInClass.length}>
+              <IonLabel>{el.name}</IonLabel>
+              <IonCheckbox slot="end" value={el.name} />
+              </IonItem>
+          )}
+        )
+        }
+        </IonContent>
+      </IonModal>
         {/*календарь*/}
         <IonModal isOpen={this.state.showСalendar}>
           <Calendar
