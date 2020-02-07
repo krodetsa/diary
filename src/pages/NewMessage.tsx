@@ -47,7 +47,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
         <IonContent>
         {/*Сообщение одному пользователю*/
           this.props.single.length === 1  &&
-          <IonTitle>{this.props.studentsInClass.map(el => {
+          <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
             if(el.id === this.props.single[0]) {
               return (el.name)
             }

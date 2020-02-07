@@ -25,3 +25,7 @@
 .with-padding {
   padding-left: 10px;
 }
+.new-message-name {
+  word-wrap: normal;
+  font-size: .8em !important;
+}
