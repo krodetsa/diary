@@ -14,20 +14,15 @@ import {
   IonFabButton,
   IonPage,
   IonCheckbox,
-  IonCol,
   IonTitle,
   IonLabel,
   IonItem,
   IonToolbar,
-  IonSelect,
   IonMenuToggle,
   IonMenuButton,
-  IonSelectOption,
   withIonLifeCycle,
   IonCard,
-  IonNote,
   IonCardContent,
-  IonRow,
   IonCardHeader,
   IonCardSubtitle,
 IonCardTitle
@@ -38,6 +33,7 @@ import { add, arrowDropdown } from 'ionicons/icons';
 import '../theme/messages.css';
 import { RefresherEventDetail } from '@ionic/core';
 import CalendarSmall from './CalendarSmall';
+import NewMessage from './NewMessage';
 interface IMyComponentProps {
   user_id: string,
   type: string,
@@ -52,7 +48,10 @@ interface IMyComponentState {
   currentClass: any,
   classesMulti: any,
   studentsInClass: any,
-  classSingleSelected: any,
+  nextButton: any,
+  studentsSingleSelected: any,
+  studentsMultiSelected: any,
+  newMessageModal: boolean,
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -67,7 +66,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       classesClear: [],
       classesMulti: [],
       showСalendar: false,
-      classSingleSelected: [],
+      nextButton: false,
+      studentsSingleSelected: [],
+      studentsMultiSelected: [],
+      newMessageModal: false,
     }
   }
   ionViewWillEnter() {
@@ -80,6 +82,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     }, 2000);
 }
   newMessageModal = () => {
+    if(this.state.studentsMultiSelected.length > 0) {
+      this.setState({studentsMultiSelected: []})
+    }
     this.setState({ showAlert1: !this.state.showAlert1 });
     //запрос списка классов
     if(this.state.showAlert1 !== true) {
@@ -129,6 +134,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     }
   }
   showСlasslist = () => {
+    if(this.state.studentsSingleSelected.length > 0) {
+      this.setState({studentsSingleSelected: []})
+    }
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {showСlasslist: !this.state.showСlasslist}
@@ -148,27 +156,49 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       // this.showСlasslist();
     })
   }
-  studentsMultiSelected = new Array();
   classMultiSelected = (id) => {
-    var newArr = this.studentsMultiSelected;
+    var newArr = this.state.studentsMultiSelected;
     if (newArr.indexOf( id ) === -1) {
       newArr.push(id)
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
-    this.studentsMultiSelected = newArr;
-    console.log(this.studentsMultiSelected)
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {studentsMultiSelected : newArr}
+    });
+    console.log(this.state.studentsMultiSelected)
   }
-  studentsSingleSelected = new Array();
   classSingleSelected = (id) => {
-    var newArr = this.studentsSingleSelected;
+    var newArr = this.state.studentsSingleSelected;
     if (newArr.indexOf( id ) === -1) {
-      newArr.push(id)
+      newArr.push(id);
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
-    this.studentsSingleSelected = newArr;
-    console.log(this.studentsSingleSelected)
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {studentsSingleSelected : newArr}
+    });
+    console.log(this.state.studentsSingleSelected)
+  }
+  showNewMessageModal = () => {
+    if(this.state.studentsSingleSelected.length > 0 && this.state.newMessageModal === true) {
+      this.setState({
+        studentsSingleSelected: [],
+        showAlert1: !this.state.showAlert1,
+        showСlasslist: !this.state.showСlasslist,
+        classesCount: [],
+      })
+    }
+    if(this.state.studentsMultiSelected.length > 0 && this.state.newMessageModal === true) {
+      this.setState({
+        studentsMultiSelected: [],
+        showAlert1: !this.state.showAlert1,
+        classesCount: [],
+      })
+    }
+    this.setState({newMessageModal: !this.state.newMessageModal})
   }
   render() {
     return (
@@ -244,12 +274,17 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
               { this.state.classesMulti.map(el=> { return (
-                <IonItem className={'with-padding'} key={ ++this.state.classesMulti.length}>
+                <IonItem className={'with-padding'} key={el.class_info}>
                   <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
                   <IonCheckbox onClick={() => this.classMultiSelected(el.class_id)} slot="end" value={el.class_id} />
                 </IonItem>
               ) }) }
             </IonList>
+            { this.state.studentsMultiSelected.length > 0 &&
+            <IonFabButton onClick={this.showNewMessageModal} color="primary" className="new-message-button">
+              Далее
+            </IonFabButton>
+            }
           </IonContent>
         </IonModal>
         {/* модальное окно "выбор учеников*/}
@@ -266,12 +301,17 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           {
             this.state.studentsInClass.map(
               el => { return(
-            <IonItem key={++this.state.studentsInClass.length}>
+            <IonItem key={el.name}>
               <IonLabel>{el.name}</IonLabel>
               <IonCheckbox onClick={() => this.classSingleSelected(el.id)} slot="end" value={el.name} />
               </IonItem>
                 )}
               )
+          }
+          { this.state.studentsSingleSelected.length > 0 &&
+          <IonFabButton onClick={this.showNewMessageModal} color="primary" className="new-message-button">
+            Далее
+          </IonFabButton>
           }
         </IonContent>
       </IonModal>
@@ -284,12 +324,19 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
            />
           <IonButton expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
-
+        {/*новое сообщение*/}
+        <NewMessage
+          single={this.state.studentsSingleSelected}
+          multi={this.state.studentsMultiSelected}
+          newMessageModal={this.state.newMessageModal}
+          showNewMessageModal={this.showNewMessageModal}
+          studentsInClass={this.state.studentsInClass}/>
         { this.props.type === "3" &&
         <IonFabButton color="primary" onClick={this.newMessageModal} className="add-message-button">
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>
         }
+
       </IonPage>
     );
   }

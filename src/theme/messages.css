@@ -3,6 +3,12 @@
   right: 3vw;
   bottom: 1.5vh;
 }
+.new-message-button {
+  position: fixed;
+  right: 3vw;
+  bottom: 15vw;
+  z-index: 99999;
+}
 .teacher-name {
   font-size: 1.7em
 }
