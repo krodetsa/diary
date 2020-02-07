@@ -16,3 +16,6 @@
   display: flex;
   justify-content: space-between;
 }
+.with-padding {
+  padding-left: 10px;
+}
