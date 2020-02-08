@@ -27,5 +27,25 @@
 }
 .new-message-name {
   word-wrap: normal;
-  font-size: .8em !important;
+  color: #000;
+  margin: 10px 0;
+  font-weight: normal;
+  font-size: 1em !important;
+}
+.with-margin-top {
+  margin-top: 1em
+}
+.full-width {
+  width: 100%
+}
+.textarea-main > {
+  padding: 0
+}
+.write-message {
+  position: absolute;
+  width: 100%;
+  bottom: 0
+}
+.message-button {
+  align-self: center;
 }
