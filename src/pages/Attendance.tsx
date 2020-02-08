@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonMenuToggle, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
+import { IonMenuToggle,IonLoading, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
 import Calendar from 'react-calendar';
 import CalendarSmall from './CalendarSmall';
 import '../theme/Main.css';
@@ -24,12 +24,14 @@ interface IMyComponentState {
   disabledDates: any,
   showModal: boolean,
   timestamp: any,
+  showLoading: any,
 };
 
 class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
   super(props);
   this.state = {
+    showLoading: false,
     timestamp: moment(),
     currentDate: new Date().valueOf(),
     store: [],
@@ -68,6 +70,31 @@ ionViewWillEnter() {
             // Важно: используем state вместо this.state при обновлении для моментального рендеринга
             return {disabledDates: this.disabledDates}
           });
+  }).then(()=>{
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {showLoading: !this.state.showLoading}
+    });
+    let date = this.state.currentDate;
+    this.setState({ currentDate: date.valueOf() });
+    var att = new Array();
+    var dateString = moment(date).format("MM/DD/YYYY");
+    this.state.store.forEach(el => {
+      var stillUtc = moment.unix(el.start).toDate();
+      var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
+      if(moment(dateString).isSame(localTime, 'day')) {
+        att.push({
+          start: el.start,
+          text: el.text,
+          name: el.name,
+          color: el.color
+        })
+      }
+    })
+    this.setState((state) => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return {attendancePerDate: att, showLoading: !this.state.showLoading}
+    });
   })
   .catch(function (error) {
     console.log(error);
@@ -99,6 +126,12 @@ dateChanged = date => {
     return {attendancePerDate: att}
   });
   this.setShowModal();
+}
+setShowLoading = () => {
+  this.setState(() => {
+    // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+    return {showLoading: !this.state.showLoading}
+  });
 }
   render() {
 
@@ -140,7 +173,11 @@ dateChanged = date => {
            />
           <IonButton expand="full" onClick={() => this.setShowModal()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
-
+        <IonLoading
+            isOpen={this.state.showLoading}
+            onDidDismiss={() => this.setShowLoading()}
+            message={'Загрузка...'}
+          />
             <IonList>
           {
             this.state.attendancePerDate.length > 0 ?
