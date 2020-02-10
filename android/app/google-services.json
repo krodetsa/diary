@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "526761510256",
+    "firebase_url": "https://sanarip-mektep.firebaseio.com",
+    "project_id": "sanarip-mektep",
+    "storage_bucket": "sanarip-mektep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526761510256:android:ddbe88791b38088a5e3bb5",
+        "android_client_info": {
+          "package_name": "sanarip.mektep.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526761510256-qmij7bb73t15pjrhufnfibdqj3fn0ngv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApdZbyRoPdFRpTxZoCYM8RV3TDxqHYmXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526761510256-qmij7bb73t15pjrhufnfibdqj3fn0ngv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

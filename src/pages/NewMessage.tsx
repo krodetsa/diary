@@ -14,9 +14,9 @@ import {
   IonRow,
   IonToolbar,
   IonItem,
-  IonToast,
   IonTextarea,
   IonIcon,
+  IonFooter
  } from '@ionic/react';
 interface IMyComponentProps {
   newMessageModal: any,
@@ -24,7 +24,10 @@ interface IMyComponentProps {
   single: any,
   multi: any,
   studentsInClass: any,
-
+  closeMessageModal: any,
+  classes: any,
+  clearData: any,
+  user_id: any
 }
 interface IMyComponentState {
 toastShow: boolean,
@@ -36,76 +39,127 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
       toastShow: false
     }
   }
+  messageInput = '';
   showNewMessageModal = () => {
-    this.props.newMessageModal();
+    this.props.clearData();
+    this.props.showNewMessageModal();
   }
   sendMessage = () => {
-    this.setState({toastShow: !this.state.toastShow});
+    sendPost({
+      "aksi" : "sendMessage",
+      "user_id": this.props.user_id,
+      "recipients": this.props.single.length > 0 ? this.props.single : this.props.multi,
+      "group_message": this.props.multi.length > 0 ? true : false,
+      "message_text": this.messageInput,
+      "message_time": '000',
+      "group": this.props.multi.length > 0 ? 1 : 0
+    })
+    .then(res => {
+      console.log(res)
+    })
+    this.props.closeMessageModal();
+    this.props.clearData();
+    this.messageInput = ''
   }
   ionViewWillEnter() {}
   render() {
-    console.log(this.props.studentsInClass);
-    console.log(this.props.single)
+    // console.log(this.props.studentsInClass);
+    console.log(this.props.classes)
     return(
       <IonModal isOpen={this.props.newMessageModal}>
         <IonHeader>
           <IonToolbar>
             <IonTitle>Новое сообщение</IonTitle>
             <IonButtons slot="end">
-              <IonButton fill="clear" onClick={()=> this.props.showNewMessageModal()}>Закрыть</IonButton>
+              <IonButton fill="clear" onClick={()=> this.showNewMessageModal()}>Закрыть</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent className={'container-new-message'}>
 
-          <IonGrid className={'with-margin-top'}>
-            <IonRow>
-            {/*Сообщение одному пользователю*/
+        <IonGrid className={'with-margin-top'}>
+          <IonRow>
+          {/*Сообщение одному пользователю*/
 
-              this.props.single.length==1  &&
-              <>
-              <IonTitle>Имя ученика</IonTitle>
-            <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
-              if(el.id == this.props.single[0]) {
-                return (el.name)
-              }
-            })}</IonTitle>
-            <IonTitle>Родители:</IonTitle>
+            this.props.single.length === 1  &&
+            <div className={'names-container'}>
+            <IonTitle>Имя ученика</IonTitle>
           <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
-            if(el.id == this.props.single[0]) {
-              return (el.parents)
+            if(el.id === this.props.single[0]) {
+              return (el.name)
             }
+            return (null)
           })}</IonTitle>
-          </>}
-          </IonRow>
-          </IonGrid>
-          <IonGrid className={'write-message'}>
-            <IonItem>
-            <IonRow className={'full-width'}>
-              <IonTextarea className={'textarea-main'} placeholder="Введите сообщение"></IonTextarea>
-              <IonButton onClick={this.sendMessage} className={'message-button'}>
-                <IonIcon icon={send}/>
-              </IonButton>
-              </IonRow>
-            </IonItem>
-          </IonGrid>
-
-          <IonToast
-      isOpen={this.state.toastShow}
-      onDidDismiss={() => this.setState({toastShow: !this.state.toastShow})}
-      message="Сообщение отправлено"
-      position="bottom"
-      duration={3000}
-      buttons={[
-        {
-          text: 'Закрыть',
-          role: 'cancel',
-          handler: () => {
-            this.setState({toastShow: !this.state.toastShow})
+          <IonTitle>Родители:</IonTitle>
+        <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
+          if(el.id === this.props.single[0]) {
+            return (el.parents)
           }
-        }
-      ]}
-    />
+          return (null)
+        })}</IonTitle>
+        </div>
+      }
+        {/*Сообщение нескольким пользователям*/
+
+          this.props.single.length > 1  &&
+          <div className={'names-container'}>
+          <IonTitle>Получатели</IonTitle>
+        <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
+
+          for (let i = 0; i < this.props.single.length; i++) {
+              if(this.props.single[i] === el.id) {
+                return (<p key={el.name}>{el.name}</p>)
+              }
+          }
+
+        })}
+
+        </IonTitle>
+
+      </div>
+    }
+    {/*Сообщение нескольким пользователям*/
+
+      this.props.multi.length > 1  &&
+      <div className={'names-container'}>
+      <IonTitle>Получатели</IonTitle>
+    <IonTitle className={"new-message-name"}>{this.props.classes.map(el => {
+
+      for (let i = 0; i < this.props.multi.length; i++) {
+          if(this.props.multi[i] === el.class_id) {
+            return (<p key={el.class_info}>{el.class_info}</p>)
+          }
+      }
+
+    })}
+
+    </IonTitle>
+
+  </div>
+}
+        </IonRow>
+        </IonGrid>
+        <IonFooter>
+        <IonGrid className={'write-message'}>
+          <IonItem>
+          <IonRow className={'full-width'}>
+            <IonTextarea
+              className={'textarea-main'}
+              placeholder="Введите сообщение"
+              value={this.messageInput}
+              onIonChange={ev =>
+                    this.messageInput = (ev.target as any).value
+                  }
+              ></IonTextarea>
+            <IonButton onClick={this.sendMessage} className={'message-button'}>
+              <IonIcon icon={send}/>
+            </IonButton>
+            </IonRow>
+          </IonItem>
+        </IonGrid>
+        </IonFooter>
+
+
       </IonContent>
     </IonModal>
     )

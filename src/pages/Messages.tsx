@@ -8,6 +8,7 @@ import {
   IonModal,
   IonHeader,
   IonButton,
+  IonToast,
   IonIcon,
   IonRefresher,
   IonRefresherContent,
@@ -39,6 +40,7 @@ interface IMyComponentProps {
   type: string,
 }
 interface IMyComponentState {
+  toastShow: boolean,
   showAlert1:boolean,
   classesCount: any,
   classesClear: any,
@@ -57,6 +59,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
     super(props);
     this.state = {
+      toastShow: false,
       showAlert1: false,
       currentClass: '',
       studentsInClass: [],
@@ -80,7 +83,27 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       console.log('Async operation has ended');
       event.detail.complete();
     }, 2000);
-}
+  }
+  clearData = () => {
+    this.setState(() => {
+      return {
+        studentsSingleSelected: [],
+        studentsMultiSelected: [],
+      }
+    });
+  }
+  closeMessageModal = () => {
+      this.setState(
+        {
+          studentsMultiSelected: [],
+          studentsSingleSelected: [],
+          newMessageModal: false,
+          showСlasslist: false,
+          showAlert1: false,
+          toastShow: true,
+        }
+      )
+  }
   newMessageModal = () => {
     if(this.state.studentsMultiSelected.length > 0) {
       this.setState({studentsMultiSelected: []})
@@ -167,7 +190,6 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsMultiSelected : newArr}
     });
-    console.log(this.state.studentsMultiSelected)
   }
   classSingleSelected = (id) => {
     var newArr = this.state.studentsSingleSelected;
@@ -196,6 +218,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         studentsMultiSelected: [],
         showAlert1: !this.state.showAlert1,
         classesCount: [],
+        classesMulti: [],
       })
     }
     this.setState({newMessageModal: !this.state.newMessageModal})
@@ -325,7 +348,11 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonButton expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
         {/*новое сообщение*/}
-        <NewMessage
+        <NewMessage align-self-end
+          user_id={this.props.user_id}
+          clearData={this.clearData}
+          classes={this.state.classesMulti}
+          closeMessageModal={this.closeMessageModal}
           single={this.state.studentsSingleSelected}
           multi={this.state.studentsMultiSelected}
           newMessageModal={this.state.newMessageModal}
@@ -336,7 +363,22 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>
         }
-
+        <IonToast
+        isOpen={this.state.toastShow}
+        onDidDismiss={() => this.setState({toastShow: !this.state.toastShow})}
+        message="Сообщение отправлено"
+        position="bottom"
+        duration={3000}
+        buttons={[
+          {
+            text: 'Закрыть',
+            role: 'cancel',
+            handler: () => {
+              this.setState({toastShow: !this.state.toastShow})
+            }
+          }
+        ]}
+      />
       </IonPage>
     );
   }

@@ -33,19 +33,32 @@
   font-size: 1em !important;
 }
 .with-margin-top {
-  margin-top: 1em
+  margin-top: 1em;
+      flex: 1 1 90%;
 }
 .full-width {
   width: 100%
 }
 .textarea-main > {
-  padding: 0
+  padding: 0;
 }
 .write-message {
-  position: absolute;
-  width: 100%;
-  bottom: 0
+    align-self: end;
+    width: 100%;
 }
 .message-button {
   align-self: center;
+}
+.container-new-message {
+  display: flex;
+  flex-direction: column;
+}
+.container-new-message .footer-md {
+  /* margin-top: 50px; */
+  align-self: flex-end;
+  bottom: 0;
+  position: fixed;
+}
+.names-container {
+
 }
