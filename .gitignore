@@ -5,6 +5,7 @@
 /ios
 /.firebase
 /.pnp
+/android
 .pnp.js
 
 # testing
