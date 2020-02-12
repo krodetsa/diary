@@ -18,6 +18,7 @@ import {
   IonIcon,
   IonFooter
  } from '@ionic/react';
+ const moment = require('moment');
 interface IMyComponentProps {
   newMessageModal: any,
   showNewMessageModal: any,
@@ -51,7 +52,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
       "recipients": this.props.single.length > 0 ? this.props.single : this.props.multi,
       "group_message": this.props.multi.length > 0 ? true : false,
       "message_text": this.messageInput,
-      "message_time": '000',
+      "message_time":  moment().unix(),
       "group": this.props.multi.length > 0 ? 1 : 0
     })
     .then(res => {
@@ -120,7 +121,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     }
     {/*Сообщение нескольким пользователям*/
 
-      this.props.multi.length > 1  &&
+      this.props.multi.length > 0  &&
       <div className={'names-container'}>
       <IonTitle>Получатели</IonTitle>
     <IonTitle className={"new-message-name"}>{this.props.classes.map(el => {

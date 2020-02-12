@@ -168,7 +168,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     })
   }
   ionViewWillEnter() {
-    this.getMessages();
+    // this.getMessages();
   }
   doRefresh(event: CustomEvent<RefresherEventDetail>) {
   console.log('Begin async operation');

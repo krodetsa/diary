@@ -65,6 +65,11 @@ axios.interceptors.request.use(request => {
    });
 axios.interceptors.response.use(response => {
   sendStats(response);
+  console.log(response);
+  if (response.data.error == 7) {
+    localStorage.clear();
+    window.location.href="/login"
+  }
   return response;
 }, function (error, response) {
    // Any status codes that falls outside the range of 2xx cause this function to trigger
