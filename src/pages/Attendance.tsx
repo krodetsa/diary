@@ -157,7 +157,7 @@ setShowLoading = () => {
         />
         <IonModal isOpen={this.state.showModal}>
           <Calendar
-                  minDetail={"month"}
+          minDetail={"month"}
           value={new Date(this.state.timestamp)}
           view={'month'}
           onClickDay={e => { this.dateChanged(e)}}

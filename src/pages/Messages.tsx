@@ -35,6 +35,7 @@ import '../theme/messages.css';
 import { RefresherEventDetail } from '@ionic/core';
 import CalendarSmall from './CalendarSmall';
 import NewMessage from './NewMessage';
+const moment = require('moment');
 interface IMyComponentProps {
   user_id: string,
   type: string,
@@ -42,6 +43,7 @@ interface IMyComponentProps {
 interface IMyComponentState {
   toastShow: boolean,
   showAlert1:boolean,
+  timestamp: any,
   classesCount: any,
   classesClear: any,
   showСalendar: any,
@@ -54,13 +56,20 @@ interface IMyComponentState {
   studentsSingleSelected: any,
   studentsMultiSelected: any,
   newMessageModal: boolean,
+  currentDate: any,
+  store: any,
+  showModal: boolean,
+  attendancePerDate: any,
+  disabledDates: any,
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
     super(props);
     this.state = {
       toastShow: false,
+      timestamp: moment(),
       showAlert1: false,
+      currentDate: new Date().valueOf(),
       currentClass: '',
       studentsInClass: [],
       showСlasslist: false,
@@ -73,9 +82,93 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       studentsSingleSelected: [],
       studentsMultiSelected: [],
       newMessageModal: false,
+      store: [],
+      showModal: false,
+      attendancePerDate: [],
+      disabledDates: []
     }
   }
+  dateChanged = date => {
+    this.setState({ currentDate: date.valueOf() });
+    var att = new Array();
+    var dateString = moment(date).format("MM/DD/YYYY");
+    this.state.store.forEach(el => {
+      var stillUtc = moment.unix(el.start).toDate();
+      var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
+      if(moment(dateString).isSame(localTime, 'day')) {
+        att.push({
+          start: el.start,
+          text: el.text,
+          name: el.name,
+          color: el.color
+        })
+      }
+    })
+    this.setState(() => {
+      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+      return { attendancePerDate: att }
+    });
+    this.showСalendar();
+  }
+  disabledDates = new Array();
+  getMessages = () => {
+    sendPost({
+        "aksi":"getMessages",
+        "first_date": this.state.timestamp.unix(),
+        "range":"60",
+        "user_id": this.props.user_id
+    })
+    .then(res => {
+      var att = new Array();
+            res.data.data.forEach(el => {
+              att.push({
+                start: el.message_time,
+                message_id: el.message_id,
+                message_text: el.message_text,
+                message_sender: el.message_sender,
+                group_message: el.group_message,
+                recipients_names: el.recipients_names
+              })
+            })
+            this.setState({store : att});
+            this.state.store.forEach(el => {
+              var stillUtc = moment.unix(el.start).toDate();
+              var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
+              this.disabledDates.push(new Date(localTime));
+            })
+            this.setState(() => {
+              // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+              return {disabledDates: this.disabledDates}
+            });
+    }).then(()=>{
+
+      let date = this.state.currentDate;
+      this.setState({ currentDate: date.valueOf() });
+      var att = new Array();
+      var dateString = moment(date).format("MM/DD/YYYY");
+      this.state.store.forEach(el => {
+        var stillUtc = moment.unix(el.start).toDate();
+        var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
+        if(moment(dateString).isSame(localTime, 'day')) {
+          att.push({
+            start: el.start,
+            text: el.text,
+            name: el.name,
+            color: el.color
+          })
+        }
+      })
+      this.setState((state) => {
+        // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+        return {attendancePerDate: att}
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }
   ionViewWillEnter() {
+    this.getMessages();
   }
   doRefresh(event: CustomEvent<RefresherEventDetail>) {
   console.log('Begin async operation');
@@ -341,9 +434,19 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         {/*календарь*/}
         <IonModal isOpen={this.state.showСalendar}>
           <Calendar
-                  minDetail={"month"}
-          value={new Date()}
+          minDetail={"month"}
+          value={new Date(this.state.timestamp)}
+          onClickDay={e => { this.dateChanged(e)}}
           view={'month'}
+          tileDisabled={
+            ({date, view}) =>
+            (view === 'month') && // Block day tiles only
+            this.disabledDates.some(disabledDate =>
+              date.getFullYear() === disabledDate.getFullYear() &&
+              date.getMonth() === disabledDate.getMonth() &&
+              date.getDate() === disabledDate.getDate()
+            )
+          }
            />
           <IonButton expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
