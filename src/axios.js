@@ -3,6 +3,7 @@ import axios from 'axios';
 const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 var apiVersion = "1.0";
+var appVersion = "1.4";
 var now = moment().unix();
 var d;
 var startTime;
@@ -50,6 +51,7 @@ var sendPost = (data = {}) => {
   var body = {
     info: {
     "apiVersion" : apiVersion,
+    "appVersion" : appVersion,
     "uuid" : uuidv4(),
     "timestamp" : now.toString(),
     "key" : localStorage.getItem("key"),
@@ -65,10 +67,12 @@ axios.interceptors.request.use(request => {
    });
 axios.interceptors.response.use(response => {
   sendStats(response);
-  console.log(response);
-  if (response.data.error == 7) {
-    localStorage.clear();
-    window.location.href="/login"
+  if (response.data.error == 7 || response.data.error == 99) {
+    alert("Пожалуйста, выполните вход в аккаунт.")
+    setTimeout(() => {
+      localStorage.clear();
+      window.location.href="/login";
+    }, 3000);
   }
   return response;
 }, function (error, response) {

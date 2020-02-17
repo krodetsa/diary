@@ -59,6 +59,7 @@
   bottom: 0;
   position: fixed;
 }
-.names-container {
-
+.recipients {
+  margin: 0px;
+  margin-bottom: 10px;
 }

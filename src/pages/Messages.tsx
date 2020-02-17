@@ -98,15 +98,17 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       if(moment(dateString).isSame(localTime, 'day')) {
         att.push({
           start: el.start,
-          text: el.text,
-          name: el.name,
-          color: el.color
+          message_id: el.message_id,
+          message_text: el.message_text,
+          message_sender: el.message_sender,
+          recipients_names: el.recipients_names,
+          group_message: el.group_message
         })
       }
     })
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-      return { attendancePerDate: att }
+      return { attendancePerDate: att.reverse() }
     });
     this.showСalendar();
   }
@@ -114,10 +116,12 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   getMessages = () => {
     sendPost({
         "aksi":"getMessages",
-        "first_date": this.state.timestamp.unix(),
-        "range":"60",
+        // "first_date": moment().unix().toString(),
+        "first_date": "1582091473",
+        "range":"100",
         "user_id": this.props.user_id
     })
+
     .then(res => {
       var att = new Array();
             res.data.data.forEach(el => {
@@ -140,7 +144,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               // Важно: используем state вместо this.state при обновлении для моментального рендеринга
               return {disabledDates: this.disabledDates}
             });
-    }).then(()=>{
+    }).then(()=> {
 
       let date = this.state.currentDate;
       this.setState({ currentDate: date.valueOf() });
@@ -152,15 +156,17 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         if(moment(dateString).isSame(localTime, 'day')) {
           att.push({
             start: el.start,
-            text: el.text,
-            name: el.name,
-            color: el.color
+            message_id: el.message_id,
+            message_text: el.message_text,
+            message_sender: el.message_sender,
+            group_message: el.group_message,
+            recipients_names: el.recipients_names
           })
         }
       })
-      this.setState((state) => {
+      this.setState(() => {
         // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-        return {attendancePerDate: att}
+        return {attendancePerDate: att.reverse()}
       });
     })
     .catch(function (error) {
@@ -168,12 +174,11 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     })
   }
   ionViewWillEnter() {
-    // this.getMessages();
+    this.getMessages();
   }
   doRefresh(event: CustomEvent<RefresherEventDetail>) {
-  console.log('Begin async operation');
+  this.getMessages();
     setTimeout(() => {
-      console.log('Async operation has ended');
       event.detail.complete();
     }, 2000);
   }
@@ -184,6 +189,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         studentsMultiSelected: [],
       }
     });
+    this.getMessages();
   }
   closeMessageModal = () => {
       this.setState(
@@ -295,7 +301,6 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsSingleSelected : newArr}
     });
-    console.log(this.state.studentsSingleSelected)
   }
   showNewMessageModal = () => {
     if(this.state.studentsSingleSelected.length > 0 && this.state.newMessageModal === true) {
@@ -330,7 +335,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonRefresher slot="fixed" onIonRefresh={this.doRefresh}>
+          <IonRefresher slot="fixed" onIonRefresh={(event) => this.doRefresh(event)}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           <CalendarSmall
@@ -339,28 +344,35 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           currentDate={[]}
           attendancePerDate={[]}
           />
-          <IonCard>
-            <IonCardHeader className={'message-header'}>
-              <div className={'message-header-container'}>
-                <IonCardSubtitle>20.01.20 | 18:03</IonCardSubtitle>
-                <IonCardSubtitle>РАССЫЛКА</IonCardSubtitle>
-              </div>
-              <IonCardTitle className={'teacher-name'}>Имя преподавателя</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent className={'message-content'}>
-              Keep close to Nature's heart... and break clear away, once in awhile,
-              and climb a mountain or spend a week in the woods. Wash your spirit clean.
-            </IonCardContent>
-          </IonCard>
-          <IonCard>
-            <IonCardHeader className={'message-header'}>
-              <IonCardSubtitle>20.01.20 | 18:03</IonCardSubtitle>
-              <IonCardTitle className={'teacher-name'}>Имя преподавателя</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent className={'message-content'}>
-            Маленькое сообщение.
-            </IonCardContent>
-          </IonCard>
+          {
+              this.state.attendancePerDate.length > 0 ?
+              (this.state.attendancePerDate.map((el, i) => {
+                var stillUtc = moment.unix(el.start).toDate();
+                var localTime = moment(stillUtc).local().format('HH:mm');
+                var localDate = moment(stillUtc).local().format('DD.MM.YY');
+                return (
+                  <IonCard key={i}>
+                    <IonCardHeader className={'message-header'}>
+                      <div className={'message-header-container'}>
+                        <IonCardSubtitle>{localDate} | {localTime}</IonCardSubtitle>
+                        <IonCardSubtitle>{el.group_message === 'true' ? "РАССЫЛКА" : "" }</IonCardSubtitle>
+                      </div>
+                      <IonCardTitle className={'teacher-name'}>{el.message_sender}</IonCardTitle>
+                      <p className={'recipients'}>Получатели: {el.recipients_names}</p>
+                    </IonCardHeader>
+                    <IonCardContent className={'message-content'}>
+                      {el.message_text}
+                    </IonCardContent>
+                  </IonCard>
+                )
+              })) : (
+
+                  <IonItem>
+                  {i18next.t('Нет сообщений')}
+                  </IonItem>
+              )
+          }
+
 
         {/* модальное окно "личное/групповое сообщение */}
         </IonContent>
