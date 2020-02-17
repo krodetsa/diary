@@ -56,23 +56,23 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
       "group": this.props.multi.length > 0 ? 1 : 0
     })
     .then(res => {
-      console.log(res)
+      console.log(res);
+      this.props.closeMessageModal();
+      this.props.clearData();
+      this.messageInput = ''
     })
-    this.props.closeMessageModal();
-    this.props.clearData();
-    this.messageInput = ''
+
   }
   ionViewWillEnter() {}
   render() {
     // console.log(this.props.studentsInClass);
-    console.log(this.props.classes)
     return(
       <IonModal isOpen={this.props.newMessageModal}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Новое сообщение</IonTitle>
+            <IonTitle>{i18next.t('Новое сообщение')}</IonTitle>
             <IonButtons slot="end">
-              <IonButton fill="clear" onClick={()=> this.showNewMessageModal()}>Закрыть</IonButton>
+              <IonButton fill="clear" onClick={()=> this.showNewMessageModal()}>{i18next.t('Закрыть')}</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -84,14 +84,14 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
 
             this.props.single.length === 1  &&
             <div className={'names-container'}>
-            <IonTitle>Имя ученика</IonTitle>
+            <IonTitle>{i18next.t('Имя ученика')}</IonTitle>
           <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
             if(el.id === this.props.single[0]) {
               return (el.name)
             }
             return (null)
           })}</IonTitle>
-          <IonTitle>Родители:</IonTitle>
+          <IonTitle>{i18next.t('Родители')}:</IonTitle>
         <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
           if(el.id === this.props.single[0]) {
             return (el.parents)
@@ -104,7 +104,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
 
           this.props.single.length > 1  &&
           <div className={'names-container'}>
-          <IonTitle>Получатели</IonTitle>
+          <IonTitle>{i18next.t('Получатели')}</IonTitle>
         <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
 
           for (let i = 0; i < this.props.single.length; i++) {
@@ -123,7 +123,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
 
       this.props.multi.length > 0  &&
       <div className={'names-container'}>
-      <IonTitle>Получатели</IonTitle>
+      <IonTitle>{i18next.t('Получатели')}</IonTitle>
     <IonTitle className={"new-message-name"}>{this.props.classes.map(el => {
 
       for (let i = 0; i < this.props.multi.length; i++) {
@@ -146,7 +146,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonRow className={'full-width'}>
             <IonTextarea
               className={'textarea-main'}
-              placeholder="Введите сообщение"
+              placeholder={i18next.t('Введите сообщение')}
               value={this.messageInput}
               onIonChange={ev =>
                     this.messageInput = (ev.target as any).value

@@ -99,7 +99,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         att.push({
           start: el.start,
           message_id: el.message_id,
-          message_text: el.message_text,
+          text: el.message_text,
           message_sender: el.message_sender,
           recipients_names: el.recipients_names,
           group_message: el.group_message
@@ -157,7 +157,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           att.push({
             start: el.start,
             message_id: el.message_id,
-            message_text: el.message_text,
+            text: el.message_text,
             message_sender: el.message_sender,
             group_message: el.group_message,
             recipients_names: el.recipients_names
@@ -341,8 +341,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           <CalendarSmall
           line={'сообщений'}
           setShowModal={this.showСalendar}
-          currentDate={[]}
-          attendancePerDate={[]}
+          currentDate={this.state.currentDate}
+          attendancePerDate={this.state.attendancePerDate}
           />
           {
               this.state.attendancePerDate.length > 0 ?
@@ -355,13 +355,13 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                     <IonCardHeader className={'message-header'}>
                       <div className={'message-header-container'}>
                         <IonCardSubtitle>{localDate} | {localTime}</IonCardSubtitle>
-                        <IonCardSubtitle>{el.group_message === 'true' ? "РАССЫЛКА" : "" }</IonCardSubtitle>
+                        <IonCardSubtitle>{el.group_message === 'true' ? i18next.t('РАССЫЛКА') : "" }</IonCardSubtitle>
                       </div>
                       <IonCardTitle className={'teacher-name'}>{el.message_sender}</IonCardTitle>
-                      <p className={'recipients'}>Получатели: {el.recipients_names}</p>
+                      <p className={'recipients'}>{i18next.t('Получатели')}: {el.recipients_names}</p>
                     </IonCardHeader>
                     <IonCardContent className={'message-content'}>
-                      {el.message_text}
+                      {el.text}
                     </IonCardContent>
                   </IonCard>
                 )
@@ -379,16 +379,16 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         <IonModal isOpen={this.state.showAlert1}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Создать сообщение</IonTitle>
+              <IonTitle>{i18next.t('Создать сообщение')}</IonTitle>
               <IonButtons slot="end">
-                <IonButton fill="clear" onClick={()=> this.newMessageModal()}>Закрыть</IonButton>
+                <IonButton fill="clear" onClick={()=> this.newMessageModal()}>{i18next.t('Закрыть')}</IonButton>
               </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent>
             <IonList>
               <IonItem onClick={this.openSingle}>
-                <IonLabel>Личное сообщение</IonLabel>
+                <IonLabel>{i18next.t('Личное сообщение')}</IonLabel>
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
               { this.state.classesCount.map(el=> { return (
@@ -398,7 +398,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 </IonItem>
               ) }) }
               <IonItem onClick={this.openMulti}>
-                <IonLabel>Групповое сообщение</IonLabel>
+                <IonLabel>{i18next.t('Групповое сообщение')}</IonLabel>
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
               { this.state.classesMulti.map(el=> { return (
@@ -410,7 +410,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             </IonList>
             { this.state.studentsMultiSelected.length > 0 &&
             <IonFabButton onClick={this.showNewMessageModal} color="primary" className="new-message-button">
-              Далее
+              {i18next.t('Далее')}
             </IonFabButton>
             }
           </IonContent>
@@ -421,7 +421,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonToolbar>
               <IonTitle>{this.state.currentClass}</IonTitle>
               <IonButtons slot="end">
-                <IonButton fill="clear" onClick={()=> this.showСlasslist()}>Закрыть</IonButton>
+                <IonButton fill="clear" onClick={()=> this.showСlasslist()}>{i18next.t('Закрыть')}</IonButton>
               </IonButtons>
             </IonToolbar>
           </IonHeader>
@@ -438,7 +438,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           }
           { this.state.studentsSingleSelected.length > 0 &&
           <IonFabButton onClick={this.showNewMessageModal} color="primary" className="new-message-button">
-            Далее
+            {i18next.t('Далее')}
           </IonFabButton>
           }
         </IonContent>
@@ -481,12 +481,12 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         <IonToast
         isOpen={this.state.toastShow}
         onDidDismiss={() => this.setState({toastShow: !this.state.toastShow})}
-        message="Сообщение отправлено"
+        message={i18next.t('Сообщение отправлено')}
         position="bottom"
         duration={3000}
         buttons={[
           {
-            text: 'Закрыть',
+            text: `${i18next.t('Закрыть')}`,
             role: 'cancel',
             handler: () => {
               this.setState({toastShow: !this.state.toastShow})

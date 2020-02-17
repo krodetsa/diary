@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "sanarip.mektep.starter"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 4
         versionName '1.4'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

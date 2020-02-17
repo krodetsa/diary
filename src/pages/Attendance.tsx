@@ -150,7 +150,7 @@ setShowLoading = () => {
         </IonHeader>
         <IonContent>
         <CalendarSmall
-        line={'событий'}
+        line={i18next.t('событий')}
         setShowModal={this.setShowModal}
         currentDate={this.state.currentDate}
         attendancePerDate={this.state.attendancePerDate}
@@ -176,7 +176,7 @@ setShowLoading = () => {
         <IonLoading
             isOpen={this.state.showLoading}
             onDidDismiss={() => this.setShowLoading()}
-            message={'Загрузка...'}
+            message={i18next.t('Загрузка...')}
           />
             <IonList>
           {
