@@ -3,7 +3,7 @@ import axios from 'axios';
 const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 var apiVersion = "1.0";
-var appVersion = "1.4";
+var appVersion = "1.5";
 var now = moment().unix();
 var d;
 var startTime;
