@@ -15,7 +15,9 @@ import {
   IonAlert
 } from '@ionic/react';
 import { exit, settings } from 'ionicons/icons';
+import sendPost from '../axios.js'
 interface IMyComponentProps {
+  user_id: any
 };
 
 interface IMyComponentState {
@@ -33,8 +35,16 @@ setShowAlert() {
   this.setState({showAlert: !this.state.showAlert})
 }
 logOut() {
-  localStorage.clear();
-  window.location.href="/login"
+  sendPost({
+    "aksi": "logout",
+    "id": this.props.user_id,
+  })
+  .then((res)=> {
+    localStorage.clear();
+    window.location.href="/login"
+  })
+
+
 }
 render() {
   return(
