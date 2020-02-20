@@ -30,7 +30,7 @@ IonCardTitle
  } from '@ionic/react';
 // import axios from 'axios';
 import sendPost from '../axios.js'
-import { add, arrowDropdown } from 'ionicons/icons';
+import { add, chevronDown} from 'ionicons/icons';
 import '../theme/messages.css';
 import { RefresherEventDetail } from '@ionic/core';
 import CalendarSmall from './CalendarSmall';
@@ -394,7 +394,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               { this.state.classesCount.map(el=> { return (
                 <IonItem className={'with-padding'} onClick={() => this.getClassList(el.class_id, el.class_info)} key={ ++this.state.classesCount.length}>
                   <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
-                  <IonIcon slot={'end'} icon={arrowDropdown}></IonIcon>
+                  <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
                 </IonItem>
               ) }) }
               <IonItem onClick={this.openMulti}>
