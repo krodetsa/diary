@@ -176,7 +176,7 @@ setShowLoading = () => {
         <IonLoading
             isOpen={this.state.showLoading}
             onDidDismiss={() => this.setShowLoading()}
-            message={i18next.t('Загрузка...')}
+            message={i18next.t('Загрузка')}
           />
             <IonList>
           {
