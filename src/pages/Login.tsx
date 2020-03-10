@@ -42,7 +42,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     // Some issue with your setup and push will not work
     PushNotifications.addListener('registrationError',
       (error: any) => {
-        alert('Error on registration: ' + JSON.stringify(error));
+        console.log('Error on registration: ' + JSON.stringify(error));
       }
     );
 

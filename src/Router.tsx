@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import i18next from "i18next";
 import {
   IonApp,
@@ -65,16 +65,12 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
         <IonRouterOutlet id="custom">
           <Route path="/settings" render={() =>  <Settings />  } />
           <Route path="/contacts" render={() =>  <Contacts />  } />
-          <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} />  } />
+          <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/>  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />} exact={true} />
           <Route path="/forteacher/details" component={Details} />
           <Route path="/tab3" render={() => <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
           <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() =>  <Tab1 name={this.props.name} /> }  />
-          {
-            this.props.type === "1" &&
-          <Redirect exact from="/" to="/tab3" />
-          }
+          <Route path="/" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/> }  />
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton disabled tab="tab1" href="/tab1">

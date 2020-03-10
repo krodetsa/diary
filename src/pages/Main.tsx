@@ -8,6 +8,7 @@ import {
   IonMenuToggle,
   IonMenuButton
 } from '@ionic/react';
+import { Redirect } from 'react-router-dom';
 import i18next from "i18next";
 import { } from 'ionicons/icons';
 import React from 'react';
@@ -16,7 +17,8 @@ interface IMyComponentState {
   name: string
 };
 interface IMyComponentProps {
-  name: string
+  name: string,
+  type: any,
 }
 class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -28,6 +30,14 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
   render() {
   return (
     <IonPage>
+    {
+      this.props.type === "1" &&
+      <Redirect exact from="/" to="/tab3" />
+    }
+    {
+      this.props.type === "3" &&
+      <Redirect exact from="/" to="/tab2" />
+    }
       <IonHeader>
         <IonToolbar>
       <IonButtons slot="end">
