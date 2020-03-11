@@ -54,6 +54,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         alert(notif)
       }
     );
+    window.location.href="/";
   }
     setShowAlert1 = () => {
       this.setState({ showAlert1: !this.state.showAlert1 });
@@ -79,11 +80,12 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
           if (res.data.success === true) {
             this.props.showAuth(res.data.success, res.data.data.user_id, res.data.data.type, res.data.data.name, res.data.data.key);
             localStorage.setItem("key", res.data.data.key);
+            this.push();
           } else {
             this.props.showAuth(false);
             this.setShowAlert1();
           }
-          this.push();
+
         }
       )
       } else {

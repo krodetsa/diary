@@ -123,6 +123,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     })
 
     .then(res => {
+      console.log(res)
       var att = new Array();
             res.data.data.forEach(el => {
               att.push({
@@ -460,7 +461,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             )
           }
            />
-          <IonButton expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
+          <IonButton className='calendarButton' expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
         {/*новое сообщение*/}
         <NewMessage align-self-end

@@ -43,8 +43,6 @@ logOut() {
     localStorage.clear();
     window.location.href="/login"
   })
-
-
 }
 render() {
   return(
@@ -57,7 +55,7 @@ render() {
           </IonHeader>
           <IonContent>
             <IonList>
-              <IonItem href="/settings">
+              <IonItem routerLink="/settings">
                 <IonIcon slot="start" icon={settings}/>
                 <IonLabel>{i18next.t('Настройки')}</IonLabel>
               </IonItem>

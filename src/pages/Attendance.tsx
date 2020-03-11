@@ -1,7 +1,8 @@
 import React from 'react';
-import { IonMenuToggle,IonLoading, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
+import { IonMenuToggle, IonRefresherContent, IonRefresher, IonLoading, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
 import Calendar from 'react-calendar';
 import CalendarSmall from './CalendarSmall';
+import { RefresherEventDetail } from '@ionic/core';
 import '../theme/Main.css';
 import '../theme/attendance.css';
 import i18next from "i18next";
@@ -40,9 +41,13 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
     showModal: false,
   }
 }
-
-disabledDates = new Array();
-ionViewWillEnter() {
+todayRefresher = (event: CustomEvent<RefresherEventDetail>) => {
+this.updateToday();
+  setTimeout(() => {
+    event.detail.complete();
+  }, 2000);
+}
+updateToday = () => {
   sendPost({
       "aksi":"getPass",
       "type": this.props.type,
@@ -51,6 +56,7 @@ ionViewWillEnter() {
       "user_id": this.props.user_id
   })
   .then(res => {
+    console.log(res)
     var att = new Array();
           res.data.data.forEach(el => {
             att.push({
@@ -99,6 +105,12 @@ ionViewWillEnter() {
   .catch(function (error) {
     console.log(error);
   })
+  console.log('updated')
+}
+disabledDates = new Array();
+
+ionViewWillEnter() {
+ this.updateToday();
 }
 setShowModal=() => {
   this.setState((state) => {
@@ -148,7 +160,11 @@ setShowLoading = () => {
             <IonTitle>{i18next.t('Посещаемость')}</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={(event) => this.todayRefresher(event)}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <CalendarSmall
         line={i18next.t('событий')}
         setShowModal={this.setShowModal}
@@ -171,7 +187,7 @@ setShowLoading = () => {
             )
           }
            />
-          <IonButton expand="full" onClick={() => this.setShowModal()}>{i18next.t('Закрыть')}</IonButton>
+          <IonButton className='calendarButton' expand="full" onClick={() => this.setShowModal()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
         <IonLoading
             isOpen={this.state.showLoading}

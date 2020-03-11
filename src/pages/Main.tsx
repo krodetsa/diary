@@ -30,14 +30,6 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
   render() {
   return (
     <IonPage>
-    {
-      this.props.type === "1" &&
-      <Redirect exact from="/" to="/tab3" />
-    }
-    {
-      this.props.type === "3" &&
-      <Redirect exact from="/" to="/tab2" />
-    }
       <IonHeader>
         <IonToolbar>
       <IonButtons slot="end">
