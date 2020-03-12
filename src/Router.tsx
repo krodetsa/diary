@@ -59,8 +59,9 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
     return (
       <IonApp>
       <IonPage>
-      <Menu user_id={this.props.user_id}/>
+
       <IonReactRouter>
+      <Menu user_id={this.props.user_id}/>
       <IonTabs>
         <IonRouterOutlet id="custom">
           <Route path="/settings" render={() =>  <Settings />  } />

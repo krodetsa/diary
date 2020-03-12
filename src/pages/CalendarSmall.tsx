@@ -29,7 +29,9 @@ class CalendarSmall extends React.Component<IMyComponentProps, IMyComponentState
 render() {
   return(
     <IonItem className="calendar-small-container">
-       <IonNote onClick={() => this.props.setShowModal()} className="calendar-date" color="primary" slot="start">
+       <IonNote onClick={() =>
+         this.props.setShowModal()
+       } className="calendar-date" color="primary" slot="start">
         {moment(this.props.currentDate).local().format('DD.MM')}
        </IonNote>
        <IonLabel>

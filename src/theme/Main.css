@@ -11,15 +11,11 @@
 .width-max {
   width: 100%
 }
-.ion-page .react-calendar__tile:disabled::after {
-    content: "";
-    position: absolute;
-    right: 40%;
-    bottom: 5px;
-    display: block;
-    width: 10px;
-    height: 10px;
-    background: var(--ion-color-success) !important;
-    /* background: red !important; */
-    border-radius: 50%;
+.appversion {
+  position: relative;
+  left: 2em;
+  bottom: 1em
+}
+.width {
+  width: 100%
 }

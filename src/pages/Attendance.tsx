@@ -5,6 +5,7 @@ import CalendarSmall from './CalendarSmall';
 import { RefresherEventDetail } from '@ionic/core';
 import '../theme/Main.css';
 import '../theme/attendance.css';
+import '../theme/calendar.css';
 import i18next from "i18next";
 
 // import axios from 'axios';
@@ -112,15 +113,17 @@ disabledDates = new Array();
 ionViewWillEnter() {
  this.updateToday();
 }
-setShowModal=() => {
+setShowModal= () => {
   this.setState((state) => {
-    return {showModal: !this.state.showModal}
+    return {showModal: !this.state.showModal};
   });
 };
-dateChanged = date => {
-  this.setState({ currentDate: date.valueOf() });
+dateChanged = (e)  => {
+
+  console.log(e)
+  this.setState({ currentDate: e.valueOf() });
   var att = new Array();
-  var dateString = moment(date).format("MM/DD/YYYY");
+  var dateString = moment(e).format("MM/DD/YYYY");
   this.state.store.forEach(el => {
     var stillUtc = moment.unix(el.start).toDate();
     var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
@@ -146,7 +149,6 @@ setShowLoading = () => {
   });
 }
   render() {
-
     return (
       <>
       <IonPage>
@@ -176,7 +178,9 @@ setShowLoading = () => {
           minDetail={"month"}
           value={new Date(this.state.timestamp)}
           view={'month'}
-          onClickDay={e => { this.dateChanged(e)}}
+          onClickDay= {
+            ( event: any) =>  { this.dateChanged( event)}
+          }
           tileDisabled={
             ({date, view}) =>
             (view === 'month') && // Block day tiles only

@@ -30,8 +30,12 @@ border-radius: 50%;
   padding-top: 5px
 }
 .message-header-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .with-padding {
   padding-left: 10px;
@@ -45,7 +49,9 @@ border-radius: 50%;
 }
 .with-margin-top {
   margin-top: 1em;
-      flex: 1 1 90%;
+      -webkit-box-flex: 1;
+          -ms-flex: 1 1 90%;
+              flex: 1 1 90%;
 }
 .full-width {
   width: 100%
@@ -54,19 +60,27 @@ border-radius: 50%;
   padding: 0;
 }
 .write-message {
-    align-self: end;
+    -ms-flex-item-align: end;
+        align-self: end;
     width: 100%;
 }
 .message-button {
-  align-self: center;
+  -ms-flex-item-align: center;
+      align-self: center;
 }
 .container-new-message {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .container-new-message .footer-md {
   /* margin-top: 50px; */
-  align-self: flex-end;
+  -ms-flex-item-align: end;
+      align-self: flex-end;
   bottom: 0;
   position: fixed;
 }

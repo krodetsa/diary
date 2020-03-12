@@ -1,4 +1,5 @@
 import React from 'react';
+import packageJson from '../../package.json';
 import '../theme/Main.css';
 import '../theme/calendarsmall.css';
 import i18next from "i18next";
@@ -6,16 +7,17 @@ import {
   IonContent,
   IonItem,
   IonMenu,
+  IonMenuToggle,
   IonList,
   IonHeader,
   IonTitle,
   IonToolbar,
   IonIcon,
   IonLabel,
-  IonAlert
+  IonAlert,
 } from '@ionic/react';
 import { exit, settings } from 'ionicons/icons';
-import sendPost from '../axios.js'
+import sendPost from '../axios.js';
 interface IMyComponentProps {
   user_id: any
 };
@@ -47,7 +49,7 @@ logOut() {
 render() {
   return(
     <>
-      <IonMenu type="overlay" side="start" contentId="custom" className={'float-menu'}>
+      <IonMenu auto-hide side="start" contentId="custom" className={'float-menu'}>
           <IonHeader>
             <IonToolbar color="primary">
               <IonTitle>{i18next.t('Меню')}</IonTitle>
@@ -55,16 +57,24 @@ render() {
           </IonHeader>
           <IonContent>
             <IonList>
-              <IonItem routerLink="/settings">
-                <IonIcon slot="start" icon={settings}/>
-                <IonLabel>{i18next.t('Настройки')}</IonLabel>
-              </IonItem>
-              <IonItem >
-                <IonIcon slot="start" icon={exit}/>
-                <IonLabel onClick={() => this.setShowAlert()}>{i18next.t('Выход')}</IonLabel>
-              </IonItem>
+              <IonMenuToggle>
+                <IonItem className={'width'} routerLink="/settings">
+                  <IonIcon slot="start" icon={settings}/>
+                  <IonLabel>{i18next.t('Настройки')}</IonLabel>
+                </IonItem>
+              </IonMenuToggle>
+              <IonMenuToggle>
+                  <IonItem >
+                    <IonIcon slot="start" icon={exit}/>
+                    <IonLabel onClick={() => this.setShowAlert()}>{i18next.t('Выход')}</IonLabel>
+                  </IonItem>
+              </IonMenuToggle>
             </IonList>
+
           </IonContent>
+          <IonLabel >
+            <p className={'appversion'}>Версия приложения: {packageJson.version}</p>
+          </IonLabel>
         </IonMenu>
 
         <IonAlert

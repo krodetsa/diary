@@ -27,10 +27,7 @@ abbr {
     background: none;
     color: buttontext;
 }
-.react-calendar__tile--active {
-    background: var(--ion-color-primary) !important;
-    z-index: 999;
-  }
+
 .react-calendar__month-view__days button {
   height: 8vh;
     max-height: 14.2857vw;
@@ -43,11 +40,20 @@ abbr {
       padding: 17px 7px;
 }
 .dateStamp {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   height: 100%;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .with-event::after {
   content: "111";
@@ -55,17 +61,7 @@ abbr {
   color: red;
   display: block;
 }
-.react-calendar__tile:disabled::after {
-  content: "";
-position: absolute;
-right: 40%;
-bottom: 5px;
-display: block;
-width: 10px;
-height: 10px;
-background: var(--ion-color-success) !important;
-border-radius: 50%;
-}
+
 .dateStamp p {
   margin: 0px
 }

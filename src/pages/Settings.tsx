@@ -15,6 +15,7 @@ import {
   IonTitle,
   IonPage
 } from '@ionic/react';
+
 interface IMyComponentProps {
 };
 
@@ -28,7 +29,6 @@ class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
     i18next.changeLanguage(lan).then(() => {
     i18next.options.lng = lan;
     localStorage.setItem("lan", lan);
-    window.location.href="/settings"
   })
   }
 

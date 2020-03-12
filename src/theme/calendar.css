@@ -1,0 +1,18 @@
+#root .react-calendar__tile--active {
+    background: var(--ion-color-primary) !important;
+    z-index: 999;
+  }
+  .react-calendar .true::after {
+      content: "";
+      position: absolute;
+      right: 40%;
+      bottom: 5px;
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: var(--ion-color-success) !important;
+      border-radius: 50%;
+  }
+  .react-calendar .true {
+    background: #e6e6e6 !important;
+  }

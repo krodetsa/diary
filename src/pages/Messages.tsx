@@ -32,6 +32,8 @@ IonCardTitle
 import sendPost from '../axios.js'
 import { add, chevronDown} from 'ionicons/icons';
 import '../theme/messages.css';
+import '../theme/calendar.css';
+import '../theme/Main.css';
 import { RefresherEventDetail } from '@ionic/core';
 import CalendarSmall from './CalendarSmall';
 import NewMessage from './NewMessage';
