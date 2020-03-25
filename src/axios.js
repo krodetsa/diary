@@ -72,7 +72,7 @@ axios.interceptors.response.use(response => {
     setTimeout(() => {
       localStorage.clear();
       window.location.href="/login";
-    }, 3000);
+    }, 2000);
   }
   return response;
 }, function (error, response) {

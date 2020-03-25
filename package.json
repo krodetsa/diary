@@ -1,6 +1,6 @@
 {
   "name": "Log.School",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "dependencies": {
     "@capacitor/android": "^1.5.0",

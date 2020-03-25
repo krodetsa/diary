@@ -27,6 +27,7 @@ interface IMyComponentState {
   showModal: boolean,
   timestamp: any,
   showLoading: any,
+  _disabledDates: any,
 };
 
 class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -40,6 +41,7 @@ class Tab3Page extends React.Component<IMyComponentProps, IMyComponentState> {
     attendancePerDate: [],
     disabledDates: [],
     showModal: false,
+    _disabledDates: [],
   }
 }
 todayRefresher = (event: CustomEvent<RefresherEventDetail>) => {
@@ -71,11 +73,17 @@ updateToday = () => {
           this.state.store.forEach(el => {
             var stillUtc = moment.unix(el.start).toDate();
             var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
-            this.disabledDates.push(new Date(localTime));
+            let arr = this.state._disabledDates;
+            arr.push(new Date(localTime));
+            this.setState((state) => {
+              // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+              return {_disabledDates: arr}
+            });
+            // this.disabledDates.push(new Date(localTime));
           })
           this.setState(() => {
             // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-            return {disabledDates: this.disabledDates}
+            return {disabledDates: this.state._disabledDates}
           });
   }).then(()=>{
     this.setState(() => {
@@ -118,9 +126,7 @@ setShowModal= () => {
     return {showModal: !this.state.showModal};
   });
 };
-dateChanged = (e)  => {
-
-  console.log(e)
+dateChanged = (e: any)  => {
   this.setState({ currentDate: e.valueOf() });
   var att = new Array();
   var dateString = moment(e).format("MM/DD/YYYY");
@@ -181,15 +187,23 @@ setShowLoading = () => {
           onClickDay= {
             ( event: any) =>  { this.dateChanged( event)}
           }
-          tileDisabled={
+          tileDisabled = {
             ({date, view}) =>
-            (view === 'month') && // Block day tiles only
-            this.disabledDates.some(disabledDate =>
-              date.getFullYear() === disabledDate.getFullYear() &&
-              date.getMonth() === disabledDate.getMonth() &&
-              date.getDate() === disabledDate.getDate()
-            )
+              (view === 'month') &&
+              this.state._disabledDates.some(disabledDate =>
+                moment(disabledDate).format('MM.DD.YYYY') === moment(date).format('MM.DD.YYYY')
+                )
+
           }
+          // tileDisabled={
+          //   ({date, view}) =>
+          //   (view === 'month') && // Block day tiles only
+          //   this.disabledDates.some(disabledDate =>
+          //     date.getFullYear() === disabledDate.getFullYear() &&
+          //     date.getMonth() === disabledDate.getMonth() &&
+          //     date.getDate() === disabledDate.getDate()
+          //   )
+          // }
            />
           <IonButton className='calendarButton' expand="full" onClick={() => this.setShowModal()}>{i18next.t('Закрыть')}</IonButton>
         </IonModal>
