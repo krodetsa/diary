@@ -64,7 +64,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       <Menu user_id={this.props.user_id}/>
       <IonTabs>
         <IonRouterOutlet id="custom">
-          <Route path="/settings" render={() =>  <Settings />  } />
+          <Route path="/settings" render={() =>  <Settings user_id={this.props.user_id}/>  } />
           <Route path="/contacts" render={() =>  <Contacts />  } />
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/>  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />}  />

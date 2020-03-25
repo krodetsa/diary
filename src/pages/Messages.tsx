@@ -118,8 +118,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   getMessages = () => {
     sendPost({
         "aksi":"getMessages",
-        // "first_date": moment().unix().toString(),
-        "first_date": "1582091473",
+        "first_date": moment().unix().toString(),
+        // "first_date": "1582091473",
         "range":"100",
         "user_id": this.props.user_id
     })
