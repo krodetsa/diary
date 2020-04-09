@@ -6,14 +6,15 @@ android {
         applicationId "sanarip.mektep.starter"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 9
-        versionName '1.9'
+        versionCode 11
+        versionName '1.21'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            versionNameSuffix = '10'
         }
     }
 }

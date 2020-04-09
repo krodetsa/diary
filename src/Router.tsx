@@ -54,7 +54,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       super(props);
       this.state = {
       };
-    }
+}
   render() {
     return (
       <IonApp>
@@ -106,7 +106,6 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
 
           </IonTabBar>
           </IonTabs>
-
       </IonReactRouter>
       </IonPage>
     </IonApp>

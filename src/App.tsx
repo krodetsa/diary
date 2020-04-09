@@ -1,5 +1,9 @@
 import React from 'react';
 import Login from './pages/Login';
+import axios from 'axios';
+import {
+  IonAlert,
+} from '@ionic/react';
 import Routing from './Router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,6 +34,7 @@ interface IMyComponentState {
 };
 interface IMyComponentProps {
 }
+
 // const { PushNotifications } = Plugins;
 class App extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -44,6 +49,12 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         token: ''
       };
     }
+  //   requestInterceptorId: number = axios.interceptors.request.use(
+  //   (error: any) => {
+  //     this.setServerAlertState();
+  //     return error
+  //   }
+  // );
     componentDidMount() {
       const rememberMe = localStorage.getItem('auth') === 'true';
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
@@ -74,6 +85,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         skey:key
       });
     }
+
   render() {
     return (
       <>

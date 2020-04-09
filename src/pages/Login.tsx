@@ -24,11 +24,9 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     push() {
     // Register with Apple / Google to receive push via APNS/FCM
     PushNotifications.register();
-
     // On succcess, we should be able to receive notifications
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
-        // alert('Push registration success, token: ' + token.value);
         localStorage.setItem("token", token.value);
         sendPost({
             aksi: "setToken",
@@ -65,10 +63,11 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     loginInput = '';
     passwordInput = '';
     login() {
+      try {
       if (this.loginInput !== '' && this.passwordInput !== ''){
         axios({
           method: 'post',
-          url: 'https://www.log.school/web/controllers/data.php',
+          url: 'https://smektep.ficom-it.info/api/request.php',
           data: {
             aksi: "login",
             login: this.loginInput,
@@ -76,21 +75,23 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
           }
         })
         .then(res => {
-          console.log(res)
-          if (res.data.success === true) {
-            this.props.showAuth(res.data.success, res.data.data.user_id, res.data.data.type, res.data.data.name, res.data.data.key);
+          if (res.data.status === 0) {
+            this.props.showAuth(true, res.data.data.user_id, res.data.data.type, res.data.data.name, res.data.data.key);
             localStorage.setItem("key", res.data.data.key);
             this.push();
-          } else {
+          } else if (res.data.status === 0){
             this.props.showAuth(false);
             this.setShowAlert1();
           }
-
         }
       )
       } else {
+        /*Пустое поле логина/пароля*/
         this.setShowAlert2();
       }
+    } catch(e) {
+      console.log(e)
+    }
     };
   render(){
     return (

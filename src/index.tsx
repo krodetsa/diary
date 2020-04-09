@@ -13,7 +13,7 @@ const i18n = i18next.use(initReactI18next);
 
 ReactDOM.render(
   <I18nextProvider i18n={i18n}>
-    <App />
+    <App/>
   </I18nextProvider>
   , document.getElementById('root'));
 

@@ -8,50 +8,33 @@ var now = moment().unix();
 var d;
 var startTime;
 var responseTime = 0;
-let errCatch = (response) => {
-
-  if (response.status !== 200 ) {
-
-    let data = JSON.parse(response.config.data);
-    var xhr = new XMLHttpRequest();
-    let json = JSON.stringify({
-      aksi: "error",
-      time: data.info.timestamp,
-      type: data.aksi,
-      status: response.status,
-      data: data
-    });
-    xhr.open("POST", 'https://www.log.school/web/controllers/error.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    xhr.send(json);
-  }
-}
-let sendStats = (response) => {
-  d = new Date();
-  if (responseTime == 0 ) {
-    let data = JSON.parse(response.config.data);
-    responseTime = d.getTime() - startTime;
-    var xhr = new XMLHttpRequest();
-    let json = JSON.stringify({
-      aksi: "stats",
-      time: responseTime,
-      type: data.aksi
-    });
-    xhr.open("POST", 'https://www.log.school/web/controllers/data.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    xhr.send(json);
-    responseTime = 0;
- } else {
-    responseTime = 0;
-  }
-
-}
-const url = 'https://www.log.school/web/controllers/data.php';
+// let errCatch = (response) => {
+//
+//   if (response.status !== 200 ) {
+//    try {
+//      let data = JSON.parse(response.config.data);
+//      var xhr = new XMLHttpRequest();
+//      let json = JSON.stringify({
+//        aksi: "error",
+//        time: data.info.timestamp,
+//        type: data.aksi,
+//        status: response.status,
+//        data: data
+//      });
+//      xhr.open("POST", 'https://www.log.school/web/controllers/error.php', true);
+//      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+//      xhr.send(json);
+//    } catch (e) {
+//      console.log(e);
+//    }
+//   }
+// }
+const url = 'https://smektep.ficom-it.info/api/request.php';
 var sendPost = (data = {}) => {
   var body = {
     info: {
     "apiVersion" : apiVersion,
-    "appVersion" : appVersion,
+    // "appVersion" : appVersion,
     "uuid" : uuidv4(),
     "timestamp" : now.toString(),
     "key" : localStorage.getItem("key"),
@@ -66,9 +49,8 @@ axios.interceptors.request.use(request => {
        return request;
    });
 axios.interceptors.response.use(response => {
-  sendStats(response);
   if (response.data.error == 7 || response.data.error == 99) {
-    alert("Пожалуйста, выполните вход в аккаунт.")
+    alert("Пожалуйста, выполните повторный вход в аккаунт.")
     setTimeout(() => {
       localStorage.clear();
       window.location.href="/login";
@@ -78,7 +60,7 @@ axios.interceptors.response.use(response => {
 }, function (error, response) {
    // Any status codes that falls outside the range of 2xx cause this function to trigger
    // Do something with response error
-   errCatch(error.response);
+   // errCatch(error.response);
    return Promise.reject(error);
  });
 // axios.interceptors.request.use(request => {
