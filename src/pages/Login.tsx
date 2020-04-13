@@ -8,6 +8,7 @@ import { Plugins, PushNotification, PushNotificationToken, PushNotificationActio
 const { PushNotifications } = Plugins;
 interface IMyComponentProps {
   showAuth: any,
+  setServerAlertState: any,
 }
 interface IMyComponentState {
     showAlert1: boolean,
@@ -24,11 +25,9 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     push() {
     // Register with Apple / Google to receive push via APNS/FCM
     PushNotifications.register();
-
     // On succcess, we should be able to receive notifications
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
-        // alert('Push registration success, token: ' + token.value);
         localStorage.setItem("token", token.value);
         sendPost({
             aksi: "setToken",
@@ -65,6 +64,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
     loginInput = '';
     passwordInput = '';
     login() {
+      try {
       if (this.loginInput !== '' && this.passwordInput !== ''){
         axios({
           method: 'post',
@@ -76,7 +76,6 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
           }
         })
         .then(res => {
-          console.log(res)
           if (res.data.success === true) {
             this.props.showAuth(res.data.success, res.data.data.user_id, res.data.data.type, res.data.data.name, res.data.data.key);
             localStorage.setItem("key", res.data.data.key);
@@ -85,12 +84,15 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
             this.props.showAuth(false);
             this.setShowAlert1();
           }
-
         }
       )
       } else {
+        /*Пустое поле логина/пароля*/
         this.setShowAlert2();
       }
+    } catch(e) {
+      console.log(e)
+    }
     };
   render(){
     return (

@@ -1,5 +1,9 @@
 import React from 'react';
 import Login from './pages/Login';
+import axios from 'axios';
+import {
+  IonAlert,
+} from '@ionic/react';
 import Routing from './Router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -27,9 +31,11 @@ interface IMyComponentState {
     skey: any,
     notifications: any,
     token: string,
+    serverAlert: boolean,
 };
 interface IMyComponentProps {
 }
+
 // const { PushNotifications } = Plugins;
 class App extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -41,9 +47,16 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         name: "",
         skey: "",
         notifications: [],
-        token: ''
+        token: '',
+        serverAlert: false
       };
     }
+    requestInterceptorId: number = axios.interceptors.request.use(
+    (error: any) => {
+      this.setServerAlertState();
+      return error
+    }
+  );
     componentDidMount() {
       const rememberMe = localStorage.getItem('auth') === 'true';
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
@@ -74,14 +87,27 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         skey:key
       });
     }
+
+  setServerAlertState() {
+    this.setState({serverAlert: !this.state.serverAlert})
+  }
+
   render() {
     return (
       <>
         {this.state.auth === false ? (
-          <Login showAuth={this.showAuth} ></Login>
+          <Login setServerAlertState={this.setServerAlertState} showAuth={this.showAuth} ></Login>
         ) : (
           <Routing token={this.state.token} skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}
+        /* основной Alert */
+        <IonAlert
+          isOpen={this.state.serverAlert}
+          onDidDismiss={() => this.setServerAlertState()}
+          header={'Ошибка'}
+          message={'Не удалось соединиться с сервером. Попробуйте повторить попытку позже.'}
+          buttons={['Oк']}
+        />
       </>
     )
   }

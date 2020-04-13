@@ -11,19 +11,22 @@ var responseTime = 0;
 let errCatch = (response) => {
 
   if (response.status !== 200 ) {
-
-    let data = JSON.parse(response.config.data);
-    var xhr = new XMLHttpRequest();
-    let json = JSON.stringify({
-      aksi: "error",
-      time: data.info.timestamp,
-      type: data.aksi,
-      status: response.status,
-      data: data
-    });
-    xhr.open("POST", 'https://www.log.school/web/controllers/error.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-    xhr.send(json);
+   try {
+     let data = JSON.parse(response.config.data);
+     var xhr = new XMLHttpRequest();
+     let json = JSON.stringify({
+       aksi: "error",
+       time: data.info.timestamp,
+       type: data.aksi,
+       status: response.status,
+       data: data
+     });
+     xhr.open("POST", 'https://www.log.school/web/controllers/error.php', true);
+     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+     xhr.send(json);
+   } catch (e) {
+     console.log(e);
+   }
   }
 }
 let sendStats = (response) => {
@@ -68,7 +71,7 @@ axios.interceptors.request.use(request => {
 axios.interceptors.response.use(response => {
   sendStats(response);
   if (response.data.error == 7 || response.data.error == 99) {
-    alert("Пожалуйста, выполните вход в аккаунт.")
+    alert("Пожалуйста, выполните повторный вход в аккаунт.")
     setTimeout(() => {
       localStorage.clear();
       window.location.href="/login";
