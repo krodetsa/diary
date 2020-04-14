@@ -12,6 +12,32 @@
   border: none;
   margin-bottom: 3vh;
 }
+.register-text {
+  text-align: justify;
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+.full-width {
+  width: 100%;
+  padding-bottom: 3em !important;
+}
+.register-text p {
+  margin-bottom: 0px;
+}
+.centered {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+}
+.centered .item-interactive {
+  width: 80vw;
+}
+ #root .ion-page .register-container {
+    margin: 0 auto;
+}
 .login-page {
   padding-top: 10vh;
   width: 80%;
@@ -37,4 +63,7 @@
   display: -ms-flexbox;
   display: flex;
   padding: 0;
+}
+.nomrgn-top {
+  margin-top: 0px;
 }

@@ -1,9 +1,6 @@
 import React from 'react';
 import Login from './pages/Login';
 import axios from 'axios';
-import {
-  IonAlert,
-} from '@ionic/react';
 import Routing from './Router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -22,7 +19,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
-// import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
+
 interface IMyComponentState {
     auth: any,
     user_id: any,
@@ -90,7 +87,7 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
     return (
       <>
         {this.state.auth === false ? (
-          <Login showAuth={this.showAuth} ></Login>
+          <Login showAuth={this.showAuth}></Login>
         ) : (
           <Routing token={this.state.token} skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
         )}
