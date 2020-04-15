@@ -56,7 +56,7 @@ class Login extends React.Component<IMyComponentProps, IMyComponentState> {
         alert(notif)
       }
     );
-    // window.location.href="/";
+    window.location.href="/";
   }
     setShowAlert1 = () => {
       this.setState({ showAlert1: !this.state.showAlert1 });

@@ -65,7 +65,6 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
   }
   ionViewWillEnter() {}
   render() {
-    // console.log(this.props.studentsInClass);
     return(
       <IonModal isOpen={this.props.newMessageModal}>
         <IonHeader>
@@ -127,7 +126,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     <IonTitle className={"new-message-name"}>{this.props.classes.map(el => {
 
       for (let i = 0; i < this.props.multi.length; i++) {
-          if(this.props.multi[i] === el.class_id) {
+          if(this.props.multi[i] === el.id) {
             return (<p key={el.class_info}>{el.class_info}</p>)
           }
       }

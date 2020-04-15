@@ -33,10 +33,10 @@ const url = 'https://smektep.ficom-it.info/api/request.php';
 var sendPost = (data = {}) => {
   var body = {
     info: {
-    "apiVersion" : apiVersion,
+    // "apiVersion" : apiVersion,
     // "appVersion" : appVersion,
-    "uuid" : uuidv4(),
-    "timestamp" : now.toString(),
+    // "uuid" : uuidv4(),
+    // "timestamp" : now.toString(),
     "key" : localStorage.getItem("key"),
     },
     ...data };

@@ -26,7 +26,8 @@ import {
   IonCardContent,
   IonCardHeader,
   IonCardSubtitle,
-IonCardTitle
+IonCardTitle,
+IonInput
  } from '@ionic/react';
 // import axios from 'axios';
 import sendPost from '../axios.js'
@@ -63,6 +64,7 @@ interface IMyComponentState {
   showModal: boolean,
   attendancePerDate: any,
   disabledDates: any,
+  searchArr: any
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -87,9 +89,11 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       store: [],
       showModal: false,
       attendancePerDate: [],
-      disabledDates: []
+      disabledDates: [],
+      searchArr: []
     }
   }
+  searchValue = '';
   dateChanged = date => {
     this.setState({ currentDate: date.valueOf() });
     var att = new Array();
@@ -121,7 +125,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         "first_date": moment().unix().toString(),
         // "first_date": "1582091473",
         "range":"100",
-        "user_id": this.props.user_id
+        // "user_id": this.props.user_id
     })
 
     .then(res => {
@@ -202,6 +206,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           newMessageModal: false,
           showСlasslist: false,
           showAlert1: false,
+          searchArr: [],
           toastShow: true,
         }
       )
@@ -215,11 +220,12 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     if(this.state.showAlert1 !== true) {
       sendPost({
           "aksi": "getClasses",
-          "user_id": this.props.user_id.toString(),
+          // "user_id": this.props.user_id.toString(),
       })
       .then(res => {
-        if(res.data.success === true) {
-          this.setState({ totalClasses: res.data.data })
+        console.log(res.data.data.class)
+        if(res.data.status === 0) {
+          this.setState({ totalClasses: res.data.data.class })
         }
       })
     }
@@ -270,24 +276,26 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   getClassList = (id,title) => {
     sendPost({
         "aksi": "getClassList",
-        "user_id": this.props.user_id.toString(),
+        // "user_id": this.props.user_id.toString(),
         "class_id": id.toString()
     })
     .then(res => {
       this.setState(() => {
         // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-        return {studentsInClass: res.data.data, currentClass: title, showСlasslist: !this.state.showСlasslist}
+        return {studentsInClass: res.data.data.students, currentClass: title, showСlasslist: !this.state.showСlasslist}
       });
       // this.showСlasslist();
     })
   }
   classMultiSelected = (id) => {
+
     var newArr = this.state.studentsMultiSelected;
     if (newArr.indexOf( id ) === -1) {
       newArr.push(id)
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
+    console.log(newArr)
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsMultiSelected : newArr}
@@ -300,6 +308,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
+    console.log(newArr)
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsSingleSelected : newArr}
@@ -323,6 +332,23 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       })
     }
     this.setState({newMessageModal: !this.state.newMessageModal})
+  }
+  inputSearch = (ev) => {
+    this.state.totalClasses.forEach(el => {
+      let arr = new Array;
+      if(ev != "" && el.class_info.includes(ev.toUpperCase())){
+        arr.push(el);
+        this.setState(() => {
+          // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+          return {searchArr: arr}
+        });
+      } else if (ev === "") {
+        this.setState(() => {
+          // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+          return {searchArr: []}
+        });
+      }
+    });
   }
   render() {
     return (
@@ -390,12 +416,28 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           </IonHeader>
           <IonContent>
             <IonList>
+            <IonItem>
+              <IonInput
+                placeholder="Поиск"
+                onIonChange={ev =>
+                              this.inputSearch((ev.target as any).value)
+                            }>
+              </IonInput>
+            </IonItem>
+            { this.state.searchArr.map(el=> { return (
+
+              <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.classesCount.length}>
+                <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
+                <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
+              </IonItem>
+            ) }) }
               <IonItem onClick={this.openSingle}>
                 <IonLabel>{i18next.t('Личное сообщение')}</IonLabel>
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
               { this.state.classesCount.map(el=> { return (
-                <IonItem className={'with-padding'} onClick={() => this.getClassList(el.class_id, el.class_info)} key={ ++this.state.classesCount.length}>
+
+                <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.classesCount.length}>
                   <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
                   <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
                 </IonItem>
@@ -407,7 +449,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               { this.state.classesMulti.map(el=> { return (
                 <IonItem className={'with-padding'} key={el.class_info}>
                   <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
-                  <IonCheckbox onClick={() => this.classMultiSelected(el.class_id)} slot="end" value={el.class_id} />
+                  <IonCheckbox onClick={() => this.classMultiSelected(el.id)} slot="end" value={el.id} />
                 </IonItem>
               ) }) }
             </IonList>
