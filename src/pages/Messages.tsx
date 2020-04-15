@@ -216,6 +216,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       this.setState({studentsMultiSelected: []})
     }
     this.setState({ showAlert1: !this.state.showAlert1 });
+    this.setState({ searchArr: [] });
     //запрос списка классов
     if(this.state.showAlert1 !== true) {
       sendPost({
@@ -287,6 +288,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       // this.showСlasslist();
     })
   }
+
   classMultiSelected = (id) => {
 
     var newArr = this.state.studentsMultiSelected;
@@ -334,8 +336,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     this.setState({newMessageModal: !this.state.newMessageModal})
   }
   inputSearch = (ev) => {
-    this.state.totalClasses.forEach(el => {
-      let arr = new Array;
+    let arr = this.state.totalClasses;
+    arr.forEach(el => {
+      var arr = new Array;
       if(ev != "" && el.class_info.includes(ev.toUpperCase())){
         arr.push(el);
         this.setState(() => {
@@ -426,7 +429,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             </IonItem>
             { this.state.searchArr.map(el=> { return (
 
-              <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.classesCount.length}>
+              <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.searchArr.length}>
                 <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
                 <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
               </IonItem>
