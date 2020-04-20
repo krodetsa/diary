@@ -16,14 +16,15 @@ import {
   IonLabel,
   IonAlert,
 } from '@ionic/react';
-import { exit, settings } from 'ionicons/icons';
+import { exit, settings, people } from 'ionicons/icons';
 import sendPost from '../axios.js';
 interface IMyComponentProps {
-  user_id: any
+  user_id: any,
+  type: any
 };
 
 interface IMyComponentState {
-showAlert: boolean
+  showAlert: boolean
 };
 
 class Menu extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -61,6 +62,12 @@ render() {
                 <IonItem className={'width'} routerLink="/settings">
                   <IonIcon slot="start" icon={settings}/>
                   <IonLabel>{i18next.t('Настройки')}</IonLabel>
+                </IonItem>
+              </IonMenuToggle>
+              <IonMenuToggle>
+                <IonItem className={'width'} routerLink="/support">
+                  <IonIcon slot="start" icon={people}/>
+                  <IonLabel>{i18next.t('Поддержка')}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
               <IonMenuToggle>

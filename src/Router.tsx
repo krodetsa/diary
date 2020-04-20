@@ -12,14 +12,16 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { time, mail, person, home } from 'ionicons/icons';
+import { time, mail, person, home, calendar } from 'ionicons/icons';
 import Tab1 from './pages/Main';
 import Messages from './pages/Messages';
 import Tab3Page from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
 import Details from './pages/Details';
 import Contacts from './pages/Contacts';
+import Schedule from './pages/Schedule';
 import Settings from './pages/Settings';
+import Support from './pages/Support';
 import Menu from './pages/Menu'
 
 /* Core CSS required for Ionic components to work properly */
@@ -61,10 +63,12 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       <IonPage>
 
       <IonReactRouter>
-      <Menu user_id={this.props.user_id}/>
+      <Menu type={this.props.type} user_id={this.props.user_id}/>
       <IonTabs>
         <IonRouterOutlet id="custom">
           <Route path="/settings" render={() =>  <Settings user_id={this.props.user_id}/>  } />
+          <Route path="/support" render={ () =>  <Support/> }/>
+          <Route path="/schedule" render={ () =>  <Schedule/> }/>
           <Route path="/contacts" render={() =>  <Contacts />  } />
           <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/>  } />
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />}  />
@@ -81,7 +85,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           } }  />*/}
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
-            <IonTabButton disabled tab="tab1" href="/tab1">
+            <IonTabButton tab="tab1" href="/tab1">
               <IonIcon icon={home} />
               <IonLabel>{i18next.t('Главная')}</IonLabel>
             </IonTabButton>
@@ -101,6 +105,13 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonTabButton disabled tab="tab4" href="/forteacher">
                   <IonIcon icon={person} />
                   <IonLabel>{i18next.t('Для учителя')}</IonLabel>
+                </IonTabButton>
+            }
+            {
+              this.props.type === "1" &&
+                <IonTabButton tab="tab5" href="/schedule">
+                  <IonIcon icon={calendar} />
+                  <IonLabel>{i18next.t('Расписание')}</IonLabel>
                 </IonTabButton>
             }
 

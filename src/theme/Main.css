@@ -19,3 +19,6 @@
 .width {
   width: 100%
 }
+.ion-card-subtitle {
+  color: var(--ion-color-primary);
+}

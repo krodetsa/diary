@@ -12,6 +12,9 @@
 .teacher-name {
   font-size: 1.7em
 }
+.padding {
+  padding-top: 8px;
+}
 .message-header {
   padding-bottom: 0px
 }

@@ -1,0 +1,26 @@
+.fullheight {
+  height: 89%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nosupport {
+  color: #aaaaaa;
+  font-size: 14px;
+}
+
+.write-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.support-help {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+}
+.text-centered {
+  text-align: center;
+}

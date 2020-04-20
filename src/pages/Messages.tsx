@@ -31,7 +31,7 @@ IonInput
  } from '@ionic/react';
 // import axios from 'axios';
 import sendPost from '../axios.js'
-import { add, chevronDown} from 'ionicons/icons';
+import { add, chevronDown, people} from 'ionicons/icons';
 import '../theme/messages.css';
 import '../theme/calendar.css';
 import '../theme/Main.css';
@@ -64,7 +64,8 @@ interface IMyComponentState {
   showModal: boolean,
   attendancePerDate: any,
   disabledDates: any,
-  searchArr: any
+  searchArr: any,
+  allSchool: boolean
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -90,7 +91,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       showModal: false,
       attendancePerDate: [],
       disabledDates: [],
-      searchArr: []
+      searchArr: [],
+      allSchool: false
     }
   }
   searchValue = '';
@@ -108,7 +110,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           text: el.message_text,
           message_sender: el.message_sender,
           recipients_names: el.recipients_names,
-          group_message: el.group_message
+          group_type_id: el.group_type_id,
+          group_message: el.group_message,
+          group_name: el.group_name
         })
       }
     })
@@ -125,20 +129,23 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         "first_date": moment().unix().toString(),
         // "first_date": "1582091473",
         "range":"100",
+        "is_global": false
         // "user_id": this.props.user_id
     })
 
     .then(res => {
-      console.log(res)
       var att = new Array();
-            res.data.data.forEach(el => {
+            res.data.data.messages.forEach(el => {
               att.push({
                 start: el.message_time,
-                message_id: el.message_id,
+                message_id: el.id,
                 message_text: el.message_text,
-                message_sender: el.message_sender,
-                group_message: el.group_message,
-                recipients_names: el.recipients_names
+                message_sender: el.name_sender,
+                group_message: el.is_global,
+                recipients_names: el.recipients_names,
+                group_type_id: el.group_type_id,
+                group_name: el.group_name,
+                name: el.name
               })
             })
             this.setState({store : att});
@@ -167,7 +174,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             text: el.message_text,
             message_sender: el.message_sender,
             group_message: el.group_message,
-            recipients_names: el.recipients_names
+            recipients_names: el.recipients_names,
+            group_type_id: el.group_type_id,
+            group_name: el.group_name,
+            name: el.name
           })
         }
       })
@@ -208,6 +218,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           showAlert1: false,
           searchArr: [],
           toastShow: true,
+          allSchool: false
         }
       )
   }
@@ -224,7 +235,6 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           // "user_id": this.props.user_id.toString(),
       })
       .then(res => {
-        console.log(res.data.data.class)
         if(res.data.status === 0) {
           this.setState({ totalClasses: res.data.data.class })
         }
@@ -297,7 +307,6 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
-    console.log(newArr)
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsMultiSelected : newArr}
@@ -310,7 +319,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     } else {
       newArr.splice(newArr.indexOf( id ), 1);
     }
-    console.log(newArr)
+
     this.setState(() => {
       // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {studentsSingleSelected : newArr}
@@ -353,6 +362,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       }
     });
   }
+  messageToAll = () => {
+    this.showNewMessageModal();
+    this.setState({allSchool: true})
+  }
   render() {
     return (
       <IonPage>
@@ -382,15 +395,23 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 var stillUtc = moment.unix(el.start).toDate();
                 var localTime = moment(stillUtc).local().format('HH:mm');
                 var localDate = moment(stillUtc).local().format('DD.MM.YY');
+                var whom = "";
+                // console.log(el)
+                if(el.group_type_id === 4) {
+                  whom = i18next.t('Все_ученики');
+                } else if (el.group_type_id === 2) {
+                  whom = el.group_name;
+                } else if (el.group_type_id === 1) {
+                  whom = el.name;
+                }
                 return (
                   <IonCard key={i}>
                     <IonCardHeader className={'message-header'}>
                       <div className={'message-header-container'}>
-                        <IonCardSubtitle>{localDate} | {localTime}</IonCardSubtitle>
-                        <IonCardSubtitle>{el.group_message === 'true' ? i18next.t('РАССЫЛКА') : "" }</IonCardSubtitle>
+                        <IonCardSubtitle color={"primary"}>{localDate} | {localTime}</IonCardSubtitle>
                       </div>
                       <IonCardTitle className={'teacher-name'}>{el.message_sender}</IonCardTitle>
-                      <p className={'recipients'}>{i18next.t('Получатели')}: {el.recipients_names}</p>
+                      <p className={'recipients'}>{i18next.t('Получатели')}: { whom }</p>
                     </IonCardHeader>
                     <IonCardContent className={'message-content'}>
                       {el.text}
@@ -398,8 +419,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                   </IonCard>
                 )
               })) : (
-
-                  <IonItem>
+                  <IonItem className={'padding'}>
                   {i18next.t('Нет сообщений')}
                   </IonItem>
               )
@@ -455,6 +475,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                   <IonCheckbox onClick={() => this.classMultiSelected(el.id)} slot="end" value={el.id} />
                 </IonItem>
               ) }) }
+              <IonItem onClick={this.messageToAll}>
+                <IonLabel>{i18next.t('Сообщение_школе')}</IonLabel>
+                <IonIcon slot={'end'} icon={people}></IonIcon>
+              </IonItem>
             </IonList>
             { this.state.studentsMultiSelected.length > 0 &&
             <IonFabButton onClick={this.showNewMessageModal} color="primary" className="new-message-button">
@@ -512,6 +536,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         </IonModal>
         {/*новое сообщение*/}
         <NewMessage align-self-end
+          allSchool ={this.state.allSchool}
           user_id={this.props.user_id}
           clearData={this.clearData}
           classes={this.state.classesMulti}

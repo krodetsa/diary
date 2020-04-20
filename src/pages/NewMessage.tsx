@@ -20,6 +20,7 @@ import {
  } from '@ionic/react';
  const moment = require('moment');
 interface IMyComponentProps {
+  allSchool: any,
   newMessageModal: any,
   showNewMessageModal: any,
   single: any,
@@ -32,12 +33,14 @@ interface IMyComponentProps {
 }
 interface IMyComponentState {
 toastShow: boolean,
+toAll: boolean
 };
 class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
     super(props);
     this.state = {
-      toastShow: false
+      toastShow: false,
+      toAll: false,
     }
   }
   messageInput = '';
@@ -45,25 +48,36 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     this.props.clearData();
     this.props.showNewMessageModal();
   }
+  groupTypeId = 1;
   sendMessage = () => {
+    // 1 personal
+    // 2 class
+    // 3 course
+    // 4 school
+    if (this.props.multi.length > 0 ) {
+      this.groupTypeId = 2;
+    } if (this.props.single.length > 0) {
+        this.groupTypeId = 1;
+    } if (this.props.allSchool === true) {
+        this.groupTypeId = 4;
+    }
     sendPost({
       "aksi" : "sendMessage",
-      "user_id": this.props.user_id,
+      // "user_id": this.props.user_id,
       "recipients": this.props.single.length > 0 ? this.props.single : this.props.multi,
-      "group_message": this.props.multi.length > 0 ? true : false,
+      // "group_message": this.props.multi.length > 0 ? true : false,
+      "group_type_id": this.groupTypeId,
       "message_text": this.messageInput,
       "message_time":  moment().unix(),
-      "group": this.props.multi.length > 0 ? 1 : 0
+      // "group": this.props.multi.length > 0 ? 1 : 0
     })
     .then(res => {
-      console.log(res);
       this.props.closeMessageModal();
       this.props.clearData();
       this.messageInput = ''
     })
 
   }
-  ionViewWillEnter() {}
   render() {
     return(
       <IonModal isOpen={this.props.newMessageModal}>
@@ -79,6 +93,12 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
 
         <IonGrid className={'with-margin-top'}>
           <IonRow>
+          {/*Сообщение всей школе*/
+            this.props.allSchool === true &&
+            <div className={'names-container'}>
+            <IonTitle>{i18next.t('Сообщение_всей_школе')}</IonTitle>
+        </div>
+          }
           {/*Сообщение одному пользователю*/
 
             this.props.single.length === 1  &&

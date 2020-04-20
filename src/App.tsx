@@ -1,6 +1,5 @@
 import React from 'react';
 import Login from './pages/Login';
-import axios from 'axios';
 import Routing from './Router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
