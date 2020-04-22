@@ -124,71 +124,83 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   }
   disabledDates = new Array();
   getMessages = () => {
-    sendPost({
-        "aksi":"getMessages",
-        "first_date": moment().unix().toString(),
-        // "first_date": "1582091473",
-        "range":"100",
-        "is_global": false
-        // "user_id": this.props.user_id
-    })
-
-    .then(res => {
-      var att = new Array();
-            res.data.data.messages.forEach(el => {
-              att.push({
-                start: el.message_time,
-                message_id: el.id,
-                message_text: el.message_text,
-                message_sender: el.name_sender,
-                group_message: el.is_global,
-                recipients_names: el.recipients_names,
-                group_type_id: el.group_type_id,
-                group_name: el.group_name,
-                name: el.name
-              })
-            })
-            this.setState({store : att});
-            this.state.store.forEach(el => {
-              var stillUtc = moment.unix(el.start).toDate();
-              var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
-              this.disabledDates.push(new Date(localTime));
-            })
-            this.setState(() => {
-              // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-              return {disabledDates: this.disabledDates}
-            });
-    }).then(()=> {
-
-      let date = this.state.currentDate;
-      this.setState({ currentDate: date.valueOf() });
-      var att = new Array();
-      var dateString = moment(date).format("MM/DD/YYYY");
-      this.state.store.forEach(el => {
-        var stillUtc = moment.unix(el.start).toDate();
-        var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
-        if(moment(dateString).isSame(localTime, 'day')) {
-          att.push({
-            start: el.start,
-            message_id: el.message_id,
-            text: el.message_text,
-            message_sender: el.message_sender,
-            group_message: el.group_message,
-            recipients_names: el.recipients_names,
-            group_type_id: el.group_type_id,
-            group_name: el.group_name,
-            name: el.name
-          })
-        }
+    if(this.props.type === '1'){
+      sendPost({
+          "aksi":"getMessages",
+          "first_date": moment().unix().toString(),
+          "range":"100",
+          "is_global": false
       })
-      this.setState(() => {
-        // Важно: используем state вместо this.state при обновлении для моментального рендеринга
-        return {attendancePerDate: att.reverse()}
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+
+      .then(res => {
+        console.log(res)
+        var att = new Array();
+              res.data.data.messages.forEach(el => {
+                att.push({
+                  start: el.message_time,
+                  message_id: el.id,
+                  message_text: el.message_text,
+                  message_sender: el.name_sender,
+                  group_message: el.is_global,
+                  recipients_names: el.recipients_names,
+                  group_type_id: el.group_type_id,
+                  group_name: el.group_name,
+                  name: el.name
+                })
+              })
+              this.setState({store : att});
+              this.state.store.forEach(el => {
+                var stillUtc = moment.unix(el.start).toDate();
+                var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
+                this.disabledDates.push(new Date(localTime));
+              })
+              this.setState(() => {
+                // Важно: используем state вместо this.state при обновлении для моментального рендеринга
+                return {disabledDates: this.disabledDates}
+              });
+      }).then(()=> {
+
+        let date = this.state.currentDate;
+        this.setState({ currentDate: date.valueOf() });
+        var att = new Array();
+        var dateString = moment(date).format("MM/DD/YYYY");
+        this.state.store.forEach(el => {
+          var stillUtc = moment.unix(el.start).toDate();
+          var localTime = moment(stillUtc).local().format('MM/DD/YYYY');
+          if(moment(dateString).isSame(localTime, 'day')) {
+            att.push({
+              start: el.start,
+              message_id: el.message_id,
+              text: el.message_text,
+              message_sender: el.message_sender,
+              group_message: el.group_message,
+              recipients_names: el.recipients_names,
+              group_type_id: el.group_type_id,
+              group_name: el.group_name,
+              name: el.name
+            })
+          }
+        })
+        this.setState(() => {
+          return {attendancePerDate: att.reverse()}
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    } else {
+      sendPost({
+          "aksi":"getTeacherMessages",
+          "first_date": moment().unix().toString(),
+          "range":"100",
+          "is_global": false
+      })
+
+      .then(res => {
+          console.log(res);
+        }
+      )
+    }
   }
   ionViewWillEnter() {
     this.getMessages();

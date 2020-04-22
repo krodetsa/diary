@@ -74,7 +74,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
           <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />}  />
           {  this.props.type === "3" ?  <Redirect exact from="/" to="/tab2" /> :  <Redirect exact from="/" to="/tab3" />
           }
-          <Route path="/forteacher/details" component={Details} />
+          <Route path="/details" render={() =>  <Details user_id={this.props.user_id}/>  } />
           <Route path="/tab3" render={() => <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
           {  this.props.type === "1" ?  <Redirect exact from="/" to="/tab3" /> : <Redirect exact from="/" to="/tab2" />
           }
@@ -100,12 +100,13 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonLabel>{i18next.t('Посещаемость')}</IonLabel>
               </IonTabButton>
             }
-            {
+            {/*
               this.props.type === "3" &&
                 <IonTabButton disabled tab="tab4" href="/forteacher">
                   <IonIcon icon={person} />
                   <IonLabel>{i18next.t('Для учителя')}</IonLabel>
                 </IonTabButton>
+                */
             }
             {
               this.props.type === "1" &&

@@ -1,45 +1,44 @@
 import React, { useState } from 'react';
 import i18next from "i18next";
-import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuToggle, IonMenuButton, IonTitle, IonIcon, IonFabButton, IonGrid, IonItem, IonRow, IonTextarea, IonButton, IonModal, IonToast } from '@ionic/react';
-import { add, send } from 'ionicons/icons';
+import { IonPage, IonContent, IonHeader, IonToolbar, IonButtons, IonMenuToggle, IonMenuButton, IonTitle, IonIcon, IonGrid, IonItem, IonRow, IonTextarea, IonButton, IonToast, IonBackButton } from '@ionic/react';
+import {  send } from 'ionicons/icons';
 import '../theme/support.css';
+import sendPost from '../axios.js';
+ const moment = require('moment');
 function Support(props: any){
-  const [newTicketModal, newTicketModalToggle] = useState(false);
   const [toastShow, toastShowToggle] = useState(false);
   var messageInput = "";
   var sendMessage = () => {
-    console.log(1);
-    newTicketModalToggle(!newTicketModal);
-    toastShowToggle(!toastShow);
+    if(messageInput !== "") {
+      sendPost({
+          "aksi":"sendSupport",
+          "date": moment().unix(),
+          "text": messageInput
+      })
+
+      .then(res => {
+        if (res.data.status === 0) {
+            toastShowToggle(!toastShow);
+        } else {
+            console.log(res);
+        }
+      })
+    }
   }
   return(
     <IonPage>
       <IonContent>
         <IonHeader>
           <IonToolbar>
+            <IonButtons slot="start">
+              <IonBackButton defaultHref="/main" text="Назад"/>
+            </IonButtons>
             <IonButtons slot="end">
             <IonMenuToggle>
               <IonMenuButton auto-hide={true}/>
               </IonMenuToggle>
             </IonButtons>
             <IonTitle>{i18next.t('Поддержка')}</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <div className={'fullheight'}>
-          <a href="https://www.youtube.com/watch?v=pJX40mP1foc">link</a>
-          <p className={'nosupport'}>{i18next.t('Нет обращений в поддержку')}</p>
-        </div>
-        {/* модальное окно "личное/групповое сообщение */}
-        <IonFabButton color="primary" onClick={() => newTicketModalToggle(!newTicketModal)} className="add-message-button">
-          <IonIcon icon={add}></IonIcon>
-        </IonFabButton>
-        <IonModal isOpen={newTicketModal}>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>{i18next.t('Новое сообщение в поддержку')}</IonTitle>
-            <IonButtons slot="end">
-              <IonButton fill="clear" onClick={() => newTicketModalToggle(!newTicketModal)}>{i18next.t('Закрыть')}</IonButton>
-            </IonButtons>
           </IonToolbar>
         </IonHeader>
           <IonGrid className={'write-message'}>
@@ -62,11 +61,10 @@ function Support(props: any){
               </IonRow>
             </IonItem>
           </IonGrid>
-        </IonModal>
         <IonToast
           isOpen={toastShow}
           onDidDismiss={() => toastShowToggle}
-          message={i18next.t('Сообщение отправлено')}
+          message={i18next.t('Сообщение в поддержку отправлено')}
           position="bottom"
           duration={3000}
           buttons={[

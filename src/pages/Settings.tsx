@@ -1,13 +1,7 @@
 import React from 'react';
 import i18next from "i18next";
 import {
-  IonRadioGroup,
-  IonRadio,
   IonLabel,
-  IonButton,
-  IonListHeader,
-  IonList,
-  IonInput,
   IonContent,
   IonItem,
   IonHeader,
@@ -16,7 +10,9 @@ import {
   IonMenuToggle,
   IonMenuButton,
   IonTitle,
-  IonPage
+  IonPage,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/react';
 import sendPost from '../axios.js'
 import '../theme/settings.css';
@@ -29,48 +25,14 @@ interface IMyComponentState {
 };
 
 class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
-  oldPassword = '';
-  newPassword = '';
-  newPasswordConfirm = '';
+
   changeLanguage(lan) {
     i18next.changeLanguage(lan).then(() => {
     i18next.options.lng = lan;
     localStorage.setItem("lan", lan);
   })
   }
-  sendNewPass = () => {
-      sendPost({
-          "aksi": "changePassword",
-          "user_id": this.props.user_id,
-          "old_password": this.oldPassword,
-          "new_password": this.newPassword
-      })
 
-      .then(res => {
-        console.log(res);
-        if (res.data.status === true) {
-          alert("Пароль успешно изменен");
-        } else {
-          alert(res.data.error);
-        }
-      })
-  }
-changePass = () => {
-  let check = /^(?=.*[0-9])(?=.*[a-z])(?=\S+$).{5,}$/;
-  // console.log(this.oldPassword, this.newPassword, this.newPasswordConfirm);
-  if (check.test(this.newPassword)) {
-    // корректная проверка регуляркой
-    if(this.newPassword === this.newPasswordConfirm) {
-      // console.log(true);
-      this.sendNewPass();
-    } else {
-      alert(i18next.t('Проверьте правильность ввода нового пароля'));
-    }
-  } else {
-    //несоответствие regexp
-    alert(i18next.t('Пароль должен содержать не менее 6 символов латинского алфавита и цифры'));
-  }
-}
   render() {
     return(
       <IonPage>
@@ -85,44 +47,16 @@ changePass = () => {
               <IonTitle>{i18next.t('Настройки')}</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <IonRadioGroup onIonChange={e => this.changeLanguage(e.detail.value)} value={localStorage.getItem('lan')}>
-            <IonListHeader>{i18next.t('Выберите язык')}</IonListHeader>
-            <IonItem className="padding-top">
-              <IonLabel>Русский</IonLabel>
-              <IonRadio value="ru" />
-            </IonItem>
-            <IonItem className="padding-top">
-              <IonLabel>Кыргыз тили</IonLabel>
-              <IonRadio  value="kg" />
-            </IonItem>
-          </IonRadioGroup>
-          <IonListHeader>{i18next.t('Смена пароля')}</IonListHeader>
-          <IonList className="flex-column">
-            <IonItem>
-              <IonLabel position="floating">{i18next.t('Текущий пароль')}</IonLabel>
-              <IonInput value={this.oldPassword} onIonChange={ev =>
-                    this.oldPassword =(ev.target as any).value
-                  }></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">{i18next.t('Новый пароль')}</IonLabel>
-              <IonInput value={this.newPassword} onIonChange={ev =>
-                    this.newPassword =(ev.target as any).value
-                  }></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">{i18next.t('Повторите новый пароль')}</IonLabel>
-              <IonInput value={this.newPasswordConfirm} onIonChange={ev =>
-                    this.newPasswordConfirm =(ev.target as any).value
-                  }></IonInput>
-            </IonItem>
-            <IonButton
-              expand="full"
-              className="change-password"
-              onClick={() => { this.changePass() }}>
-              {i18next.t('Сменить пароль')}
-            </IonButton>
-          </IonList>
+          <IonItem className={'padding-left'}>
+            <IonLabel>{i18next.t('Выберите язык')}</IonLabel>
+            <IonSelect value={localStorage.getItem('lan')} placeholder="Select One" onIonChange={e => this.changeLanguage(e.detail.value)}>
+              <IonSelectOption value="ru">Русский</IonSelectOption>
+              <IonSelectOption value="kg">Кыргыз тили</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem  routerLink="/details">
+            <IonLabel>  {i18next.t('Смена пароля')}</IonLabel>
+          </IonItem>
         </IonContent>
         </IonPage>
     )
