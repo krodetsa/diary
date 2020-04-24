@@ -14,7 +14,6 @@ import {
   IonSelect,
   IonSelectOption
 } from '@ionic/react';
-import sendPost from '../axios.js'
 import '../theme/settings.css';
 interface IMyComponentProps {
   user_id: any

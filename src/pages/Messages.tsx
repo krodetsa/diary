@@ -112,7 +112,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           recipients_names: el.recipients_names,
           group_type_id: el.group_type_id,
           group_message: el.group_message,
-          group_name: el.group_name
+          group_name: el.group_name,
+          name: el.name,
+          recipients: el.recipients
         })
       }
     })
@@ -124,9 +126,14 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   }
   disabledDates = new Array();
   getMessages = () => {
+    let aksi = ""
     if(this.props.type === '1'){
+      aksi = "getMessages"
+    } else {
+      aksi = "getTeacherMessages"
+    }
       sendPost({
-          "aksi":"getMessages",
+          "aksi":aksi,
           "first_date": moment().unix().toString(),
           "range":"100",
           "is_global": false
@@ -145,7 +152,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                   recipients_names: el.recipients_names,
                   group_type_id: el.group_type_id,
                   group_name: el.group_name,
-                  name: el.name
+                  name: el.name,
+                  recipients: el.recipients
                 })
               })
               this.setState({store : att});
@@ -177,7 +185,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               recipients_names: el.recipients_names,
               group_type_id: el.group_type_id,
               group_name: el.group_name,
-              name: el.name
+              name: el.name,
+              recipients: el.recipients
             })
           }
         })
@@ -188,19 +197,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       .catch(function (error) {
         console.log(error);
       })
-    } else {
-      sendPost({
-          "aksi":"getTeacherMessages",
-          "first_date": moment().unix().toString(),
-          "range":"100",
-          "is_global": false
-      })
 
-      .then(res => {
-          console.log(res);
-        }
-      )
-    }
   }
   ionViewWillEnter() {
     this.getMessages();
@@ -408,12 +405,15 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 var localTime = moment(stillUtc).local().format('HH:mm');
                 var localDate = moment(stillUtc).local().format('DD.MM.YY');
                 var whom = "";
-                // console.log(el)
                 if(el.group_type_id === 4) {
                   whom = i18next.t('Все_ученики');
                 } else if (el.group_type_id === 2) {
                   whom = el.group_name;
-                } else if (el.group_type_id === 1) {
+                } else if (el.recipients !== undefined) {
+                  let str = el.recipients.replace(/["{}]/g, '');
+                  str = str.replace(/,/g, ',  ')
+                  whom = str;
+                } else {
                   whom = el.name;
                 }
                 return (

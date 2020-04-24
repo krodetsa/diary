@@ -16,22 +16,21 @@ class Details extends React.Component<IMyComponentProps, IMyComponentState> {
   sendNewPass = () => {
       sendPost({
           "aksi": "changePassword",
-          "user_id": this.props.user_id,
           "old_password": this.oldPassword,
           "new_password": this.newPassword
       })
 
       .then(res => {
         console.log(res);
-        if (res.data.status === true) {
+        if (res.data.status === 0) {
           alert("Пароль успешно изменен");
         } else {
-          alert(res.data.error);
+          alert("Error");
         }
       })
   }
 changePass = () => {
-  let check = /^(?=.*[0-9])(?=.*[a-z])(?=\S+$).{5,}$/;
+  let check = /^(?=.*[0-9])(?=\S+$).{5,}$/;
   // console.log(this.oldPassword, this.newPassword, this.newPasswordConfirm);
   if (check.test(this.newPassword)) {
     // корректная проверка регуляркой
@@ -79,7 +78,7 @@ changePass = () => {
                 }></IonInput>
           </IonItem>
           <IonButton
-            expand="full"
+
             className="change-password"
             onClick={() => { this.changePass() }}>
             {i18next.t('Сменить пароль')}
