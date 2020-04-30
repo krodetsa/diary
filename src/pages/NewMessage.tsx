@@ -16,7 +16,8 @@ import {
   IonItem,
   IonTextarea,
   IonIcon,
-  IonFooter
+  IonFooter,
+  IonLoading
  } from '@ionic/react';
  const moment = require('moment');
 interface IMyComponentProps {
@@ -29,11 +30,13 @@ interface IMyComponentProps {
   closeMessageModal: any,
   classes: any,
   clearData: any,
+  parentsHide,
   user_id: any
 }
 interface IMyComponentState {
 toastShow: boolean,
-toAll: boolean
+toAll: boolean,
+showLoading: boolean
 };
 class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -41,6 +44,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     this.state = {
       toastShow: false,
       toAll: false,
+      showLoading: false
     }
   }
   messageInput = '';
@@ -54,6 +58,7 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     // 2 class
     // 3 course
     // 4 school
+    this.setState({showLoading: !this.state.showLoading})
     if (this.props.multi.length > 0 ) {
       this.groupTypeId = 2;
     } if (this.props.single.length > 0) {
@@ -74,13 +79,18 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
     .then(res => {
       this.props.closeMessageModal();
       this.props.clearData();
-      this.messageInput = ''
+      this.messageInput = '';
+      this.setState({showLoading: !this.state.showLoading});
     })
 
   }
   render() {
     return(
       <IonModal isOpen={this.props.newMessageModal}>
+      <IonLoading
+          isOpen={this.state.showLoading}
+          message={i18next.t('Пожалуйста_подождите')}
+        />
         <IonHeader>
           <IonToolbar>
             <IonTitle>{i18next.t('Новое сообщение')}</IonTitle>
@@ -104,19 +114,27 @@ class NewMessage extends React.Component<IMyComponentProps, IMyComponentState> {
             this.props.single.length === 1  &&
             <div className={'names-container'}>
             <IonTitle>{i18next.t('Имя ученика')}</IonTitle>
-          <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
-            if(el.id === this.props.single[0]) {
-              return (el.name)
+            <IonTitle className={"new-message-name"}>
+              {
+                this.props.studentsInClass.map(el => {
+                  if(el.id === this.props.single[0]) {
+                    return (el.name);
+                  }
+                  return (null)
+                })
+              }
+            </IonTitle>
+          {this.props.parentsHide === false && <IonTitle>{i18next.t('Родители')}:</IonTitle>}
+          <IonTitle className={"new-message-name"}>
+            {
+              this.props.studentsInClass.map(el => {
+                if(el.id === this.props.single[0]) {
+                  return (el.parents)
+                }
+                return (null)
+              })
             }
-            return (null)
-          })}</IonTitle>
-          <IonTitle>{i18next.t('Родители')}:</IonTitle>
-        <IonTitle className={"new-message-name"}>{this.props.studentsInClass.map(el => {
-          if(el.id === this.props.single[0]) {
-            return (el.parents)
-          }
-          return (null)
-        })}</IonTitle>
+          </IonTitle>
         </div>
       }
         {/*Сообщение нескольким пользователям*/

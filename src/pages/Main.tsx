@@ -20,7 +20,6 @@ import {
 // const moment = require('moment');
 import sendPost from '../axios.js'
 import i18next from "i18next";
-import { } from 'ionicons/icons';
 import React from 'react';
 import '../theme/Main.css';
 import { RefresherEventDetail } from '@ionic/core';

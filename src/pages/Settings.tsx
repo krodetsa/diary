@@ -12,11 +12,13 @@ import {
   IonTitle,
   IonPage,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonBackButton
 } from '@ionic/react';
 import '../theme/settings.css';
 interface IMyComponentProps {
-  user_id: any
+  user_id: any,
+  type: any
 };
 
 interface IMyComponentState {
@@ -27,17 +29,22 @@ class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
 
   changeLanguage(lan) {
     i18next.changeLanguage(lan).then(() => {
-    i18next.options.lng = lan;
-    localStorage.setItem("lan", lan);
-  })
+      i18next.options.lng = lan;
+      localStorage.setItem("lan", lan);
+    })
   }
 
   render() {
     return(
       <IonPage>
       <IonContent>
+      <IonHeader>
+      </IonHeader>
           <IonHeader>
             <IonToolbar>
+              <IonButtons slot="start">
+                <IonBackButton className={'bck'} defaultHref="/main" text="Назад"/>
+              </IonButtons>
               <IonButtons slot="end">
               <IonMenuToggle>
                 <IonMenuButton auto-hide={true}/>
@@ -56,6 +63,10 @@ class Settings extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonItem  routerLink="/details">
             <IonLabel>  {i18next.t('Смена пароля')}</IonLabel>
           </IonItem>
+        {  this.props.type === "1" &&
+          <IonItem  routerLink="/addstudent">
+            <IonLabel>  {i18next.t('Добавить ученика')}</IonLabel>
+          </IonItem>}
         </IonContent>
         </IonPage>
     )

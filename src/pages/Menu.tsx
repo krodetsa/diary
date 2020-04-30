@@ -16,7 +16,7 @@ import {
   IonLabel,
   IonAlert,
 } from '@ionic/react';
-import { exit, settings, people } from 'ionicons/icons';
+import { exit, settings, people, person } from 'ionicons/icons';
 import sendPost from '../axios.js';
 interface IMyComponentProps {
   user_id: any,
@@ -64,6 +64,12 @@ render() {
                   <IonLabel>{i18next.t('Настройки')}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
+            {this.props.type === "1" &&  <IonMenuToggle>
+                <IonItem className={'width'} routerLink="/account">
+                  <IonIcon slot="start" icon={person}/>
+                  <IonLabel>{i18next.t('Личный кабинет')}</IonLabel>
+                </IonItem>
+              </IonMenuToggle>}
               <IonMenuToggle>
                 <IonItem className={'width'} routerLink="/support">
                   <IonIcon slot="start" icon={people}/>

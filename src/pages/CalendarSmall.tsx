@@ -26,7 +26,9 @@ class CalendarSmall extends React.Component<IMyComponentProps, IMyComponentState
   this.state = {
  }
 }
+
 render() {
+  let color = this.props.attendancePerDate.length > 0 ?  "success": "primary";
   return(
     <IonItem className="calendar-small-container">
        <IonNote onClick={() =>
@@ -35,7 +37,7 @@ render() {
         {moment(this.props.currentDate).local().format('DD.MM')}
        </IonNote>
        <IonLabel>
-         <h2 className="calendar-small-h2">{this.props.line}: <IonBadge className="calendar-small-badge" color="primary">{this.props.attendancePerDate.length}</IonBadge></h2>
+         <h2 className="calendar-small-h2">{this.props.line}: <IonBadge className="calendar-small-badge" color={color}>{this.props.attendancePerDate.length}</IonBadge></h2>
          <p>{i18next.t('Последнее')}: {
            this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[0].text : `${'Нет '+this.props.line}`
          }</p>

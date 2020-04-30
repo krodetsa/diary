@@ -82,12 +82,10 @@ updateToday = () => {
             // this.disabledDates.push(new Date(localTime));
           })
           this.setState(() => {
-            // Важно: используем state вместо this.state при обновлении для моментального рендеринга
             return {disabledDates: this.state._disabledDates}
           });
   }).then(()=>{
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {showLoading: !this.state.showLoading}
     });
     let date = this.state.currentDate;

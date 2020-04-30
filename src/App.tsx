@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from './pages/Login';
 import Routing from './Router';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -18,6 +19,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
+import { createBrowserHistory } from "history";
 
 interface IMyComponentState {
     auth: any,
@@ -27,11 +29,12 @@ interface IMyComponentState {
     skey: any,
     notifications: any,
     token: string,
+    balance: any
 };
 interface IMyComponentProps {
 }
+const history = createBrowserHistory();
 
-// const { PushNotifications } = Plugins;
 class App extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
       super(props);
@@ -42,7 +45,8 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
         name: "",
         skey: "",
         notifications: [],
-        token: ''
+        token: '',
+        balance: ""
       };
     }
   //   requestInterceptorId: number = axios.interceptors.request.use(
@@ -51,7 +55,14 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
   //     return error
   //   }
   // );
+    getBalance = () => {
+      console.log('getBalance');
+      this.setState({
+        balance: "count",
+      })
+    }
     componentDidMount() {
+      this.getBalance();
       const rememberMe = localStorage.getItem('auth') === 'true';
       const lsAuth = rememberMe ? localStorage.getItem('auth') : false;
       const lsUser_id = rememberMe ? localStorage.getItem('user_id') : "";
@@ -73,22 +84,30 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
       localStorage.setItem("name", name);
       // localStorage.setItem("key", key);
       localStorage.setItem("lan", "ru");
-      this.setState({
-        auth: itm,
-        user_id: id,
-        type: type,
-        name: name,
-        skey:key
+      this.setState((state) => {
+        return {
+          user_id: id,
+          type: type,
+          name: name,
+          skey:key,
+          auth: itm
+        }
       });
     }
-
   render() {
     return (
       <>
         {this.state.auth === false ? (
-          <Login showAuth={this.showAuth}></Login>
+          <Login history={history} showAuth={this.showAuth}></Login>
         ) : (
-          <Routing token={this.state.token} skey={this.state.skey} name={this.state.name} user_id={this.state.user_id} type={this.state.type}/>
+          <Routing
+            balance={this.state.balance}
+            token={this.state.token}
+            skey={this.state.skey}
+            name={this.state.name}
+            user_id={this.state.user_id}
+            type={this.state.type}
+          />
         )}
       </>
     )

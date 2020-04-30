@@ -31,7 +31,7 @@ IonInput
  } from '@ionic/react';
 // import axios from 'axios';
 import sendPost from '../axios.js'
-import { add, chevronDown, people} from 'ionicons/icons';
+import { add, chevronDown, people, time} from 'ionicons/icons';
 import '../theme/messages.css';
 import '../theme/calendar.css';
 import '../theme/Main.css';
@@ -65,7 +65,9 @@ interface IMyComponentState {
   attendancePerDate: any,
   disabledDates: any,
   searchArr: any,
-  allSchool: boolean
+  allSchool: boolean,
+  recent: any,
+  parentsHide: boolean
 };
 class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   constructor(props: Readonly<IMyComponentProps>) {
@@ -92,7 +94,9 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       attendancePerDate: [],
       disabledDates: [],
       searchArr: [],
-      allSchool: false
+      recent:[],
+      allSchool: false,
+      parentsHide: false
     }
   }
   searchValue = '';
@@ -127,10 +131,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
   disabledDates = new Array();
   getMessages = () => {
     let aksi = ""
-    if(this.props.type === '1'){
-      aksi = "getMessages"
-    } else {
+    if(this.props.type === '3'){
       aksi = "getTeacherMessages"
+    } else {
+      aksi = "getMessages"
     }
       sendPost({
           "aksi":aksi,
@@ -140,9 +144,18 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       })
 
       .then(res => {
-        console.log(res)
         var att = new Array();
               res.data.data.messages.forEach(el => {
+                let id;
+                let name;
+                if (el.group_type_id === 1 && this.props.type === '3') {
+                  id = el.recipients.replace(/^(.*?):.*$/, '$1');
+                  id = id.replace(/["{}]/g, '');
+                  name = el.recipients.split(':')[1].split(',')[0];
+                  name = name.replace(/["{}]/g, '');
+                  // let str = el.recipients.replace(/\s:\.([\d\w\W]*)/g, '');
+                  // console.log(el.recipients.replace(/["{}]/g, '').split(","))
+                }
                 att.push({
                   start: el.message_time,
                   message_id: el.id,
@@ -152,6 +165,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                   recipients_names: el.recipients_names,
                   group_type_id: el.group_type_id,
                   group_name: el.group_name,
+                  id: el.recipients === null ? null: id,
+                  nameRes: el.recipients === null ? null: name,
                   name: el.name,
                   recipients: el.recipients
                 })
@@ -241,11 +256,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     if(this.state.showAlert1 !== true) {
       sendPost({
           "aksi": "getClasses",
-          // "user_id": this.props.user_id.toString(),
       })
       .then(res => {
         if(res.data.status === 0) {
-          this.setState({ totalClasses: res.data.data.class })
+          this.setState({ totalClasses: res.data.data.class });
         }
       })
     }
@@ -256,16 +270,36 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       return {showСalendar: !this.state.showСalendar}
     });
   };
+  openRecent = () => {
+    let arr = this.state.store;
+    let ar = new Array;
+
+    arr.forEach((el,i) => {
+      if (el.id !== null && i < 7) {
+        if (ar.length === 0) {
+            ar.push({ id: +el.id, name: el.nameRes });
+        } else {
+          let found = ar.find( ({ id }) => id == +el.id );
+          if (found === undefined) {
+              ar.push({ id: +el.id, name: el.nameRes });
+              this.setState({parentsHide: true})
+          }
+        }
+      };
+    });
+    this.setState({studentsInClass: ar});
+    this.showСlasslist();
+  }
   openSingle = () => {
+    this.setState({parentsHide: false})
     if(this.state.classesCount.length > 0){
       let arr = this.state.classesClear;
+
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {classesCount: arr}
     });
   } else {
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {classesCount: this.state.totalClasses}
     });
     }
@@ -274,12 +308,10 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     if(this.state.classesMulti.length > 0){
       let arr = this.state.classesClear;
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {classesMulti: arr}
     });
   } else {
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {classesMulti: this.state.totalClasses}
     });
     }
@@ -289,7 +321,6 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       this.setState({studentsSingleSelected: []})
     }
     this.setState(() => {
-      // Важно: используем state вместо this.state при обновлении для моментального рендеринга
       return {showСlasslist: !this.state.showСlasslist}
     });
   }
@@ -410,7 +441,8 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 } else if (el.group_type_id === 2) {
                   whom = el.group_name;
                 } else if (el.recipients !== undefined) {
-                  let str = el.recipients.replace(/["{}]/g, '');
+                  //let check = /^(?=.*[0-9])(?=\S+$).{5,}$/;
+                  let str = el.recipients.replace(/["{}:0-9]/g, '');
                   str = str.replace(/,/g, ',  ')
                   whom = str;
                 } else {
@@ -422,7 +454,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                       <div className={'message-header-container'}>
                         <IonCardSubtitle color={"primary"}>{localDate} | {localTime}</IonCardSubtitle>
                       </div>
-                      <IonCardTitle className={'teacher-name'}>{el.message_sender}</IonCardTitle>
+                      <IonCardTitle className={'teacher-name'}>{this.props.type != '3' && el.message_sender}</IonCardTitle>
                       <p className={'recipients'}>{i18next.t('Получатели')}: { whom }</p>
                     </IonCardHeader>
                     <IonCardContent className={'message-content'}>
@@ -453,15 +485,15 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonList>
             <IonItem>
               <IonInput
-                placeholder="Поиск"
+                placeholder={i18next.t('Поиск по классам')}
                 onIonChange={ev =>
                               this.inputSearch((ev.target as any).value)
                             }>
               </IonInput>
             </IonItem>
-            { this.state.searchArr.map(el=> { return (
+            { this.state.searchArr.map((el , i)=> { return (
 
-              <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.searchArr.length}>
+              <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++i}>
                 <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
                 <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
               </IonItem>
@@ -470,9 +502,22 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonLabel>{i18next.t('Личное сообщение')}</IonLabel>
                 <IonIcon slot={'end'} icon={add}></IonIcon>
               </IonItem>
-              { this.state.classesCount.map(el=> { return (
+              {this.state.classesCount.length > 0 &&
+                <IonItem onClick={this.openRecent}>
+                  <IonLabel>{i18next.t('Недавние')}</IonLabel>
+                  <IonIcon slot={'end'} icon={time}></IonIcon>
+                </IonItem>
+              }
+              { this.state.recent.map((el , i)=> { return (
 
-                <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++this.state.classesCount.length}>
+                <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ el.id}>
+                  <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
+                  <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
+                </IonItem>
+              ) }) }
+              { this.state.classesCount.map((el , i)=> { return (
+
+                <IonItem className={'with-padding'} onClick={() => this.getClassList(el.id, el.class_info)} key={ ++i}>
                   <IonLabel className={'with-padding'}>{el.class_info}</IonLabel>
                   <IonIcon slot={'end'} icon={chevronDown}></IonIcon>
                 </IonItem>
@@ -548,6 +593,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         </IonModal>
         {/*новое сообщение*/}
         <NewMessage align-self-end
+          parentsHide={this.state.parentsHide}
           allSchool ={this.state.allSchool}
           user_id={this.props.user_id}
           clearData={this.clearData}

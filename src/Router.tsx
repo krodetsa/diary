@@ -12,18 +12,19 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { time, mail, person, home, calendar } from 'ionicons/icons';
+import { time, mail,  home, calendar } from 'ionicons/icons';
 import Tab1 from './pages/Main';
 import Messages from './pages/Messages';
 import Tab3Page from './pages/Attendance';
 import TabForTeacher from './pages/ForTeacher';
+import AddStudent from './pages/AddStudent';
 import Details from './pages/Details';
 import Contacts from './pages/Contacts';
 import Schedule from './pages/Schedule';
 import Settings from './pages/Settings';
 import Support from './pages/Support';
+import Account from './pages/Account';
 import Menu from './pages/Menu'
-
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -42,47 +43,30 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-interface IMyComponentState {
-};
-interface IMyComponentProps {
-  user_id: string,
-  type: string,
-  name: string,
-  skey: string,
-  token: string,
-}
-class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
-  constructor(props: Readonly<IMyComponentProps>) {
-      super(props);
-      this.state = {
-      };
-}
-  render() {
+function Routing(props){
     return (
       <IonApp>
       <IonPage>
-
       <IonReactRouter>
-      <Menu type={this.props.type} user_id={this.props.user_id}/>
+      <Menu type={props.type} user_id={props.user_id}/>
       <IonTabs>
         <IonRouterOutlet id="custom">
-          <Route path="/settings" render={() =>  <Settings user_id={this.props.user_id}/>  } />
+          <Route path="/settings" render={() =>  <Settings type={props.type} user_id={props.user_id}/>  } />
+          <Route path="/addStudent" render={ () =>  <AddStudent/> }/>
+          <Route path="/account" render={ () =>  <Account balance={props.balance} name={props.name}/> }/>
           <Route path="/support" render={ () =>  <Support/> }/>
           <Route path="/schedule" render={ () =>  <Schedule/> }/>
           <Route path="/contacts" render={() =>  <Contacts />  } />
-          <Route path="/tab1" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/>  } />
-          <Route path="/tab2" render={() => <Messages type={this.props.type} user_id={this.props.user_id} />}  />
-          {  this.props.type === "3" ?  <Redirect exact from="/" to="/tab2" /> :  <Redirect exact from="/" to="/tab3" />
+          <Route path="/tab1" render={() =>  <Tab1 name={props.name} type={props.type}/>  } />
+          <Route path="/tab2" render={() => <Messages type={props.type} user_id={props.user_id} />}  />
+          {  props.type === "3" ?  <Redirect exact from="/" to="/tab1" /> :  <Redirect exact from="/" to="/1" />
           }
-          <Route path="/details" render={() =>  <Details user_id={this.props.user_id}/>  } />
-          <Route path="/tab3" render={() => <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id} /> } />
-          {  this.props.type === "1" ?  <Redirect exact from="/" to="/tab3" /> : <Redirect exact from="/" to="/tab2" />
+          <Route path="/details" render={() =>  <Details user_id={props.user_id}/>  } />
+          <Route path="/tab3" render={() => <Tab3Page skey={props.skey} type={props.type} user_id={props.user_id} /> } />
+          {  props.type === "1" ?  <Redirect exact from="/" to="/tab1" /> : <Redirect exact from="/" to="/tab1" />
           }
           <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() =>  <Tab1 name={this.props.name} type={this.props.type}/> }  />
-          {/*<Route exact path="/tab1" render={() =>  {
-            return this.props.type === "1" ? <Tab3Page skey={this.props.skey} type={this.props.type} user_id={this.props.user_id}  />: <Messages type={this.props.type} user_id={this.props.user_id} />
-          } }  />*/}
+          <Route path="/" render={() =>  <Tab1 name={props.name} type={props.type}/> }  />
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
@@ -94,14 +78,14 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
               <IonLabel>{i18next.t('Сообщения')}</IonLabel>
             </IonTabButton>
             {
-              this.props.type === "1" &&
+              props.type === "1" &&
               <IonTabButton tab="tab3" href="/tab3">
                 <IonIcon icon={time} />
                 <IonLabel>{i18next.t('Посещаемость')}</IonLabel>
               </IonTabButton>
             }
             {/*
-              this.props.type === "3" &&
+              props.type === "3" &&
                 <IonTabButton disabled tab="tab4" href="/forteacher">
                   <IonIcon icon={person} />
                   <IonLabel>{i18next.t('Для учителя')}</IonLabel>
@@ -109,7 +93,7 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
                 */
             }
             {
-              this.props.type === "1" &&
+              props.type === "1" &&
                 <IonTabButton tab="tab5" href="/schedule">
                   <IonIcon icon={calendar} />
                   <IonLabel>{i18next.t('Расписание')}</IonLabel>
@@ -122,6 +106,5 @@ class Routing extends React.Component<IMyComponentProps, IMyComponentState> {
       </IonPage>
     </IonApp>
     )
-  }
 }
 export default Routing;
