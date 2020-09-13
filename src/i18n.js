@@ -4,6 +4,7 @@ import { initReactI18next, I18nextProvider } from 'react-i18next';
 
 import translationRU from './locales/ru/translation.json';
 import translationKG from './locales/kg/translation.json';
+import translationEN from './locales/en/translation.json';
 
 // the translations
 const resources = {
@@ -12,6 +13,9 @@ const resources = {
   },
   kg: {
     translation: translationKG
+  },
+  en: {
+    translation: translationEN
   }
 };
 

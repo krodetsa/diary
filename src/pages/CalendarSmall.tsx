@@ -39,7 +39,7 @@ render() {
        <IonLabel>
          <h2 className="calendar-small-h2">{this.props.line}: <IonBadge className="calendar-small-badge" color={color}>{this.props.attendancePerDate.length}</IonBadge></h2>
          <p>{i18next.t('Последнее')}: {
-           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[0].text : `${'Нет '+this.props.line}`
+           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[0].text : `${this.props.line}`
          }</p>
        </IonLabel>
      </IonItem>

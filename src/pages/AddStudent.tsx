@@ -39,7 +39,7 @@ function AddStudent(props: any) {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton className={'bck'} defaultHref="/settings" text="Назад"/>
+            <IonBackButton className={'bck'} defaultHref="/settings" text={i18next.t('Назад')}/>
           </IonButtons>
           <IonTitle>{i18next.t('Добавить ученика')}</IonTitle>
         </IonToolbar>

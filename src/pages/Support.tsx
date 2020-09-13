@@ -31,7 +31,7 @@ function Support(props: any){
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonBackButton defaultHref="/main" text="Назад"/>
+              <IonBackButton defaultHref="/main" text={i18next.t('Назад')}/>
             </IonButtons>
             <IonButtons slot="end">
             <IonMenuToggle>

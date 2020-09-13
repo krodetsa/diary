@@ -29,14 +29,15 @@ interface IMyComponentState {
     skey: any,
     notifications: any,
     token: string,
-    balance: any
+    balance: any,
 };
 interface IMyComponentProps {
+
 }
 const history = createBrowserHistory();
 
 class App extends React.Component<IMyComponentProps, IMyComponentState> {
-  constructor(props: Readonly<IMyComponentProps>) {
+  constructor( props: Readonly<IMyComponentProps>) {
       super(props);
       this.state = {
         auth: false,

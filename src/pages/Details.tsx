@@ -48,7 +48,7 @@ return (
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          <IonBackButton defaultHref="/settings" text="Назад"/>
+          <IonBackButton defaultHref="/settings" text={i18next.t('Назад')}/>
         </IonButtons>
         <IonTitle>{i18next.t('Смена пароля')}</IonTitle>
       </IonToolbar>

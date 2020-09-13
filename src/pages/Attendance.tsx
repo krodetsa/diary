@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonMenuToggle, IonRefresherContent, IonRefresher, IonLoading, IonContent,IonButton,IonModal, IonThumbnail, IonHeader, IonPage, IonTitle, IonToolbar,withIonLifeCycle, IonList, IonItem, IonLabel,IonButtons,IonMenuButton} from '@ionic/react';
-import Calendar from 'react-calendar';
+import Calendar from './dist/entry.js';
 import CalendarSmall from './CalendarSmall';
 import { RefresherEventDetail } from '@ionic/core';
 import '../theme/Main.css';
@@ -172,7 +172,7 @@ setShowLoading = () => {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         <CalendarSmall
-        line={i18next.t('событий')}
+        line={i18next.t('Нет событий')}
         setShowModal={this.setShowModal}
         currentDate={this.state.currentDate}
         attendancePerDate={this.state.attendancePerDate}

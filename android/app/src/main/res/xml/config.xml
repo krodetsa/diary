@@ -6,5 +6,9 @@
     <param name="android-package" value="tomloprod.AppMinimize"/>
   </feature>
 
+  <feature name="Globalization">
+    <param name="android-package" value="org.apache.cordova.globalization.Globalization"/>
+  </feature>
+
   
 </widget>

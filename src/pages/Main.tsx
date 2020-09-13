@@ -15,7 +15,8 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonItem,
-  withIonLifeCycle
+  withIonLifeCycle,
+  IonLoading
 } from '@ionic/react';
 // const moment = require('moment');
 import sendPost from '../axios.js'
@@ -26,6 +27,7 @@ import { RefresherEventDetail } from '@ionic/core';
 interface IMyComponentState {
   name: string,
   messages: any,
+  showLoading: boolean
 };
 interface IMyComponentProps {
   name: string,
@@ -37,10 +39,15 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
       super(props);
       this.state = {
         name: this.props.name,
-        messages: []
+        messages: [],
+        showLoading: false
       };
     }
     getMessages = () => {
+      if(this.state.messages.length === 0) {
+        this.setState({showLoading: true});
+      }
+
       sendPost({
           "aksi":"getMessages",
           "first_date": moment().unix().toString(),
@@ -50,9 +57,10 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
 
       .then(res => {
         if (res.data.status === 0) {
-          this.setState({messages: res.data.data.messages});
+          this.setState({messages: res.data.data.messages.reverse(), showLoading: false});
         } else {
-          alert("Error. Try again.")
+            this.setState({showLoading: false});
+          alert("Error. Try again.");
         }
       })
     }
@@ -88,17 +96,24 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
           <IonCardTitle >{i18next.t('Добро_пожаловать') + " " + this.props.name}</IonCardTitle>
         </IonCardHeader>
       </IonCard>
+      <IonLoading
+        isOpen={this.state.showLoading}
+        onDidDismiss={() => this.setState({showLoading: false})}
+        message={'Please wait...'}
+        duration={5000}
+      />
       {
         this.state.messages.length > 0 ? (
           this.state.messages.map((el, i) => {
             return(
               <IonCard key = {i}>
                 <IonCardHeader>
-                  <IonCardSubtitle color={"primary"}>{moment(el.message_time).local().format('DD.MM')} | {moment(el.message_time).local().format('HH:mm')}</IonCardSubtitle>
+                  <IonCardSubtitle color={"primary"}>{moment(el.dtime_create).local().format('DD.MM')} | {moment(el.dtime_create).local().format('HH:mm')}</IonCardSubtitle>
                   <IonCardTitle>{el.name_sender}</IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent>
-                  {el.message_text}
+                <IonCardContent >
+                  <div dangerouslySetInnerHTML={{__html: el.message_text}}>
+                  </div>
                 </IonCardContent>
               </IonCard>
             )

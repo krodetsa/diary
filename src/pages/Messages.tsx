@@ -1,5 +1,5 @@
 import React from 'react';
-import Calendar from 'react-calendar';
+import Calendar from './dist/entry.js';
 import i18next from "i18next";
 import {
   IonList,
@@ -291,7 +291,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
     this.showСlasslist();
   }
   openSingle = () => {
-    this.setState({parentsHide: false})
+    this.setState({parentsHide: false});
     if(this.state.classesCount.length > 0){
       let arr = this.state.classesClear;
 
@@ -416,7 +416,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
                 <IonMenuButton auto-hide={true}/>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Сообщения</IonTitle>
+            <IonTitle>{i18next.t("Сообщения")}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -424,7 +424,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           <CalendarSmall
-          line={'сообщений'}
+          line={i18next.t('Нет сообщений')}
           setShowModal={this.showСalendar}
           currentDate={this.state.currentDate}
           attendancePerDate={this.state.attendancePerDate}
