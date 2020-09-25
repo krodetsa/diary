@@ -3,7 +3,7 @@
   max-width: 300px;
   max-height: 300px;
   height: 40vw;
-  background-image: url(../static/icon-152x1522.png);
+  background-image: url(../static/icon-152x1522ru.png);
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -59,8 +59,6 @@
 }
 .login-button-container {
   margin-top: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 0;
 }
