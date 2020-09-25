@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // const uuidv4 = require('uuid/v4');
 
-const url = 'https://smektep.ficom-it.info/api/request.php';
+// const url = 'https://smektep.ficom-it.info/api/request.php';
+const url = 'https://api.thelog.online/request.php';
 var sendPost = (data = {}) => {
   var body = {
     info: {

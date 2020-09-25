@@ -116,7 +116,8 @@ function Login(props) {
         setShowLoading(true);
         axios({
           method: 'post',
-          url: 'https://smektep.ficom-it.info/api/request.php',
+          // url: 'https://smektep.ficom-it.info/api/request.php',
+          url: 'https://api.thelog.online/api/request.php',
           data: {
             aksi: "login",
             login: loginInput,
@@ -151,7 +152,8 @@ function Login(props) {
         setShowLoading(true);
         axios({
           method: 'post',
-          url: 'https://smektep.ficom-it.info/api/request.php',
+          // url: 'https://smektep.ficom-it.info/api/request.php',
+          url: 'https://api.thelog.online/api/request.php',
           data: {
             aksi: "restorePassword",
             email : restoreEmail
