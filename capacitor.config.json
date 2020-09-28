@@ -1,6 +1,6 @@
 {
-  "appId": "sanarip.mektep.starter",
-  "appName": "Санарип Мектеп",
+  "appId": "log.online.starter",
+  "appName": "Log.online",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
