@@ -72,7 +72,11 @@ function Login(props) {
             // корректная проверка регуляркой
             if(activationPassword === activationPasswordRepeat) {
               setShowLoading(true);
-              sendPost({
+              axios({
+                method: 'post',
+                // url: 'https://smektep.ficom-it.info/api/request.php',
+                url: 'https://api.thelog.online/api/request.php',
+                data: {
                   aksi: "inituser",
                   pre_login: activationprelogin,
                   pre_password: activationprepassword,
@@ -80,6 +84,7 @@ function Login(props) {
                   password : activationPassword,
                   email : activationEmail,
                   name : activationName
+                }
               })
               .then(res => {
                 if (res.data.status === 0) {

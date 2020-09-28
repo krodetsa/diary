@@ -3,7 +3,7 @@ import axios from 'axios';
 // const uuidv4 = require('uuid/v4');
 
 // const url = 'https://smektep.ficom-it.info/api/request.php';
-const url = 'https://api.thelog.online/request.php';
+const url = 'https://api.thelog.online/api/request.php';
 var sendPost = (data = {}) => {
   var body = {
     info: {
@@ -30,6 +30,7 @@ axios.interceptors.response.use(response => {
    return Promise.reject(error);
  });
 // axios.interceptors.request.use(request => {
+//   console.log(request);
 //        return request;
 //    }, error => {
 //        console.log(error);
