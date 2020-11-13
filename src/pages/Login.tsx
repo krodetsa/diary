@@ -132,7 +132,7 @@ function Login(props) {
           }
         })
         .then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.status === 0) {
             push();
             localStorage.setItem("key", res.data.data.session);
