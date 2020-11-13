@@ -93,6 +93,10 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
           auth: itm
         }
       });
+      if (itm === true){
+      console.log('записали в сторадж все данные юзера');
+      }
+
     }
   render() {
     return (
