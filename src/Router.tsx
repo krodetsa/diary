@@ -59,7 +59,7 @@ function Routing(props){
           <Route path="/support" render={ () =>  <Support/> }/>
           <Route path="/schedule" render={ () =>  <Schedule/> }/>
           <Route path="/contacts" render={() =>  <Contacts />  } />
-          <Route path="/tab1"  render={() =>  <Tab1 name={props.name} type={props.type}/>  } />
+          <Route path="/tab1"  render={() =>  <Tab1 auth={props.auth} name={props.name} type={props.type}/>  } />
           <Route path="/tab2" render={() => <Messages type={props.type} user_id={props.user_id} />}  />
           {  props.type === "3" ?  <Redirect exact from="/" to="/tab1" /> :  <Redirect exact from="/" to="/1" />
           }

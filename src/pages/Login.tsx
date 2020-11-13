@@ -142,9 +142,10 @@ function Login(props) {
             alert(i18next.t(res.data.message).replace(/\./g, ''));
           }
           setShowLoading(!showLoading);
+          history.push("/tab1");
         }
       ).then(() => {
-          history.push("/tab1");
+          // history.push("/tab1");
         })
       } else {
         /*Пустое поле логина/пароля*/
@@ -179,7 +180,6 @@ function Login(props) {
         })
       }
     }
-console.log(props.auth)
     return (
       <IonApp>
       {props.auth !== false && <Redirect to="/tab1" />}
