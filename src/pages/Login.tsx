@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory,Redirect } from "react-router-dom";
 import { IonContent,IonInput,IonApp,IonLoading, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonModal} from '@ionic/react';
 import '../theme/login.css';
 import axios from 'axios';
@@ -8,6 +9,7 @@ import { Plugins, PushNotification, PushNotificationToken, PushNotificationActio
 const { PushNotifications } = Plugins;
 
 function Login(props) {
+  let history = useHistory();
   const [showAlert1, setShowAlert1] = useState(false);
   const [token, setToken] = useState('');
   const [showAlert2, setShowAlert2] = useState(false);
@@ -142,7 +144,7 @@ function Login(props) {
           setShowLoading(!showLoading);
         }
       ).then(() => {
-          window.location.href="/tab1";
+          history.push("/tab1");
         })
       } else {
         /*Пустое поле логина/пароля*/
@@ -177,9 +179,10 @@ function Login(props) {
         })
       }
     }
-
+console.log(props.auth)
     return (
       <IonApp>
+      {props.auth !== false && <Redirect to="/tab1" />}
       <IonPage>
         <IonContent>
         <IonGrid className={'login-page'}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import Login from './pages/Login';
 import i18next from "i18next";
 import {
   IonApp,
@@ -51,22 +52,24 @@ function Routing(props){
       <Menu type={props.type} user_id={props.user_id}/>
       <IonTabs>
         <IonRouterOutlet id="custom">
+          <Route path="/login" render={ () =>  <Login auth={props.auth} showAuth={props.showAuth}/> }/>
           <Route path="/settings" render={() =>  <Settings type={props.type} user_id={props.user_id}/>  } />
           <Route path="/addStudent" render={ () =>  <AddStudent/> }/>
           <Route path="/account" render={ () =>  <Account balance={props.balance} name={props.name}/> }/>
           <Route path="/support" render={ () =>  <Support/> }/>
           <Route path="/schedule" render={ () =>  <Schedule/> }/>
           <Route path="/contacts" render={() =>  <Contacts />  } />
-          <Route path="/tab1" render={() =>  <Tab1 name={props.name} type={props.type}/>  } />
+          <Route path="/tab1"  render={() =>  <Tab1 name={props.name} type={props.type}/>  } />
           <Route path="/tab2" render={() => <Messages type={props.type} user_id={props.user_id} />}  />
           {  props.type === "3" ?  <Redirect exact from="/" to="/tab1" /> :  <Redirect exact from="/" to="/1" />
           }
           <Route path="/details" render={() =>  <Details user_id={props.user_id}/>  } />
           <Route path="/tab3" render={() => <Tab3Page skey={props.skey} type={props.type} user_id={props.user_id} /> } />
-          {  props.type === "1" ?  <Redirect exact from="/" to="/tab1" /> : <Redirect exact from="/" to="/tab1" />
+          {  props.type === "1" ?  <Redirect from="/" to="/tab1" /> : <Redirect exact from="/" to="/tab1" />
           }
           <Route path="/forteacher" component={TabForTeacher} />
-          <Route path="/" render={() =>  <Tab1 name={props.name} type={props.type}/> }  />
+          {//<Route path="/" render={() =>  <Tab1 name={props.name} type={props.type}/> }  />
+        }
         </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/tab1">
@@ -77,12 +80,13 @@ function Routing(props){
               <IonIcon icon={mail} />
               <IonLabel>{i18next.t('Сообщения')}</IonLabel>
             </IonTabButton>
-            {
+            {/*
               props.type === "1" &&
               <IonTabButton tab="tab3" href="/tab3">
                 <IonIcon icon={time} />
                 <IonLabel>{i18next.t('Посещаемость')}</IonLabel>
               </IonTabButton>
+              */
             }
             {/*
               props.type === "3" &&
@@ -92,12 +96,13 @@ function Routing(props){
                 </IonTabButton>
                 */
             }
-            {
+            {/*
               props.type === "1" &&
                 <IonTabButton tab="tab5" href="/schedule">
                   <IonIcon icon={calendar} />
                   <IonLabel>{i18next.t('Расписание')}</IonLabel>
                 </IonTabButton>
+                */
             }
 
           </IonTabBar>
