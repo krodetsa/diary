@@ -99,6 +99,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       parentsHide: false
     }
   }
+
   searchValue = '';
   dateChanged = date => {
     this.setState({ currentDate: date.valueOf() });
@@ -604,7 +605,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           newMessageModal={this.state.newMessageModal}
           showNewMessageModal={this.showNewMessageModal}
           studentsInClass={this.state.studentsInClass}/>
-        { this.props.type === "3" &&
+        { this.props.type == "3" &&
         <IonFabButton color="primary" onClick={this.newMessageModal} className="add-message-button">
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>
