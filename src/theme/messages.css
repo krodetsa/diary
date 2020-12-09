@@ -18,6 +18,20 @@
 .message-header {
   padding-bottom: 0px
 }
+.calendar-modal-window .ion-page {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+    -webkit-box-pack: center;
+
+        -ms-flex-pack: center;
+
+            justify-content: center;
+}
+.calendar-modal-window .ion-page .react-calendar__navigation {
+  margin-bottom: 20px;
+}
 .react-calendar__tile:disabled::after {
   content: "";
 position: absolute;
