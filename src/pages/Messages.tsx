@@ -425,7 +425,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           <CalendarSmall
-          line={i18next.t('Нет сообщений')}
+          line={i18next.t('Сообщения')}
           setShowModal={this.showСalendar}
           currentDate={this.state.currentDate}
           attendancePerDate={this.state.attendancePerDate}
