@@ -148,7 +148,8 @@ function Login(props) {
 
         }
       ).then(() => {
-          history.push("/tab1");
+          // history.push("/tab1");
+          document.location.reload();
           console.log('здесь переход на страницу "главная"');
         })
       } else {
