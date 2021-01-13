@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "sanarip.mektep.starter"
+        applicationId 'log.school.starter'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 14
+        versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
