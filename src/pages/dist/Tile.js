@@ -1,5 +1,5 @@
 "use strict";
-
+const moment = require('moment');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -86,8 +86,21 @@ function (_Component) {
       var _this$state = this.state,
           tileClassName = _this$state.tileClassName,
           tileContent = _this$state.tileContent;
+          // dottedArr = tileDisabled({
+          //   activeStartDate: activeStartDate,
+          //   date: date,
+          //   view: view
+          // });
+          // let dotted = false;
+          // dottedArr.forEach((item, i) => {
+          //   if (moment(date).format("YYYY:MM:DD") === moment(item).format("YYYY:MM:DD")) {
+          //     dotted = true;
+          //   }
+          // });
+          //
+          // console.log(dottedArr);
       return _react["default"].createElement("button", {
-        className: (0, _mergeClassNames["default"])(classes, tileClassName),
+        className: (0, _mergeClassNames["default"])( classes, tileClassName),
         disabled: minDate && minDateTransform(minDate) > date || maxDate && maxDateTransform(maxDate) < date || tileDisabled && tileDisabled({
           activeStartDate: activeStartDate,
           date: date,

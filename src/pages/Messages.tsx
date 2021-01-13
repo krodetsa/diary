@@ -99,6 +99,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
       parentsHide: false
     }
   }
+
   searchValue = '';
   dateChanged = date => {
     this.setState({ currentDate: date.valueOf() });
@@ -175,7 +176,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
               this.state.store.forEach(el => {
                 var stillUtc = moment.unix(el.start).toDate();
                 var localTime = moment(stillUtc).local().format('YYYY, MM, DD');
-                this.disabledDates.push(new Date(localTime));
+                this.disabledDates.push(moment(localTime, moment.defaultFormat).toDate());
               })
               this.setState(() => {
                 // Важно: используем state вместо this.state при обновлении для моментального рендеринга
@@ -424,7 +425,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
           <CalendarSmall
-          line={i18next.t('Нет сообщений')}
+          line={i18next.t('Сообщения')}
           setShowModal={this.showСalendar}
           currentDate={this.state.currentDate}
           attendancePerDate={this.state.attendancePerDate}
@@ -573,20 +574,18 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
         </IonContent>
       </IonModal>
         {/*календарь*/}
-        <IonModal isOpen={this.state.showСalendar}>
+        <IonModal cssClass={'calendar-modal-window'} isOpen={this.state.showСalendar} >
           <Calendar
           minDetail={"month"}
-          value={new Date(this.state.timestamp)}
+          value={moment(this.state.timestamp, moment.defaultFormat).toDate()}
           onClickDay={e => { this.dateChanged(e)}}
           view={'month'}
           tileDisabled={
-            ({date, view}) =>
-            (view === 'month') && // Block day tiles only
+            ({date}) =>
             this.disabledDates.some(disabledDate =>
-              date.getFullYear() === disabledDate.getFullYear() &&
-              date.getMonth() === disabledDate.getMonth() &&
-              date.getDate() === disabledDate.getDate()
+              moment(date).format("YYYY:MM:DD") === moment(disabledDate).format("YYYY:MM:DD")
             )
+
           }
            />
           <IonButton className='calendarButton' expand="full" onClick={() => this.showСalendar()}>{i18next.t('Закрыть')}</IonButton>
@@ -604,7 +603,7 @@ class Messages extends React.Component<IMyComponentProps, IMyComponentState> {
           newMessageModal={this.state.newMessageModal}
           showNewMessageModal={this.showNewMessageModal}
           studentsInClass={this.state.studentsInClass}/>
-        { this.props.type === "3" &&
+        { this.props.type == "3" &&
         <IonFabButton color="primary" onClick={this.newMessageModal} className="add-message-button">
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>

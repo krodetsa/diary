@@ -1,5 +1,4 @@
 import React from 'react';
-import Login from './pages/Login';
 import Routing from './Router';
 
 /* Core CSS required for Ionic components to work properly */
@@ -94,14 +93,16 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
           auth: itm
         }
       });
+      if (itm === true){
+      console.log('записали в сторадж все данные юзера');
+      }
+
     }
   render() {
     return (
-      <>
-        {this.state.auth === false ? (
-          <Login history={history} showAuth={this.showAuth}></Login>
-        ) : (
           <Routing
+            auth={this.state.auth}
+            showAuth={this.showAuth}
             balance={this.state.balance}
             token={this.state.token}
             skey={this.state.skey}
@@ -109,8 +110,6 @@ class App extends React.Component<IMyComponentProps, IMyComponentState> {
             user_id={this.state.user_id}
             type={this.state.type}
           />
-        )}
-      </>
     )
   }
 }

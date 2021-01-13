@@ -18,6 +18,7 @@ import {
   withIonLifeCycle,
   IonLoading
 } from '@ionic/react';
+import { Redirect } from "react-router-dom";
 // const moment = require('moment');
 import sendPost from '../axios.js'
 import i18next from "i18next";
@@ -32,6 +33,7 @@ interface IMyComponentState {
 interface IMyComponentProps {
   name: string,
   type: any,
+  auth: boolean
 }
 const moment = require('moment');
 class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
@@ -65,7 +67,13 @@ class Tab1 extends React.Component<IMyComponentProps, IMyComponentState> {
       })
     }
     ionViewWillEnter() {
-      this.getMessages();
+      if(this.props.auth !== false) {
+          this.getMessages();
+      }
+      if(this.props.auth === false) {
+          window.location.href='/login'
+      }
+
     }
     doRefresh(event: CustomEvent<RefresherEventDetail>) {
     this.getMessages();

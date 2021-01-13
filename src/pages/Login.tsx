@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory,Redirect } from "react-router-dom";
 import { IonContent,IonInput,IonApp,IonLoading, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonModal} from '@ionic/react';
 import '../theme/login.css';
 import axios from 'axios';
@@ -8,6 +9,7 @@ import { Plugins, PushNotification, PushNotificationToken, PushNotificationActio
 const { PushNotifications } = Plugins;
 
 function Login(props) {
+  let history = useHistory();
   const [showAlert1, setShowAlert1] = useState(false);
   const [token, setToken] = useState('');
   const [showAlert2, setShowAlert2] = useState(false);
@@ -130,19 +132,24 @@ function Login(props) {
           }
         })
         .then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.status === 0) {
+            console.log('получили ответ с сервера');
             push();
             localStorage.setItem("key", res.data.data.session);
+            console.log('записали в сторадж ключ');
             props.showAuth(true, res.data.data.id, res.data.data.type, res.data.data.name, res.data.data.session);
+            console.log();
           } else if (res.data.status === 1){
             props.showAuth(false);
             alert(i18next.t(res.data.message).replace(/\./g, ''));
           }
           setShowLoading(!showLoading);
+
         }
       ).then(() => {
-          window.location.href="/tab1";
+          history.push("/tab1");
+          console.log('здесь переход на страницу "главная"');
         })
       } else {
         /*Пустое поле логина/пароля*/
@@ -177,9 +184,9 @@ function Login(props) {
         })
       }
     }
-
     return (
       <IonApp>
+      {props.auth !== false && <Redirect to="/tab1" />}
       <IonPage>
         <IonContent>
         <IonGrid className={'login-page'}>

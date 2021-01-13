@@ -37,9 +37,9 @@ render() {
         {moment(this.props.currentDate).local().format('DD.MM')}
        </IonNote>
        <IonLabel>
-         <h2 className="calendar-small-h2">{this.props.line}: <IonBadge className="calendar-small-badge" color={color}>{this.props.attendancePerDate.length}</IonBadge></h2>
+         <h2 className="calendar-small-h2">{this.props.line}:  <IonBadge className="calendar-small-badge" color={color}>{this.props.attendancePerDate.length}</IonBadge></h2>
          <p>{i18next.t('Последнее')}: {
-           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[0].text : `${this.props.line}`
+           this.props.attendancePerDate.length > 0 ? this.props.attendancePerDate[0].text : `${i18next.t('Нет сообщений')}`
          }</p>
        </IonLabel>
      </IonItem>
