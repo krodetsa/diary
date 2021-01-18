@@ -12,6 +12,9 @@
   border: none;
   margin-bottom: 3vh;
 }
+.hide-bar {
+  display: none;
+}
 .register-text {
   text-align: justify;
   margin-top: .5em;
@@ -25,19 +28,10 @@
   margin-bottom: 0px;
 }
 .centered {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
   width: 90%;
   margin: 0 auto;
 }
@@ -68,8 +62,6 @@
 }
 .login-button-container {
   margin-top: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   padding: 0;
 }

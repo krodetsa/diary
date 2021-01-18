@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory,Redirect } from "react-router-dom";
+import React, { useState,useEffect } from 'react';
+import { useHistory,useLocation,Redirect } from "react-router-dom";
 import { IonContent,IonInput,IonApp,IonLoading, IonAlert, IonButton, IonText, IonGrid, IonItem, IonLabel, IonPage, IonHeader, IonToolbar, IonTitle, IonButtons, IonModal} from '@ionic/react';
 import '../theme/login.css';
 import axios from 'axios';
@@ -10,12 +10,20 @@ const { PushNotifications } = Plugins;
 
 function Login(props) {
   let history = useHistory();
+  let location = useLocation();
   const [showAlert1, setShowAlert1] = useState(false);
   const [token, setToken] = useState('');
   const [showAlert2, setShowAlert2] = useState(false);
   const [showRegistration, setShowRegistration] = useState(false);
   const [showRestore, setShowRestore] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  useEffect(() => {
+    if(location.pathname === '/login') {
+      document.getElementsByTagName('ion-tab-bar')[0].classList.add('hide-bar');
+    } else {
+      document.getElementsByTagName('ion-tab-bar')[0].classList.remove('hide-bar');
+    }
+},[location])
   function push() {
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
