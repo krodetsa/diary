@@ -4,6 +4,7 @@
 ```
 npm install
 npx cap add android
+npx cap copy android
 ionic s
 ```
 ## Build 
