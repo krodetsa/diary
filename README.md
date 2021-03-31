@@ -1,1 +1,1 @@
-# School diary app powered with Ionic framework.
+# Android/iOS School diary app powered with Ionic framework.
